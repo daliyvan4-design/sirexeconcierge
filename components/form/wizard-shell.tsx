@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { StepIdentity } from "./step-identity";
 import { StepServices } from "./step-services";
+import { StepRecap } from "./step-recap";
 
 export interface TravelerData {
   prenom: string;
@@ -68,6 +69,7 @@ export function WizardShell() {
   const [step, setStep] = useState(1);
   const [traveler, setTraveler] = useState<TravelerData>(defaultTraveler);
   const [cart, setCart] = useState<CartState>(defaultCart);
+  const [currency, setCurrency] = useState("XOF");
 
   const computedNights = useMemo(() => {
     if (traveler.dateArrivee && traveler.dateDepart) {
@@ -99,9 +101,14 @@ export function WizardShell() {
         />
       )}
       {step === 3 && (
-        <div className="max-w-5xl mx-auto px-5 py-10 text-center text-mute">
-          Step 3 — Recap (coming next)
-        </div>
+        <StepRecap
+          cart={cart}
+          traveler={traveler}
+          currency={currency}
+          setCurrency={setCurrency}
+          onBack={() => setStep(2)}
+          onSubmit={() => {}}
+        />
       )}
     </div>
   );
