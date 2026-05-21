@@ -1,0 +1,45 @@
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/admin-auth";
+
+export async function GET(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
+
+  const { searchParams } = new URL(request.url);
+  const days = parseInt(searchParams.get("days") || "30");
+
+  const since = new Date();
+  since.setDate(since.getDate() - days);
+
+  const commandes = await prisma.commande.findMany({
+    where: { createdAt: { gte: since }, statut: { not: "ANNULEE" } },
+    include: { lignes: { include: { service: true } } },
+  });
+
+  const caByDay: Record<string, number> = {};
+  for (const c of commandes) {
+    const day = c.createdAt.toISOString().split("T")[0];
+    caByDay[day] = (caByDay[day] || 0) + c.montantTotal;
+  }
+
+  const serviceCA: Record<string, { nom: string; qty: number; ca: number }> = {};
+  for (const c of commandes) {
+    for (const l of c.lignes) {
+      const key = l.serviceId;
+      if (!serviceCA[key]) serviceCA[key] = { nom: l.service.nom, qty: 0, ca: 0 };
+      serviceCA[key].qty += l.quantite;
+      serviceCA[key].ca += l.sousTotal;
+    }
+  }
+  const topServices = Object.values(serviceCA).sort((a, b) => b.ca - a.ca).slice(0, 5);
+
+  const totalCA = commandes.reduce((s, c) => s + c.montantTotal, 0);
+  const avgBasket = commandes.length > 0 ? Math.round(totalCA / commandes.length) : 0;
+
+  const allCommandes = await prisma.commande.count({ where: { createdAt: { gte: since } } });
+  const confirmed = await prisma.commande.count({ where: { createdAt: { gte: since }, statut: "CONFIRMEE" } });
+  const confRate = allCommandes > 0 ? Math.round((confirmed / allCommandes) * 100) : 0;
+
+  return NextResponse.json({ caByDay, topServices, totalCA, avgBasket, confRate, orderCount: commandes.length });
+}
