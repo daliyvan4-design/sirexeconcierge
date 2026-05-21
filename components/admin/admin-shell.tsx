@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import { Sidebar } from "./sidebar";
+import { ToastProvider } from "./toast";
 
 interface AdminShellProps {
   adminName: string;
@@ -16,18 +17,20 @@ export function AdminShell({ adminName, adminRole, pendingCount, children }: Adm
 
   return (
     <SessionProvider>
-      <div className="min-h-screen flex">
-        <Sidebar
-          adminName={adminName}
-          adminRole={adminRole}
-          pendingCount={pendingCount}
-          open={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-        />
-        <main className="flex-1 bg-cream min-h-screen lg:ml-0">
-          {children}
-        </main>
-      </div>
+      <ToastProvider>
+        <div className="min-h-screen flex">
+          <Sidebar
+            adminName={adminName}
+            adminRole={adminRole}
+            pendingCount={pendingCount}
+            open={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+          />
+          <main className="flex-1 bg-cream min-h-screen lg:ml-0">
+            {children}
+          </main>
+        </div>
+      </ToastProvider>
     </SessionProvider>
   );
 }
