@@ -95,3 +95,14 @@ model AdminUser {
   role         String   @default("admin")
   createdAt    DateTime @default(now())
 }
+
+model Chauffeur {
+  id              String   @id @default(cuid())
+  nom             String
+  telephone       String
+  vehicule        String
+  immatriculation String
+  statut          String   @default("disponible")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
