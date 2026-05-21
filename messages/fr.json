@@ -1,0 +1,452 @@
+{
+  "nav": {
+    "services": "Services",
+    "salon": "Le salon",
+    "assistance": "Assistance",
+    "admin": "Admin"
+  },
+  "fab": {
+    "title": "Navigation prototype",
+    "journey": "Parcours voyageur",
+    "s1": "1 · Accueil",
+    "s2": "2 · Infos voyageur",
+    "s3": "3 · Sélection services",
+    "s4": "4 · Récap & paiement",
+    "s5": "5 · Confirmation",
+    "editorial": "Pages éditoriales",
+    "admin_grp": "Panel admin",
+    "admin_open": "Ouvrir le panneau admin ↗"
+  },
+  "tagline": "Votre séjour, orchestré avec soin",
+  "eyebrow": "Conciergerie officielle · SIREXE 2026",
+  "h1": "Planifiez votre <highlight>prise en charge</highlight> à Abidjan.",
+  "lead": "Transport privé, hébergement sélectionné, repas et services exclusifs — coordonnés par une équipe locale dédiée, de l'aéroport au pavillon d'exposition.",
+  "cta_start": "Commencer ma réservation",
+  "cta_concierge": "Parler à un concierge",
+  "s1": {
+    "step": {
+      "you": "Vous",
+      "services": "Services",
+      "payment": "Paiement"
+    },
+    "hero": {
+      "city": "Abidjan FHB",
+      "coord": "05°19′ N",
+      "arrivals": "Arrivées prochaines · 24 h",
+      "realtime": "Temps réel",
+      "event": "SIREXE · 2026",
+      "dates": "11 → 17 mars"
+    },
+    "trust": {
+      "stripe": "Paiement sécurisé Stripe",
+      "momo": "Mobile Money — Orange, MTN, Wave, Moov",
+      "support": "Support FR / EN / AR · 24h/24",
+      "avg": "Réservation moyenne — 3 min"
+    }
+  },
+  "arr": {
+    "tomorrow": "Demain",
+    "friday": "Vendredi",
+    "airport": "FHB",
+    "flight": "VOL"
+  },
+  "s2": {
+    "back": "Retour",
+    "step": "Étape 1 / 3",
+    "title": "Vos informations voyageur",
+    "lead": "Quelques détails pour que notre équipe vous accueille personnellement à votre arrivée.",
+    "sec": {
+      "identity": "Identité du voyageur",
+      "flight": "Vol d'arrivée",
+      "visa": "Passeport & visa",
+      "notes": "Demandes particulières",
+      "notes_opt": "— optionnel"
+    },
+    "f": {
+      "first": "Prénom",
+      "last": "Nom",
+      "email": "Email professionnel",
+      "phone": "Téléphone",
+      "nat": "Nationalité",
+      "pax": "Nombre de personnes",
+      "pax_short": "Voyageurs",
+      "dates": "Dates de séjour",
+      "airline": "Compagnie aérienne",
+      "flightNo": "N° de vol",
+      "flightAt": "Date & heure d'arrivée",
+      "airport": "Aéroport d'arrivée",
+      "passport": "N° de passeport",
+      "visaType": "Type de visa",
+      "visaState": "Statut du visa"
+    },
+    "ph": {
+      "first": "Amadou",
+      "last": "Diallo",
+      "email": "amadou.diallo@sonangaz.com",
+      "phone": "07 12 34 56 78",
+      "airline": "Air France, Emirates, ASKY…",
+      "flightNo": "AF 528",
+      "passport": "20AA12345",
+      "notes": "Régime alimentaire, accessibilité, préférence chauffeur anglophone…"
+    },
+    "arrival": "Arrivée",
+    "departure": "Départ",
+    "arr_date": "12 mars 2026",
+    "dep_date": "16 mars 2026",
+    "arr_sub": "Jeudi · soirée",
+    "dep_sub": "Lundi · matin",
+    "cal": {
+      "month": "Mars 2026",
+      "dow": "L,M,M,J,V,S,D"
+    },
+    "airport": {
+      "fhb": "Abidjan · Félix-Houphouët-Boigny (FHB)",
+      "ask": "Yamoussoukro (ASK)",
+      "other": "Autre — précisez en notes"
+    },
+    "visaType": {
+      "biz": "Affaires — court séjour",
+      "tour": "Tourisme",
+      "dip": "Diplomatique",
+      "evisa": "e-Visa Côte d'Ivoire",
+      "exempt": "Exempté de visa"
+    },
+    "visa": {
+      "ok": "Déjà obtenu",
+      "pending": "En cours",
+      "need": "Assistance demandée",
+      "info": "Si vous avez besoin d'assistance, notre service <bold>Visa Express · 48h</bold> sera proposé à l'étape suivante."
+    },
+    "gdpr": "Vos données restent confidentielles — RGPD & loi 2013-450",
+    "submit": "Continuer"
+  },
+  "s3": {
+    "back": "Retour",
+    "step": "Étape 2 / 3",
+    "title": "Composez votre séjour",
+    "lead": "Choisissez librement vos prestations. Nous ajustons les disponibilités en temps réel auprès de nos partenaires locaux.",
+    "tab": {
+      "transport": "Transport",
+      "hotel": "Hébergement",
+      "meals": "Repas",
+      "extras": "Extras"
+    },
+    "sec": {
+      "transport": "Transport · Tarifs négociés SIREXE",
+      "hotel": "Hébergement · Sélection 4★ – 5★",
+      "meals": "Repas · Restaurants partenaires",
+      "extras": "Extras · Services exclusifs"
+    },
+    "popular": "★ Populaire",
+    "select": "Sélectionner",
+    "nights": "Nuits",
+    "per_night": "/ nuit",
+    "per_pax": "/ pax",
+    "included": "Inclus",
+    "cart": {
+      "label": "Votre sélection",
+      "svcs": "services · Total estimé",
+      "cta": "Voir le récapitulatif"
+    }
+  },
+  "svc": {
+    "t1": {
+      "name": "Accueil VIP aéroport FHB",
+      "desc": "Fast-track douanes + porteur + salon Pearl"
+    },
+    "t2": {
+      "name": "Berline avec chauffeur · 4h",
+      "desc": "Mercedes E-Class ou équivalent · anglophone"
+    },
+    "t3": {
+      "name": "Van 7 places · 8h",
+      "desc": "Idéal délégations · climatisé · WiFi"
+    },
+    "t4": {
+      "name": "Escorte sécuritaire",
+      "desc": "Agent agréé · zones sensibles"
+    },
+    "t5": {
+      "name": "Transfert hélicoptère",
+      "desc": "Plateforme offshore · sur demande"
+    },
+    "h1": {
+      "badge": "Hôtel officiel"
+    },
+    "h4": {
+      "badge": "Tarif délégation"
+    },
+    "m1": {
+      "name": "Petit-déjeuner buffet",
+      "desc": "Service hôtelier · 6h30 — 10h30"
+    },
+    "m2": {
+      "name": "Déjeuner d'affaires",
+      "desc": "Restaurant partenaire · 2 services"
+    },
+    "m3": {
+      "name": "Dîner gastronomique",
+      "desc": "Saakan, Norima, Villa Anakao…"
+    },
+    "m4": {
+      "name": "Menu halal certifié",
+      "desc": "Sur l'ensemble des prestations"
+    },
+    "m5": {
+      "name": "Boxed lunch SIREXE",
+      "desc": "Servi au pavillon · 12h — 14h"
+    },
+    "x1": "SIM 4G + data 20 Go",
+    "x2": "Service blanchisserie",
+    "x3": "Bouquet d'accueil",
+    "x4": "Interprète FR↔AR · 4h",
+    "x5": "Photographe événementiel",
+    "x6": "Excursion Grand-Bassam",
+    "x7": "Soirée gala SIREXE",
+    "x8": "Visa Express · 48h"
+  },
+  "s4": {
+    "back": "Modifier ma sélection",
+    "step": "Étape 3 / 3",
+    "title": "Récapitulatif & paiement",
+    "detail": "Détail de votre séjour",
+    "ref_prov": "Réf. provisoire ·",
+    "col": {
+      "service": "Service",
+      "qty": "Qté",
+      "unit": "P.U.",
+      "total": "Total"
+    },
+    "subtotal": "Sous-total",
+    "vat": "TVA (18%)",
+    "fee": "Frais de service concierge",
+    "total_ttc": "Total TTC",
+    "total_sub": "Toutes taxes comprises · Conversion temps réel",
+    "promo": "Code promo",
+    "apply": "Appliquer",
+    "ins": {
+      "title": "Assurance annulation",
+      "desc": "Remboursement intégral ·"
+    },
+    "pay": {
+      "title": "Paiement sécurisé",
+      "traveler": "Voyageur",
+      "modify": "Modifier",
+      "flight": "Vol",
+      "visa": "Visa"
+    },
+    "method": {
+      "card": "Carte",
+      "momo": "Mobile Money"
+    },
+    "card": {
+      "number": "Numéro de carte",
+      "exp": "Expiration",
+      "cvc": "CVC",
+      "pay": "Payer",
+      "via": "via Stripe"
+    },
+    "momo": {
+      "op": "Sélectionnez votre opérateur",
+      "num": "Numéro Mobile Money",
+      "confirm": "Confirmer le paiement",
+      "powered": "Propulsé par <bold>GeniusPay</bold> · Confirmation par SMS"
+    },
+    "cgv": "J'accepte les <link>conditions générales de vente</link> et la <link>politique de confidentialité</link>.",
+    "secure": "Paiement 100% sécurisé",
+    "secure3d": "3-D Secure 2",
+    "empty": "Aucun service sélectionné.",
+    "compose": "Composer mon séjour →"
+  },
+  "s5": {
+    "eyebrow": "Confirmation",
+    "thanks_pre": "Merci ",
+    "thanks_post": ", votre prise en charge est confirmée.",
+    "lead": "Notre équipe vous contactera dans les 24h pour finaliser les derniers détails. À très vite à Abidjan.",
+    "ref": "Référence",
+    "step1": "Étape 1",
+    "step2": "Étape 2",
+    "step3": "Étape 3",
+    "n1": {
+      "t": "Email de confirmation",
+      "d": "Envoyé sous 5 minutes avec votre facture PDF."
+    },
+    "n2": {
+      "t": "Appel de votre concierge",
+      "d": "Sous 24h, pour confirmer vos préférences."
+    },
+    "n3": {
+      "t": "Accueil à l'aéroport FHB",
+      "d": "Pancarte à votre nom, fast-track douanes."
+    },
+    "dl": "Télécharger la confirmation PDF",
+    "wa": "WhatsApp concierge · +225 07 88 00 11 22",
+    "modify": "Besoin de modifier votre réservation ? Notre équipe est joignable <strong>24h/24</strong> jusqu'à votre arrivée."
+  },
+  "sv": {
+    "eye": "Prestations · Édition SIREXE 2026",
+    "k": "Catalogue",
+    "h": "L'art de l'accueil, <highlight>à la lettre</highlight>.",
+    "lead": "Quatre catégories de prestations sur-mesure, négociées par notre équipe locale auprès de partenaires sélectionnés. Tarifs fermes pendant toute la durée du salon.",
+    "count": "22 prestations actives",
+    "updated": "Mis à jour il y a 2 h",
+    "from": "à partir de",
+    "t1": {
+      "h": "Transport",
+      "d": "Chauffeurs anglophones, flotte premium, accueil aéroport avec fast-track douanes et porteur. Pour les délégations, vans 7 places climatisés à WiFi embarqué."
+    },
+    "t2": {
+      "h": "Hébergement",
+      "d": "Tarifs délégation négociés auprès des établissements 4★ et 5★ du Plateau et de Cocody. Surclassement automatique selon disponibilité, check-in tardif inclus."
+    },
+    "t3": {
+      "h": "Table",
+      "d": "Menus halal disponibles sur l'ensemble des prestations. Tables gastronomiques d'Abidjan réservées par nos soins, boxed-lunches livrés au pavillon SIREXE."
+    },
+    "t4": {
+      "h": "Expériences & extras",
+      "d": "Tout ce qui rend un déplacement professionnel mémorable — d'une excursion à Grand-Bassam à l'interprétariat arabe ↔ français pour vos rendez-vous d'affaires."
+    },
+    "cta": {
+      "k": "À votre tour",
+      "h": "Composez votre séjour en moins de trois minutes."
+    }
+  },
+  "sa": {
+    "eye": "1ʳᵉ édition · sous le patronage du Ministère des Mines, du Pétrole et de l'Énergie",
+    "tag": "Salon International des Ressources Extractives et Énergétiques en Côte d'Ivoire.",
+    "f": {
+      "dates": "Dates",
+      "dates_v": "11 — 17 mars",
+      "days": "7 JOURS · 2026",
+      "loc": "Lieu",
+      "loc_v": "Sofitel Hôtel Ivoire",
+      "loc_sub": "COCODY · ABIDJAN",
+      "exp": "Exposants",
+      "exp_sub": "25 PAYS",
+      "vis": "Visiteurs attendus",
+      "vis_sub": "PROFESSIONNELS"
+    },
+    "pillars": "Trois piliers",
+    "p1": {
+      "lbl": "Pilier 01",
+      "h": "Mines & ressources extractives",
+      "d": "Or, manganèse, nickel, lithium, bauxite. Tables rondes, B2B, présentation des permis d'exploration et financements miniers.",
+      "s": "38 EXPOSANTS · 4 CONFÉRENCES"
+    },
+    "p2": {
+      "lbl": "Pilier 02",
+      "h": "Pétrole & gaz",
+      "d": "Offshore profond, raffinage, gaz naturel liquéfié. Partenariats internationaux, contenu local, transition énergétique du secteur.",
+      "s": "42 EXPOSANTS · 5 CONFÉRENCES"
+    },
+    "p3": {
+      "lbl": "Pilier 03",
+      "h": "Énergie",
+      "d": "Solaire, hydroélectrique, biomasse, hydrogène vert. Stratégies nationales, mix énergétique africain, accès universel à l'électricité.",
+      "s": "40 EXPOSANTS · 6 CONFÉRENCES"
+    },
+    "prog": "Programme prévisionnel",
+    "day1": {
+      "lbl": "J–3",
+      "h": "Accueil officiel & cocktail d'ouverture",
+      "d": "Réception des délégations, allocution du Ministre, dîner protocolaire."
+    },
+    "day2": {
+      "lbl": "Jours pleins",
+      "h": "Conférences, panels & B2B",
+      "d": "15 conférences plénières, 80+ rendez-vous d'affaires programmés."
+    },
+    "day3": {
+      "lbl": "Soirée",
+      "h": "Gala & remise des prix SIREXE",
+      "d": "Distinction des projets miniers, énergétiques et pétroliers de l'année."
+    },
+    "day4": {
+      "lbl": "Visites terrain",
+      "h": "Visites de sites optionnelles",
+      "d": "Mines, plate-formes offshore, centrales solaires — sur inscription."
+    },
+    "pat": {
+      "lbl": "Sous le haut patronage de",
+      "org": "Ministère des Mines,\ndu Pétrole et de l'Énergie",
+      "country": "République de Côte d'Ivoire"
+    },
+    "conc": {
+      "lbl": "Conciergerie officielle",
+      "h": "SIREXE Concierge accompagne les délégations internationales du 11 au 17 mars 2026.",
+      "cta": "Réserver mon accueil"
+    }
+  },
+  "as": {
+    "eye": "En ligne · Concierge disponible",
+    "k": "Assistance",
+    "h": "Une équipe locale, <highlight>24h/24</highlight>,\njusqu'à votre départ.",
+    "lead": "Concierges francophones, anglophones et arabophones. Temps de réponse moyen <strong>4 minutes</strong>, garanti par contrat de service.",
+    "online": "● en ligne",
+    "h247": "24h / 24",
+    "under2h": "< 2 h",
+    "ch1": {
+      "k": "Canal recommandé",
+      "h": "WhatsApp Business",
+      "s": "Réponse moyenne · 4 min",
+      "cta": "Ouvrir la conversation"
+    },
+    "ch2": {
+      "k": "Standard concierge",
+      "h": "Téléphone direct",
+      "s": "Tarif local · sans surtaxe",
+      "cta": "Appeler maintenant"
+    },
+    "ch3": {
+      "k": "Demandes formelles",
+      "h": "Email",
+      "s": "Délégation, devis, facturation",
+      "cta": "Écrire un message"
+    },
+    "emer": {
+      "k": "Ligne d'urgence",
+      "h": "En cas d'imprévu pendant votre séjour à Abidjan.",
+      "d": "Perte de papiers, retard de vol, besoin médical, changement d'itinéraire — un concierge senior est joignable en moins de 90 secondes.",
+      "sub": "Ligne dédiée · délégations",
+      "sub2": "07 767 747 393 · 24 H / 24"
+    },
+    "faq": {
+      "k": "FAQ",
+      "h": "Les questions fréquentes des délégations.",
+      "lead": "Une question qui n'apparaît pas ici ? Notre équipe WhatsApp y répond en quelques minutes."
+    },
+    "q1": "Le service est-il proposé en arabe ?",
+    "a1": "Oui — nos concierges senior sont francophones et anglophones, et nous mobilisons à la demande un interprète arabophone certifié pour les rendez-vous d'affaires et les appels.",
+    "q2": "Puis-je modifier ma réservation après paiement ?",
+    "a2": "Toutes les prestations sont modifiables jusqu'à 72 heures avant votre arrivée. Au-delà, contactez l'assistance — nous faisons notre maximum sans frais additionnels.",
+    "q3": "Le paiement Mobile Money est-il sécurisé pour un étranger ?",
+    "a3": "Oui — nous opérons via GeniusPay, agréé par la BCEAO. Les ordres sont traités en temps réel, confirmation SMS, traçabilité complète exportable en PDF.",
+    "q4": "Proposez-vous une facturation au nom de mon entreprise ?",
+    "a4": "Bien sûr — précisez la raison sociale, l'adresse fiscale et le numéro de TVA au moment du paiement. Facture émise sous 24 h en français et en anglais.",
+    "q5": "Quelle est votre politique d'annulation ?",
+    "a5": "Remboursement intégral jusqu'à 7 jours avant l'arrivée, 50 % entre 7 et 72 h, frais retenus au-delà. L'assurance annulation (+18 000 XOF) supprime toute pénalité.",
+    "q6": "Aidez-vous à obtenir un visa ?",
+    "a6": "Notre service Visa Express délivre une lettre d'invitation et accompagne la procédure e-Visa Côte d'Ivoire en 48 heures (45 000 XOF). Précisez « Assistance demandée » à l'étape passeport.",
+    "office": {
+      "lbl": "Bureau Abidjan",
+      "addr": "Immeuble Le Mans, 8ᵉ étage\nAvenue Botreau-Roussel\nPlateau · Abidjan"
+    },
+    "lang": {
+      "lbl": "Langues parlées",
+      "main": "Français · English · العربية",
+      "extra": "Sur demande : portugais, espagnol"
+    },
+    "cov": {
+      "lbl": "Couverture",
+      "dates": "Du 1ᵉʳ mars au 25 mars 2026",
+      "h": "7 jours / 7 — 24 h / 24"
+    }
+  },
+  "tst": {
+    "saved": "Enregistré"
+  },
+  "common": {
+    "book": "Réserver"
+  }
+}
