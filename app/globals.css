@@ -48,6 +48,24 @@
     width: 8px;
     height: 8px;
   }
+  .cal-day {
+    @apply w-8 h-8 rounded-lg flex items-center justify-center text-[13px] text-ink3 cursor-pointer;
+  }
+  .cal-day:hover {
+    @apply bg-ink/5;
+  }
+  .cal-day.muted {
+    color: rgba(45, 45, 45, 0.3);
+  }
+  .cal-day.in-range {
+    @apply bg-gold/[0.18] rounded-none;
+  }
+  .cal-day.start {
+    @apply bg-ink text-cream rounded-l-lg rounded-r-none;
+  }
+  .cal-day.end {
+    @apply bg-ink text-cream rounded-r-lg rounded-l-none;
+  }
 }
 
 @layer utilities {
