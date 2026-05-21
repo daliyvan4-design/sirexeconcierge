@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { StepIdentity } from "./step-identity";
+import { StepServices } from "./step-services";
 
 export interface TravelerData {
   prenom: string;
@@ -66,7 +67,17 @@ const defaultCart: CartState = {
 export function WizardShell() {
   const [step, setStep] = useState(1);
   const [traveler, setTraveler] = useState<TravelerData>(defaultTraveler);
-  const [_cart, _setCart] = useState<CartState>(defaultCart);
+  const [cart, setCart] = useState<CartState>(defaultCart);
+
+  const computedNights = useMemo(() => {
+    if (traveler.dateArrivee && traveler.dateDepart) {
+      const a = new Date(traveler.dateArrivee);
+      const d = new Date(traveler.dateDepart);
+      const diff = Math.round((d.getTime() - a.getTime()) / 86400000);
+      return diff > 0 ? diff : defaultCart.nights;
+    }
+    return defaultCart.nights;
+  }, [traveler.dateArrivee, traveler.dateDepart]);
 
   return (
     <div className="animate-fade-up">
@@ -78,9 +89,14 @@ export function WizardShell() {
         />
       )}
       {step === 2 && (
-        <div className="max-w-5xl mx-auto px-5 py-10 text-center text-mute">
-          Step 2 — Services (coming next)
-        </div>
+        <StepServices
+          cart={cart}
+          setCart={setCart}
+          pax={traveler.nombrePersonnes}
+          nights={computedNights}
+          onNext={() => setStep(3)}
+          onBack={() => setStep(1)}
+        />
       )}
       {step === 3 && (
         <div className="max-w-5xl mx-auto px-5 py-10 text-center text-mute">
