@@ -1,0 +1,97 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Service {
+  id          String          @id @default(cuid())
+  nom         String
+  nomEn       String          @default("")
+  nomAr       String          @default("")
+  description String?
+  descEn      String?
+  descAr      String?
+  categorie   String
+  prixBase    Float
+  unite       String
+  actif       Boolean         @default(true)
+  ordre       Int             @default(0)
+  icon        String?
+  etoiles     Int?
+  quartier    String?
+  badge       String?
+  tarifs      Tarif[]
+  lignes      LigneCommande[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model Tarif {
+  id        String          @id @default(cuid())
+  serviceId String
+  service   Service         @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  label     String
+  prix      Float
+  devise    String          @default("XOF")
+  actif     Boolean         @default(true)
+  lignes    LigneCommande[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model Commande {
+  id                String          @id @default(cuid())
+  reference         String          @unique
+  statut            String          @default("EN_ATTENTE")
+  langue            String          @default("fr")
+  prenom            String
+  nom               String
+  email             String
+  telephone         String
+  nationalite       String
+  dateArrivee       DateTime
+  dateDepart        DateTime
+  nombrePersonnes   Int
+  compagnie         String?
+  numeroVol         String?
+  heureArrivee      String?
+  aeroport          String?         @default("FHB")
+  passeport         String?
+  typeVisa          String?
+  statutVisa        String?         @default("ok")
+  notes             String?
+  montantTotal      Float
+  devise            String          @default("XOF")
+  methodePaiement   String?
+  referencePaiement String?
+  statutPaiement    String?
+  lignes            LigneCommande[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model LigneCommande {
+  id           String   @id @default(cuid())
+  commandeId   String
+  commande     Commande @relation(fields: [commandeId], references: [id], onDelete: Cascade)
+  serviceId    String
+  service      Service  @relation(fields: [serviceId], references: [id])
+  tarifId      String?
+  tarif        Tarif?   @relation(fields: [tarifId], references: [id])
+  quantite     Int
+  prixUnitaire Float
+  sousTotal    Float
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  nom          String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+}
