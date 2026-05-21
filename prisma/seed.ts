@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -375,7 +376,78 @@ async function main() {
     });
   }
 
-  console.log("Seeded 22 services with tarifs.");
+  // ── Admin user ──
+  await prisma.adminUser.deleteMany();
+  const hash = await bcrypt.hash("sirexe2026", 10);
+  await prisma.adminUser.create({
+    data: {
+      email: "admin@sirexe.com",
+      passwordHash: hash,
+      nom: "Aïssa Koné",
+      role: "admin",
+    },
+  });
+
+  // ── Demo commandes (8 orders from prototype) ──
+  await prisma.commande.deleteMany();
+  const allServices = await prisma.service.findMany({ include: { tarifs: true } });
+  const svcByName = (name: string) => allServices.find((s) => s.nom.includes(name));
+
+  const demoOrders = [
+    { ref: "SIREXE-26-A8F2", prenom: "Amadou", nom: "Diallo", email: "amadou.diallo@sonangaz.com", telephone: "+221771234567", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T23:40:00Z", dateDepart: "2026-03-16T08:00:00Z", nombrePersonnes: 2, compagnie: "Air France", numeroVol: "AF 528", montantTotal: 1245000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-B102", prenom: "Sarah", nom: "Mensah", email: "sarah.mensah@ghanamining.gh", telephone: "+233201234567", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T08:15:00Z", dateDepart: "2026-03-17T10:00:00Z", nombrePersonnes: 1, compagnie: "ASKY", numeroVol: "KP 022", montantTotal: 880000, statut: "EN_ATTENTE" },
+    { ref: "SIREXE-26-C937", prenom: "Khalid", nom: "Al-Faisal", email: "k.alfaisal@adnoc.ae", telephone: "+971501234567", nationalite: "🇦🇪 Émiratie", dateArrivee: "2026-03-13T14:30:00Z", dateDepart: "2026-03-18T16:00:00Z", nombrePersonnes: 3, compagnie: "Emirates", numeroVol: "EK 787", montantTotal: 2480000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-D451", prenom: "Jean", nom: "Dupont", email: "j.dupont@totalenergies.fr", telephone: "+33612345678", nationalite: "🇫🇷 Française", dateArrivee: "2026-03-14T06:55:00Z", dateDepart: "2026-03-16T18:00:00Z", nombrePersonnes: 1, compagnie: "Air France", numeroVol: "AF 530", montantTotal: 425000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-E284", prenom: "Fatima", nom: "Bensalah", email: "f.bensalah@ocp.ma", telephone: "+212661234567", nationalite: "🇲🇦 Marocaine", dateArrivee: "2026-03-14T11:20:00Z", dateDepart: "2026-03-17T09:00:00Z", nombrePersonnes: 2, compagnie: "Royal Air Maroc", numeroVol: "AT 552", montantTotal: 1080000, statut: "EN_ATTENTE" },
+    { ref: "SIREXE-26-F673", prenom: "Tunde", nom: "Olatunji", email: "t.olatunji@nnpc.ng", telephone: "+2348012345678", nationalite: "🇳🇬 Nigériane", dateArrivee: "2026-03-14T19:45:00Z", dateDepart: "2026-03-18T12:00:00Z", nombrePersonnes: 2, compagnie: "Arik Air", numeroVol: "W3 101", montantTotal: 1620000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-G129", prenom: "Mary", nom: "Johnson", email: "m.johnson@bp.co.uk", telephone: "+447911234567", nationalite: "🇬🇧 Britannique", dateArrivee: "2026-03-15T09:10:00Z", dateDepart: "2026-03-17T14:00:00Z", nombrePersonnes: 1, compagnie: "British Airways", numeroVol: "BA 079", montantTotal: 760000, statut: "ANNULEE" },
+    { ref: "SIREXE-26-H805", prenom: "Omar", nom: "Sissoko", email: "o.sissoko@somilo.ml", telephone: "+22376123456", nationalite: "🇲🇱 Malienne", dateArrivee: "2026-03-15T15:35:00Z", dateDepart: "2026-03-19T08:00:00Z", nombrePersonnes: 4, compagnie: "ASKY", numeroVol: "KP 045", montantTotal: 1985000, statut: "CONFIRMEE" },
+  ];
+
+  for (const o of demoOrders) {
+    await prisma.commande.create({
+      data: {
+        reference: o.ref,
+        prenom: o.prenom,
+        nom: o.nom,
+        email: o.email,
+        telephone: o.telephone,
+        nationalite: o.nationalite,
+        dateArrivee: new Date(o.dateArrivee),
+        dateDepart: new Date(o.dateDepart),
+        nombrePersonnes: o.nombrePersonnes,
+        compagnie: o.compagnie,
+        numeroVol: o.numeroVol,
+        montantTotal: o.montantTotal,
+        statut: o.statut,
+        devise: "XOF",
+        lignes: {
+          create: [
+            {
+              serviceId: allServices[0].id,
+              quantite: 1,
+              prixUnitaire: allServices[0].prixBase,
+              sousTotal: allServices[0].prixBase,
+            },
+          ],
+        },
+      },
+    });
+  }
+
+  // ── Demo chauffeurs ──
+  await prisma.chauffeur.deleteMany();
+  const chauffeurs = [
+    { nom: "Konan Yao", telephone: "+225 07 01 02 03", vehicule: "Mercedes E-Class", immatriculation: "AB 1234 CI", statut: "disponible" },
+    { nom: "Ouattara Ibrahim", telephone: "+225 05 04 05 06", vehicule: "Toyota Land Cruiser", immatriculation: "CD 5678 CI", statut: "en_course" },
+    { nom: "Bamba Moussa", telephone: "+225 01 07 08 09", vehicule: "Mercedes V-Class", immatriculation: "EF 9012 CI", statut: "disponible" },
+    { nom: "Traoré Seydou", telephone: "+225 07 10 11 12", vehicule: "BMW Série 5", immatriculation: "GH 3456 CI", statut: "indisponible" },
+  ];
+  for (const c of chauffeurs) {
+    await prisma.chauffeur.create({ data: c });
+  }
+
+  console.log("Seeded 22 services with tarifs, 1 admin, 8 demo orders, 4 chauffeurs.");
 }
 
 main()
