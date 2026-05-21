@@ -293,19 +293,23 @@
     "from": "from",
     "t1": {
       "h": "Transport",
-      "d": "English-speaking drivers, premium fleet, airport welcome with customs fast-track and porter. For delegations, 7-seat air-conditioned vans with on-board WiFi."
+      "d": "English-speaking drivers, premium fleet, airport welcome with customs fast-track and porter. For delegations, 7-seat air-conditioned vans with on-board WiFi.",
+      "price": "75,000 XOF"
     },
     "t2": {
       "h": "Accommodation",
-      "d": "Delegation rates negotiated with 4★ and 5★ properties in Plateau and Cocody. Automatic upgrade subject to availability, late check-in included."
+      "d": "Delegation rates negotiated with 4★ and 5★ properties in Plateau and Cocody. Automatic upgrade subject to availability, late check-in included.",
+      "price": "135,000 XOF / night"
     },
     "t3": {
       "h": "Dining",
-      "d": "Halal menus available across all services. Abidjan's gourmet tables booked for you, boxed lunches delivered to the SIREXE pavilion."
+      "d": "Halal menus available across all services. Abidjan's gourmet tables booked for you, boxed lunches delivered to the SIREXE pavilion.",
+      "price": "14,000 — 55,000 XOF / pax"
     },
     "t4": {
       "h": "Experiences & extras",
-      "d": "Everything that makes a business trip memorable — from a Grand-Bassam excursion to Arabic ↔ French interpretation for your business meetings."
+      "d": "Everything that makes a business trip memorable — from a Grand-Bassam excursion to Arabic ↔ French interpretation for your business meetings.",
+      "price": "15,000 — 120,000 XOF"
     },
     "cta": {
       "k": "Your turn",
@@ -323,8 +327,10 @@
       "loc_v": "Sofitel Hôtel Ivoire",
       "loc_sub": "COCODY · ABIDJAN",
       "exp": "Exhibitors",
+      "exp_v": "120+",
       "exp_sub": "25 COUNTRIES",
       "vis": "Expected visitors",
+      "vis_v": "8,000",
       "vis_sub": "PROFESSIONALS"
     },
     "pillars": "Three pillars",
@@ -348,21 +354,29 @@
     },
     "prog": "Tentative programme",
     "day1": {
+      "date": "11",
+      "date_s": "Mar",
       "lbl": "D–3",
       "h": "Official welcome & opening cocktail",
       "d": "Reception of delegations, Minister's address, protocol dinner."
     },
     "day2": {
+      "date": "12 — 14",
+      "date_s": "Mar",
       "lbl": "Full days",
       "h": "Conferences, panels & B2B",
       "d": "15 plenary conferences, 80+ scheduled business meetings."
     },
     "day3": {
+      "date": "15",
+      "date_s": "Mar",
       "lbl": "Evening",
       "h": "Gala & SIREXE awards",
       "d": "Recognition of the year's mining, energy and oil projects."
     },
     "day4": {
+      "date": "16 — 17",
+      "date_s": "Mar",
       "lbl": "Field visits",
       "h": "Optional site visits",
       "d": "Mines, offshore platforms, solar plants — registration required."
@@ -389,18 +403,21 @@
     "ch1": {
       "k": "Recommended channel",
       "h": "WhatsApp Business",
+      "num": "+225 07 88 00 11 22",
       "s": "Average reply · 4 min",
       "cta": "Open conversation"
     },
     "ch2": {
       "k": "Concierge desk",
       "h": "Direct line",
+      "num": "+225 27 22 49 00 00",
       "s": "Local rate · no surcharge",
       "cta": "Call now"
     },
     "ch3": {
       "k": "Formal requests",
       "h": "Email",
+      "num": "concierge@sirexe-ci.com",
       "s": "Delegation, quotes, billing",
       "cta": "Send a message"
     },
@@ -408,6 +425,7 @@
       "k": "Emergency line",
       "h": "For any unexpected need during your stay in Abidjan.",
       "d": "Lost documents, flight delay, medical need, change of itinerary — a senior concierge is reachable in under 90 seconds.",
+      "num": "+225 07 SOS SIREXE",
       "sub": "Dedicated line · delegations",
       "sub2": "07 767 747 393 · 24/7"
     },

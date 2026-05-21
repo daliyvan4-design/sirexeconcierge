@@ -293,19 +293,23 @@
     "from": "à partir de",
     "t1": {
       "h": "Transport",
-      "d": "Chauffeurs anglophones, flotte premium, accueil aéroport avec fast-track douanes et porteur. Pour les délégations, vans 7 places climatisés à WiFi embarqué."
+      "d": "Chauffeurs anglophones, flotte premium, accueil aéroport avec fast-track douanes et porteur. Pour les délégations, vans 7 places climatisés à WiFi embarqué.",
+      "price": "75 000 XOF"
     },
     "t2": {
       "h": "Hébergement",
-      "d": "Tarifs délégation négociés auprès des établissements 4★ et 5★ du Plateau et de Cocody. Surclassement automatique selon disponibilité, check-in tardif inclus."
+      "d": "Tarifs délégation négociés auprès des établissements 4★ et 5★ du Plateau et de Cocody. Surclassement automatique selon disponibilité, check-in tardif inclus.",
+      "price": "135 000 XOF / nuit"
     },
     "t3": {
       "h": "Table",
-      "d": "Menus halal disponibles sur l'ensemble des prestations. Tables gastronomiques d'Abidjan réservées par nos soins, boxed-lunches livrés au pavillon SIREXE."
+      "d": "Menus halal disponibles sur l'ensemble des prestations. Tables gastronomiques d'Abidjan réservées par nos soins, boxed-lunches livrés au pavillon SIREXE.",
+      "price": "14 000 — 55 000 XOF / pax"
     },
     "t4": {
       "h": "Expériences & extras",
-      "d": "Tout ce qui rend un déplacement professionnel mémorable — d'une excursion à Grand-Bassam à l'interprétariat arabe ↔ français pour vos rendez-vous d'affaires."
+      "d": "Tout ce qui rend un déplacement professionnel mémorable — d'une excursion à Grand-Bassam à l'interprétariat arabe ↔ français pour vos rendez-vous d'affaires.",
+      "price": "15 000 — 120 000 XOF"
     },
     "cta": {
       "k": "À votre tour",
@@ -323,8 +327,10 @@
       "loc_v": "Sofitel Hôtel Ivoire",
       "loc_sub": "COCODY · ABIDJAN",
       "exp": "Exposants",
+      "exp_v": "120+",
       "exp_sub": "25 PAYS",
       "vis": "Visiteurs attendus",
+      "vis_v": "8 000",
       "vis_sub": "PROFESSIONNELS"
     },
     "pillars": "Trois piliers",
@@ -348,21 +354,29 @@
     },
     "prog": "Programme prévisionnel",
     "day1": {
+      "date": "11",
+      "date_s": "mar",
       "lbl": "J–3",
       "h": "Accueil officiel & cocktail d'ouverture",
       "d": "Réception des délégations, allocution du Ministre, dîner protocolaire."
     },
     "day2": {
+      "date": "12 — 14",
+      "date_s": "mar",
       "lbl": "Jours pleins",
       "h": "Conférences, panels & B2B",
       "d": "15 conférences plénières, 80+ rendez-vous d'affaires programmés."
     },
     "day3": {
+      "date": "15",
+      "date_s": "mar",
       "lbl": "Soirée",
       "h": "Gala & remise des prix SIREXE",
       "d": "Distinction des projets miniers, énergétiques et pétroliers de l'année."
     },
     "day4": {
+      "date": "16 — 17",
+      "date_s": "mar",
       "lbl": "Visites terrain",
       "h": "Visites de sites optionnelles",
       "d": "Mines, plate-formes offshore, centrales solaires — sur inscription."
@@ -389,18 +403,21 @@
     "ch1": {
       "k": "Canal recommandé",
       "h": "WhatsApp Business",
+      "num": "+225 07 88 00 11 22",
       "s": "Réponse moyenne · 4 min",
       "cta": "Ouvrir la conversation"
     },
     "ch2": {
       "k": "Standard concierge",
       "h": "Téléphone direct",
+      "num": "+225 27 22 49 00 00",
       "s": "Tarif local · sans surtaxe",
       "cta": "Appeler maintenant"
     },
     "ch3": {
       "k": "Demandes formelles",
       "h": "Email",
+      "num": "concierge@sirexe-ci.com",
       "s": "Délégation, devis, facturation",
       "cta": "Écrire un message"
     },
@@ -408,6 +425,7 @@
       "k": "Ligne d'urgence",
       "h": "En cas d'imprévu pendant votre séjour à Abidjan.",
       "d": "Perte de papiers, retard de vol, besoin médical, changement d'itinéraire — un concierge senior est joignable en moins de 90 secondes.",
+      "num": "+225 07 SOS SIREXE",
       "sub": "Ligne dédiée · délégations",
       "sub2": "07 767 747 393 · 24 H / 24"
     },
