@@ -97,7 +97,7 @@ export function OrdersTable({
           </thead>
           <tbody className="divide-y divide-line">
             {orders.map((o) => {
-              const cats = [...new Set(o.lignes.map((l) => l.service.categorie))];
+              const cats = Array.from(new Set(o.lignes.map((l) => l.service.categorie)));
               return (
                 <tr key={o.id} className="hover:bg-cream/40">
                   <td className="px-5 py-4 mono text-[12px] text-ink">{o.reference}</td>
