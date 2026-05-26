@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireRole } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
-  const { error } = await requireAdmin();
+  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
   if (error) return error;
 
   const { searchParams } = new URL(request.url);
@@ -16,10 +16,10 @@ export async function GET(request: NextRequest) {
   if (status) where.statut = status;
   if (search) {
     where.OR = [
-      { reference: { contains: search } },
-      { nom: { contains: search } },
-      { prenom: { contains: search } },
-      { email: { contains: search } },
+      { reference: { contains: search, mode: "insensitive" } },
+      { nom: { contains: search, mode: "insensitive" } },
+      { prenom: { contains: search, mode: "insensitive" } },
+      { email: { contains: search, mode: "insensitive" } },
     ];
   }
 

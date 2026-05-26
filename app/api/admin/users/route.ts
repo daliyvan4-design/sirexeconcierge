@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireRole } from "@/lib/admin-auth";
 import bcrypt from "bcryptjs";
 
 export async function GET() {
-  const { error } = await requireAdmin();
+  const { error } = await requireRole("ULTRA_ADMIN");
   if (error) return error;
 
   const users = await prisma.adminUser.findMany({
@@ -15,7 +15,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const { error } = await requireAdmin();
+  const { error } = await requireRole("ULTRA_ADMIN");
   if (error) return error;
 
   const { email, nom, password } = await request.json();

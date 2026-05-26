@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { requireRole } from "@/lib/admin-auth";
 import bcrypt from "bcryptjs";
 
 export async function PATCH(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+  const { session, error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE");
+  if (error) return error;
 
   const { currentPassword, newPassword } = await request.json();
-  const userId = (session.user as any).id;
+  const userId = session!.user.id;
 
   const user = await prisma.adminUser.findUnique({ where: { id: userId } });
   if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
