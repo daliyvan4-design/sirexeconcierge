@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -7,27 +7,34 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Role {
+  ULTRA_ADMIN
+  SUPER_ADMIN
+  CONCIERGE
+}
+
 model Service {
-  id          String          @id @default(cuid())
-  nom         String
-  nomEn       String          @default("")
-  nomAr       String          @default("")
-  description String?
-  descEn      String?
-  descAr      String?
-  categorie   String
-  prixBase    Float
-  unite       String
-  actif       Boolean         @default(true)
-  ordre       Int             @default(0)
-  icon        String?
-  etoiles     Int?
-  quartier    String?
-  badge       String?
-  tarifs      Tarif[]
-  lignes      LigneCommande[]
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  id              String          @id @default(cuid())
+  nom             String
+  nomEn           String          @default("")
+  nomAr           String          @default("")
+  description     String?
+  descEn          String?
+  descAr          String?
+  categorie       String
+  prixBase        Float
+  unite           String
+  actif           Boolean         @default(true)
+  ordre           Int             @default(0)
+  icon            String?
+  etoiles         Int?
+  quartier        String?
+  badge           String?
+  tarifs          Tarif[]
+  lignes          LigneCommande[]
+  planningEntries PlanningEntry[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 }
 
 model Tarif {
@@ -70,6 +77,9 @@ model Commande {
   referencePaiement String?
   statutPaiement    String?
   lignes            LigneCommande[]
+  assignments       Assignment[]
+  notesInternes     Note[]
+  planningEntries   PlanningEntry[]
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
 }
@@ -88,12 +98,16 @@ model LigneCommande {
 }
 
 model AdminUser {
-  id           String   @id @default(cuid())
-  email        String   @unique
+  id           String       @id @default(cuid())
+  email        String       @unique
   passwordHash String
   nom          String
-  role         String   @default("admin")
-  createdAt    DateTime @default(now())
+  role         Role         @default(CONCIERGE)
+  actif        Boolean      @default(true)
+  assignments  Assignment[]
+  notes        Note[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 }
 
 model Chauffeur {
@@ -105,4 +119,43 @@ model Chauffeur {
   statut          String   @default("disponible")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model Assignment {
+  id          String    @id @default(cuid())
+  conciergeId String
+  concierge   AdminUser @relation(fields: [conciergeId], references: [id])
+  commandeId  String
+  commande    Commande  @relation(fields: [commandeId], references: [id])
+  actif       Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([conciergeId, commandeId])
+}
+
+model Note {
+  id         String    @id @default(cuid())
+  commandeId String
+  commande   Commande  @relation(fields: [commandeId], references: [id])
+  auteurId   String
+  auteur     AdminUser @relation(fields: [auteurId], references: [id])
+  contenu    String
+  createdAt  DateTime  @default(now())
+}
+
+model PlanningEntry {
+  id         String   @id @default(cuid())
+  commandeId String
+  commande   Commande @relation(fields: [commandeId], references: [id])
+  jour       Int
+  heure      String
+  type       String
+  titre      String
+  details    String?
+  serviceId  String?
+  service    Service? @relation(fields: [serviceId], references: [id])
+  auto       Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
