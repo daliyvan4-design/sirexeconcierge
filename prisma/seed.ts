@@ -1,13 +1,18 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Role } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.planningEntry.deleteMany();
+  await prisma.note.deleteMany();
+  await prisma.assignment.deleteMany();
   await prisma.ligneCommande.deleteMany();
   await prisma.tarif.deleteMany();
   await prisma.service.deleteMany();
   await prisma.commande.deleteMany();
+  await prisma.chauffeur.deleteMany();
+  await prisma.adminUser.deleteMany();
 
   // ── Transport (5) ──────────────────────────────────────────────
 
@@ -266,146 +271,78 @@ async function main() {
   // ── Extras (8) ─────────────────────────────────────────────────
 
   const extras = [
-    {
-      nom: "SIM 4G + data 20 Go",
-      nomEn: "4G SIM + 20 GB data",
-      nomAr: "شريحة 4G + بيانات 20 جيجا",
-      description: "Carte SIM prépayée Orange CI, 20 Go data + appels locaux",
-      descEn: "Prepaid Orange CI SIM card, 20 GB data + local calls",
-      descAr: "بطاقة SIM مسبقة الدفع أورانج CI، 20 جيجا بيانات + مكالمات محلية",
-      prixBase: 15000,
-      unite: "pièce",
-      icon: "smartphone",
-    },
-    {
-      nom: "Service blanchisserie",
-      nomEn: "Laundry service",
-      nomAr: "خدمة الغسيل",
-      description: "Pressing express livré à l'hôtel sous 24h",
-      descEn: "Express dry cleaning delivered to hotel within 24h",
-      descAr: "تنظيف جاف سريع يُسلَّم إلى الفندق خلال 24 ساعة",
-      prixBase: 22000,
-      unite: "lot",
-      icon: "shirt",
-    },
-    {
-      nom: "Bouquet d'accueil",
-      nomEn: "Welcome bouquet",
-      nomAr: "باقة ترحيب",
-      description: "Bouquet de fleurs tropicales + carte de bienvenue personnalisée",
-      descEn: "Tropical flower bouquet + personalized welcome card",
-      descAr: "باقة زهور استوائية + بطاقة ترحيب مخصصة",
-      prixBase: 18000,
-      unite: "pièce",
-      icon: "flower",
-    },
-    {
-      nom: "Interprète FR↔AR · 4h",
-      nomEn: "FR↔AR interpreter · 4h",
-      nomAr: "مترجم فر↔عر · 4 ساعات",
-      description: "Interprète certifié français-arabe, 4 heures minimum",
-      descEn: "Certified French-Arabic interpreter, 4-hour minimum",
-      descAr: "مترجم فرنسي-عربي معتمد، 4 ساعات كحد أدنى",
-      prixBase: 90000,
-      unite: "séance",
-      icon: "languages",
-    },
-    {
-      nom: "Photographe événementiel",
-      nomEn: "Event photographer",
-      nomAr: "مصور فعاليات",
-      description: "Photographe professionnel, 200 photos HD livrées sous 48h",
-      descEn: "Professional photographer, 200 HD photos delivered within 48h",
-      descAr: "مصور محترف، 200 صورة عالية الدقة تُسلَّم خلال 48 ساعة",
-      prixBase: 120000,
-      unite: "séance",
-      icon: "camera",
-    },
-    {
-      nom: "Excursion Grand-Bassam",
-      nomEn: "Grand-Bassam excursion",
-      nomAr: "رحلة غران باسام",
-      description: "Visite guidée de la ville historique UNESCO, transport inclus",
-      descEn: "Guided tour of the UNESCO historic city, transport included",
-      descAr: "جولة مع مرشد في المدينة التاريخية المدرجة في اليونسكو، النقل مشمول",
-      prixBase: 65000,
-      unite: "personne",
-      icon: "palmtree",
-    },
-    {
-      nom: "Soirée gala SIREXE",
-      nomEn: "SIREXE gala evening",
-      nomAr: "أمسية غالا SIREXE",
-      description: "Invitation soirée de gala officielle SIREXE, tenue de soirée",
-      descEn: "Official SIREXE gala evening invitation, formal attire",
-      descAr: "دعوة لأمسية غالا SIREXE الرسمية، لباس رسمي",
-      prixBase: 80000,
-      unite: "personne",
-      icon: "ticket",
-    },
-    {
-      nom: "Visa Express · 48h",
-      nomEn: "Express Visa · 48h",
-      nomAr: "تأشيرة سريعة · 48 ساعة",
-      description: "Assistance visa accéléré, traitement en 48h garanti",
-      descEn: "Expedited visa assistance, guaranteed 48h processing",
-      descAr: "مساعدة تأشيرة سريعة، معالجة مضمونة خلال 48 ساعة",
-      prixBase: 45000,
-      unite: "personne",
-      icon: "shield-check",
-    },
+    { nom: "SIM 4G + data 20 Go", nomEn: "4G SIM + 20 GB data", nomAr: "شريحة 4G + بيانات 20 جيجا", description: "Carte SIM prépayée Orange CI, 20 Go data + appels locaux", descEn: "Prepaid Orange CI SIM card, 20 GB data + local calls", descAr: "بطاقة SIM مسبقة الدفع أورانج CI، 20 جيجا بيانات + مكالمات محلية", prixBase: 15000, unite: "pièce", icon: "smartphone" },
+    { nom: "Service blanchisserie", nomEn: "Laundry service", nomAr: "خدمة الغسيل", description: "Pressing express livré à l'hôtel sous 24h", descEn: "Express dry cleaning delivered to hotel within 24h", descAr: "تنظيف جاف سريع يُسلَّم إلى الفندق خلال 24 ساعة", prixBase: 22000, unite: "lot", icon: "shirt" },
+    { nom: "Bouquet d'accueil", nomEn: "Welcome bouquet", nomAr: "باقة ترحيب", description: "Bouquet de fleurs tropicales + carte de bienvenue personnalisée", descEn: "Tropical flower bouquet + personalized welcome card", descAr: "باقة زهور استوائية + بطاقة ترحيب مخصصة", prixBase: 18000, unite: "pièce", icon: "flower" },
+    { nom: "Interprète FR↔AR · 4h", nomEn: "FR↔AR interpreter · 4h", nomAr: "مترجم فر↔عر · 4 ساعات", description: "Interprète certifié français-arabe, 4 heures minimum", descEn: "Certified French-Arabic interpreter, 4-hour minimum", descAr: "مترجم فرنسي-عربي معتمد، 4 ساعات كحد أدنى", prixBase: 90000, unite: "séance", icon: "languages" },
+    { nom: "Photographe événementiel", nomEn: "Event photographer", nomAr: "مصور فعاليات", description: "Photographe professionnel, 200 photos HD livrées sous 48h", descEn: "Professional photographer, 200 HD photos delivered within 48h", descAr: "مصور محترف، 200 صورة عالية الدقة تُسلَّم خلال 48 ساعة", prixBase: 120000, unite: "séance", icon: "camera" },
+    { nom: "Excursion Grand-Bassam", nomEn: "Grand-Bassam excursion", nomAr: "رحلة غران باسام", description: "Visite guidée de la ville historique UNESCO, transport inclus", descEn: "Guided tour of the UNESCO historic city, transport included", descAr: "جولة مع مرشد في المدينة التاريخية المدرجة في اليونسكو، النقل مشمول", prixBase: 65000, unite: "personne", icon: "palmtree" },
+    { nom: "Soirée gala SIREXE", nomEn: "SIREXE gala evening", nomAr: "أمسية غالا SIREXE", description: "Invitation soirée de gala officielle SIREXE, tenue de soirée", descEn: "Official SIREXE gala evening invitation, formal attire", descAr: "دعوة لأمسية غالا SIREXE الرسمية، لباس رسمي", prixBase: 80000, unite: "personne", icon: "ticket" },
+    { nom: "Visa Express · 48h", nomEn: "Express Visa · 48h", nomAr: "تأشيرة سريعة · 48 ساعة", description: "Assistance visa accéléré, traitement en 48h garanti", descEn: "Expedited visa assistance, guaranteed 48h processing", descAr: "مساعدة تأشيرة سريعة، معالجة مضمونة خلال 48 ساعة", prixBase: 45000, unite: "personne", icon: "shield-check" },
   ];
 
   for (let i = 0; i < extras.length; i++) {
     const e = extras[i];
     await prisma.service.create({
       data: {
-        nom: e.nom,
-        nomEn: e.nomEn,
-        nomAr: e.nomAr,
-        description: e.description,
-        descEn: e.descEn,
-        descAr: e.descAr,
-        categorie: "extras",
-        prixBase: e.prixBase,
-        unite: e.unite,
-        icon: e.icon,
-        ordre: i + 1,
+        nom: e.nom, nomEn: e.nomEn, nomAr: e.nomAr,
+        description: e.description, descEn: e.descEn, descAr: e.descAr,
+        categorie: "extras", prixBase: e.prixBase, unite: e.unite, icon: e.icon, ordre: i + 1,
         tarifs: { create: { label: e.nom, prix: e.prixBase } },
       },
     });
   }
 
-  // ── Admin user ──
-  await prisma.adminUser.deleteMany();
+  // ── Admin users (4 roles) ──────────────────────────────────────
+
   const hash = await bcrypt.hash("sirexe2026", 10);
-  await prisma.adminUser.create({
-    data: {
-      email: "admin@sirexe.com",
-      passwordHash: hash,
-      nom: "Aïssa Koné",
-      role: "admin",
-    },
+
+  const ultraAdmin = await prisma.adminUser.create({
+    data: { email: "admin@sirexe.com", passwordHash: hash, nom: "Aïssa Koné", role: "ULTRA_ADMIN" },
   });
 
-  // ── Demo commandes (8 orders from prototype) ──
-  await prisma.commande.deleteMany();
+  const superAdmin = await prisma.adminUser.create({
+    data: { email: "manager@sirexe.com", passwordHash: hash, nom: "Mamadou Traoré", role: "SUPER_ADMIN" },
+  });
+
+  const concierge1 = await prisma.adminUser.create({
+    data: { email: "concierge1@sirexe.com", passwordHash: hash, nom: "Fatou Diallo", role: "CONCIERGE" },
+  });
+
+  const concierge2 = await prisma.adminUser.create({
+    data: { email: "concierge2@sirexe.com", passwordHash: hash, nom: "Koné Ibrahim", role: "CONCIERGE" },
+  });
+
+  // ── Demo chauffeurs ──────────────────────────────────────────
+
+  const chauffeurs = [
+    { nom: "Konan Yao", telephone: "+225 07 01 02 03", vehicule: "Mercedes E-Class", immatriculation: "AB 1234 CI", statut: "disponible" },
+    { nom: "Ouattara Ibrahim", telephone: "+225 05 04 05 06", vehicule: "Toyota Land Cruiser", immatriculation: "CD 5678 CI", statut: "en_course" },
+    { nom: "Bamba Moussa", telephone: "+225 01 07 08 09", vehicule: "Mercedes V-Class", immatriculation: "EF 9012 CI", statut: "disponible" },
+    { nom: "Traoré Seydou", telephone: "+225 07 10 11 12", vehicule: "BMW Série 5", immatriculation: "GH 3456 CI", statut: "indisponible" },
+  ];
+  for (const c of chauffeurs) {
+    await prisma.chauffeur.create({ data: c });
+  }
+
+  // ── Demo commandes ─────────────────────────────────────────────
+
   const allServices = await prisma.service.findMany({ include: { tarifs: true } });
-  const svcByName = (name: string) => allServices.find((s) => s.nom.includes(name));
 
   const demoOrders = [
-    { ref: "SIREXE-26-A8F2", prenom: "Amadou", nom: "Diallo", email: "amadou.diallo@sonangaz.com", telephone: "+221771234567", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T23:40:00Z", dateDepart: "2026-03-16T08:00:00Z", nombrePersonnes: 2, compagnie: "Air France", numeroVol: "AF 528", montantTotal: 1245000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-B102", prenom: "Sarah", nom: "Mensah", email: "sarah.mensah@ghanamining.gh", telephone: "+233201234567", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T08:15:00Z", dateDepart: "2026-03-17T10:00:00Z", nombrePersonnes: 1, compagnie: "ASKY", numeroVol: "KP 022", montantTotal: 880000, statut: "EN_ATTENTE" },
-    { ref: "SIREXE-26-C937", prenom: "Khalid", nom: "Al-Faisal", email: "k.alfaisal@adnoc.ae", telephone: "+971501234567", nationalite: "🇦🇪 Émiratie", dateArrivee: "2026-03-13T14:30:00Z", dateDepart: "2026-03-18T16:00:00Z", nombrePersonnes: 3, compagnie: "Emirates", numeroVol: "EK 787", montantTotal: 2480000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-D451", prenom: "Jean", nom: "Dupont", email: "j.dupont@totalenergies.fr", telephone: "+33612345678", nationalite: "🇫🇷 Française", dateArrivee: "2026-03-14T06:55:00Z", dateDepart: "2026-03-16T18:00:00Z", nombrePersonnes: 1, compagnie: "Air France", numeroVol: "AF 530", montantTotal: 425000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-E284", prenom: "Fatima", nom: "Bensalah", email: "f.bensalah@ocp.ma", telephone: "+212661234567", nationalite: "🇲🇦 Marocaine", dateArrivee: "2026-03-14T11:20:00Z", dateDepart: "2026-03-17T09:00:00Z", nombrePersonnes: 2, compagnie: "Royal Air Maroc", numeroVol: "AT 552", montantTotal: 1080000, statut: "EN_ATTENTE" },
-    { ref: "SIREXE-26-F673", prenom: "Tunde", nom: "Olatunji", email: "t.olatunji@nnpc.ng", telephone: "+2348012345678", nationalite: "🇳🇬 Nigériane", dateArrivee: "2026-03-14T19:45:00Z", dateDepart: "2026-03-18T12:00:00Z", nombrePersonnes: 2, compagnie: "Arik Air", numeroVol: "W3 101", montantTotal: 1620000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-G129", prenom: "Mary", nom: "Johnson", email: "m.johnson@bp.co.uk", telephone: "+447911234567", nationalite: "🇬🇧 Britannique", dateArrivee: "2026-03-15T09:10:00Z", dateDepart: "2026-03-17T14:00:00Z", nombrePersonnes: 1, compagnie: "British Airways", numeroVol: "BA 079", montantTotal: 760000, statut: "ANNULEE" },
-    { ref: "SIREXE-26-H805", prenom: "Omar", nom: "Sissoko", email: "o.sissoko@somilo.ml", telephone: "+22376123456", nationalite: "🇲🇱 Malienne", dateArrivee: "2026-03-15T15:35:00Z", dateDepart: "2026-03-19T08:00:00Z", nombrePersonnes: 4, compagnie: "ASKY", numeroVol: "KP 045", montantTotal: 1985000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-A8F2", prenom: "Amadou", nom: "Diallo", email: "amadou.diallo@sonangaz.com", telephone: "+221771234567", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T23:40:00Z", dateDepart: "2026-03-16T08:00:00Z", nombrePersonnes: 2, compagnie: "Air France", numeroVol: "AF 528", heureArrivee: "23:40", montantTotal: 1245000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-B102", prenom: "Sarah", nom: "Mensah", email: "sarah.mensah@ghanamining.gh", telephone: "+233201234567", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T08:15:00Z", dateDepart: "2026-03-17T10:00:00Z", nombrePersonnes: 1, compagnie: "ASKY", numeroVol: "KP 022", heureArrivee: "08:15", montantTotal: 880000, statut: "EN_ATTENTE" },
+    { ref: "SIREXE-26-C937", prenom: "Khalid", nom: "Al-Faisal", email: "k.alfaisal@adnoc.ae", telephone: "+971501234567", nationalite: "🇦🇪 Émiratie", dateArrivee: "2026-03-13T14:30:00Z", dateDepart: "2026-03-18T16:00:00Z", nombrePersonnes: 3, compagnie: "Emirates", numeroVol: "EK 787", heureArrivee: "14:30", montantTotal: 2480000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-D451", prenom: "Jean", nom: "Dupont", email: "j.dupont@totalenergies.fr", telephone: "+33612345678", nationalite: "🇫🇷 Française", dateArrivee: "2026-03-14T06:55:00Z", dateDepart: "2026-03-16T18:00:00Z", nombrePersonnes: 1, compagnie: "Air France", numeroVol: "AF 530", heureArrivee: "06:55", montantTotal: 425000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-E284", prenom: "Fatima", nom: "Bensalah", email: "f.bensalah@ocp.ma", telephone: "+212661234567", nationalite: "🇲🇦 Marocaine", dateArrivee: "2026-03-14T11:20:00Z", dateDepart: "2026-03-17T09:00:00Z", nombrePersonnes: 2, compagnie: "Royal Air Maroc", numeroVol: "AT 552", heureArrivee: "11:20", montantTotal: 1080000, statut: "EN_ATTENTE" },
+    { ref: "SIREXE-26-F673", prenom: "Tunde", nom: "Olatunji", email: "t.olatunji@nnpc.ng", telephone: "+2348012345678", nationalite: "🇳🇬 Nigériane", dateArrivee: "2026-03-14T19:45:00Z", dateDepart: "2026-03-18T12:00:00Z", nombrePersonnes: 2, compagnie: "Arik Air", numeroVol: "W3 101", heureArrivee: "19:45", montantTotal: 1620000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-G129", prenom: "Mary", nom: "Johnson", email: "m.johnson@bp.co.uk", telephone: "+447911234567", nationalite: "🇬🇧 Britannique", dateArrivee: "2026-03-15T09:10:00Z", dateDepart: "2026-03-17T14:00:00Z", nombrePersonnes: 1, compagnie: "British Airways", numeroVol: "BA 079", heureArrivee: "09:10", montantTotal: 760000, statut: "ANNULEE" },
+    { ref: "SIREXE-26-H805", prenom: "Omar", nom: "Sissoko", email: "o.sissoko@somilo.ml", telephone: "+22376123456", nationalite: "🇲🇱 Malienne", dateArrivee: "2026-03-15T15:35:00Z", dateDepart: "2026-03-19T08:00:00Z", nombrePersonnes: 4, compagnie: "ASKY", numeroVol: "KP 045", heureArrivee: "15:35", montantTotal: 1985000, statut: "CONFIRMEE" },
   ];
 
+  const createdOrders: Array<{ id: string; ref: string }> = [];
   for (const o of demoOrders) {
-    await prisma.commande.create({
+    const order = await prisma.commande.create({
       data: {
         reference: o.ref,
         prenom: o.prenom,
@@ -418,6 +355,7 @@ async function main() {
         nombrePersonnes: o.nombrePersonnes,
         compagnie: o.compagnie,
         numeroVol: o.numeroVol,
+        heureArrivee: o.heureArrivee,
         montantTotal: o.montantTotal,
         statut: o.statut,
         devise: "XOF",
@@ -433,21 +371,47 @@ async function main() {
         },
       },
     });
+    createdOrders.push({ id: order.id, ref: o.ref });
   }
 
-  // ── Demo chauffeurs ──
-  await prisma.chauffeur.deleteMany();
-  const chauffeurs = [
-    { nom: "Konan Yao", telephone: "+225 07 01 02 03", vehicule: "Mercedes E-Class", immatriculation: "AB 1234 CI", statut: "disponible" },
-    { nom: "Ouattara Ibrahim", telephone: "+225 05 04 05 06", vehicule: "Toyota Land Cruiser", immatriculation: "CD 5678 CI", statut: "en_course" },
-    { nom: "Bamba Moussa", telephone: "+225 01 07 08 09", vehicule: "Mercedes V-Class", immatriculation: "EF 9012 CI", statut: "disponible" },
-    { nom: "Traoré Seydou", telephone: "+225 07 10 11 12", vehicule: "BMW Série 5", immatriculation: "GH 3456 CI", statut: "indisponible" },
-  ];
-  for (const c of chauffeurs) {
-    await prisma.chauffeur.create({ data: c });
+  // ── Assignments (round-robin demo) ─────────────────────────────
+
+  for (let i = 0; i < createdOrders.length; i++) {
+    const concierge = i % 2 === 0 ? concierge1 : concierge2;
+    await prisma.assignment.create({
+      data: { conciergeId: concierge.id, commandeId: createdOrders[i].id },
+    });
   }
 
-  console.log("Seeded 22 services with tarifs, 1 admin, 8 demo orders, 4 chauffeurs.");
+  // ── Planning entries for first order ───────────────────────────
+
+  const firstOrder = createdOrders[0];
+  await prisma.planningEntry.createMany({
+    data: [
+      { commandeId: firstOrder.id, jour: 1, heure: "23:40", type: "transport", titre: "Accueil VIP aéroport FHB", details: "Chauffeur: Konan Yao · Mercedes E-Class · FR/EN", auto: true },
+      { commandeId: firstOrder.id, jour: 1, heure: "00:30", type: "hebergement", titre: "Pullman Plateau — Check-in", details: "Chambre Supérieure, 3e étage", auto: true },
+      { commandeId: firstOrder.id, jour: 2, heure: "07:30", type: "repas", titre: "Petit-déjeuner buffet", details: "2 pax — Buffet international", auto: true },
+      { commandeId: firstOrder.id, jour: 2, heure: "09:00", type: "transport", titre: "Berline → Pavillon SIREXE", details: "Chauffeur: Konan Yao · anglophone", auto: true },
+      { commandeId: firstOrder.id, jour: 2, heure: "12:30", type: "repas", titre: "Déjeuner d'affaires", details: "2 pax — Restaurant Le Bélier, salle privée", auto: true },
+      { commandeId: firstOrder.id, jour: 2, heure: "19:30", type: "repas", titre: "Dîner gastronomique", details: "2 pax — Chef étoilé, menu dégustation", auto: true },
+      { commandeId: firstOrder.id, jour: 2, heure: "10:00", type: "custom", titre: "Note concierge", details: "Client préfère eau plate, préparer au véhicule", auto: false },
+      { commandeId: firstOrder.id, jour: 3, heure: "07:30", type: "repas", titre: "Petit-déjeuner buffet", details: "2 pax", auto: true },
+      { commandeId: firstOrder.id, jour: 3, heure: "10:00", type: "extra", titre: "Excursion Grand-Bassam", details: "Visite guidée UNESCO, transport inclus", auto: true },
+      { commandeId: firstOrder.id, jour: 4, heure: "06:00", type: "transport", titre: "Transfert hôtel → aéroport FHB", details: "Chauffeur: Konan Yao · départ vol 08:00", auto: true },
+    ],
+  });
+
+  // ── Notes internes demo ────────────────────────────────────────
+
+  await prisma.note.create({
+    data: { commandeId: firstOrder.id, auteurId: concierge1.id, contenu: "Client arrivé sans encombre, accueil VIP OK. Bagages récupérés rapidement." },
+  });
+
+  await prisma.note.create({
+    data: { commandeId: firstOrder.id, auteurId: superAdmin.id, contenu: "Chambre upgradée en Suite sur demande du client — voir avec la réception." },
+  });
+
+  console.log("Seeded: 22 services, 4 admin users (Ultra/Super/2×Concierge), 8 orders, 4 chauffeurs, 8 assignments, 10 planning entries, 2 notes.");
 }
 
 main()
