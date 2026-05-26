@@ -1,11 +1,21 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
 import { NextResponse } from "next/server";
+import { Role } from "@prisma/client";
 
-export async function requireAdmin() {
+const ALL_ROLES: Role[] = ["ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE"];
+
+export async function requireRole(...roles: Role[]) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return { session: null, error: NextResponse.json({ error: "Non authentifié" }, { status: 401 }) };
   }
+  if (!roles.includes(session.user.role)) {
+    return { session: null, error: NextResponse.json({ error: "Accès refusé" }, { status: 403 }) };
+  }
   return { session, error: null };
+}
+
+export async function requireAnyAdmin() {
+  return requireRole(...ALL_ROLES);
 }
