@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { AdminShell } from "@/components/admin/admin-shell";
-import "@/app/globals.css";
+import { ROLE_LABELS } from "@/lib/roles";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
@@ -17,16 +17,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   });
 
   return (
-    <html lang="fr">
-      <body>
-        <AdminShell
-          adminName={session.user?.name || "Admin"}
-          adminRole="Concierge en chef"
-          pendingCount={pendingCount}
-        >
-          {children}
-        </AdminShell>
-      </body>
-    </html>
+    <AdminShell
+      adminName={session.user.name}
+      adminRole={ROLE_LABELS[session.user.role]}
+      userRole={session.user.role}
+      pendingCount={pendingCount}
+    >
+      {children}
+    </AdminShell>
   );
 }

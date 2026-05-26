@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { SirexeLogo } from "@/components/brand/sirexe-logo";
+import { Role } from "@prisma/client";
 import {
   LayoutDashboard,
   ClipboardList,
@@ -12,26 +14,38 @@ import {
   BarChart3,
   Settings,
   LogOut,
+  ClipboardCheck,
+  LucideIcon,
 } from "lucide-react";
 
-const NAV_ITEMS = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Tableau de bord" },
-  { href: "/commandes", icon: ClipboardList, label: "Commandes", badge: true },
-  { href: "/tarifs", icon: Banknote, label: "Tarifs" },
-  { href: "/voyageurs", icon: Users, label: "Voyageurs" },
-  { href: "/chauffeurs", icon: CarFront, label: "Chauffeurs" },
-  { href: "/rapports", icon: BarChart3, label: "Rapports" },
+interface NavItem {
+  href: string;
+  icon: LucideIcon;
+  label: string;
+  roles: Role[];
+  badge?: boolean;
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { href: "/dashboard", icon: LayoutDashboard, label: "Tableau de bord", roles: ["ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE"] },
+  { href: "/briefing", icon: ClipboardCheck, label: "Briefing", roles: ["CONCIERGE"] },
+  { href: "/commandes", icon: ClipboardList, label: "Commandes", badge: true, roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
+  { href: "/tarifs", icon: Banknote, label: "Tarifs", roles: ["ULTRA_ADMIN"] },
+  { href: "/voyageurs", icon: Users, label: "Voyageurs", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
+  { href: "/chauffeurs", icon: CarFront, label: "Chauffeurs", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
+  { href: "/rapports", icon: BarChart3, label: "Rapports", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
 ];
 
 interface SidebarProps {
   adminName: string;
   adminRole: string;
+  userRole: Role;
   pendingCount: number;
   open: boolean;
   onClose: () => void;
 }
 
-export function Sidebar({ adminName, adminRole, pendingCount, open, onClose }: SidebarProps) {
+export function Sidebar({ adminName, adminRole, userRole, pendingCount, open, onClose }: SidebarProps) {
   const pathname = usePathname();
   const initials = adminName
     .split(" ")
@@ -40,9 +54,10 @@ export function Sidebar({ adminName, adminRole, pendingCount, open, onClose }: S
     .join("")
     .toUpperCase();
 
+  const visibleItems = NAV_ITEMS.filter((item) => item.roles.includes(userRole));
+
   return (
     <>
-      {/* Mobile overlay */}
       {open && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={onClose} />}
 
       <aside
@@ -50,22 +65,13 @@ export function Sidebar({ adminName, adminRole, pendingCount, open, onClose }: S
           open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        {/* Header */}
-        <div className="px-5 py-5 border-b border-cream/10 flex items-center gap-3">
-          <span className="flex flex-col gap-1">
-            <span className="dot bg-mining" />
-            <span className="dot bg-cream/90" />
-            <span className="dot bg-energy" />
-          </span>
-          <div>
-            <p className="font-serif text-gold text-[16px] leading-tight">SIREXE Concierge</p>
-            <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50">Panel admin</p>
-          </div>
+        <div className="px-5 py-5 border-b border-cream/10">
+          <SirexeLogo dark height={32} />
+          <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50 mt-2">Panel admin</p>
         </div>
 
-        {/* Nav */}
         <nav className="p-3 space-y-1 flex-1">
-          {NAV_ITEMS.map((item) => {
+          {visibleItems.map((item) => {
             const active = pathname === item.href || pathname.startsWith(item.href + "/");
             return (
               <Link
@@ -103,7 +109,6 @@ export function Sidebar({ adminName, adminRole, pendingCount, open, onClose }: S
           </Link>
         </nav>
 
-        {/* User footer */}
         <div className="p-3 border-t border-cream/10">
           <div className="flex items-center gap-3 px-2 py-2">
             <div className="w-9 h-9 rounded-full bg-gold flex items-center justify-center text-ink font-serif font-semibold text-[13px]">
