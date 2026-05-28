@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Topbar } from "@/components/admin/topbar";
-import { useSidebar } from "@/components/admin/admin-shell";
 import { PlanningTimeline } from "@/components/admin/planning-timeline";
 import { ArrowLeft } from "lucide-react";
 
@@ -34,7 +33,6 @@ interface PlanningEntry {
 
 export default function CarnetDeRoutePage() {
   const { commandeId } = useParams<{ commandeId: string }>();
-  const { toggleSidebar } = useSidebar();
   const router = useRouter();
   const [commande, setCommande] = useState<CommandeData | null>(null);
   const [entries, setEntries] = useState<PlanningEntry[]>([]);
@@ -54,7 +52,7 @@ export default function CarnetDeRoutePage() {
   if (loading) {
     return (
       <>
-        <Topbar title="Carnet de route" onMenuToggle={toggleSidebar} />
+        <Topbar title="Carnet de route" />
         <div className="p-6 text-center text-mute py-20">Chargement…</div>
       </>
     );
@@ -63,7 +61,7 @@ export default function CarnetDeRoutePage() {
   if (!commande) {
     return (
       <>
-        <Topbar title="Carnet de route" onMenuToggle={toggleSidebar} />
+        <Topbar title="Carnet de route" />
         <div className="p-6 text-center text-mute py-20">Commande introuvable ou accès refusé</div>
       </>
     );
@@ -71,7 +69,7 @@ export default function CarnetDeRoutePage() {
 
   return (
     <>
-      <Topbar title={`${commande.prenom} ${commande.nom}`} subtitle={commande.reference} onMenuToggle={toggleSidebar}>
+      <Topbar title={`${commande.prenom} ${commande.nom}`} subtitle={commande.reference} >
         <button onClick={() => router.push("/briefing")} className="flex items-center gap-1 text-[13px] text-mute hover:text-ink">
           <ArrowLeft size={16} /> Retour
         </button>

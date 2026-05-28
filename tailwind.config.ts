@@ -32,6 +32,7 @@ const config: Config = {
       boxShadow: {
         card: "none",
         float: "0 12px 36px -22px rgba(26,26,46,.22)",
+        inner1: "inset 0 0 0 1px rgba(26,26,46,.06)",
       },
       keyframes: {
         fadeUp: {

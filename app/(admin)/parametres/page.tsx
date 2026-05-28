@@ -82,7 +82,7 @@ export default function ParametresPage() {
 
   return (
     <>
-      <Topbar title="Paramètres" onMenuToggle={() => {}} />
+      <Topbar title="Paramètres" />
       <div className="p-6 lg:p-10 max-w-2xl space-y-8">
         {/* Profile */}
         <form onSubmit={saveProfile} className="bg-white rounded-2xl border border-line p-6">

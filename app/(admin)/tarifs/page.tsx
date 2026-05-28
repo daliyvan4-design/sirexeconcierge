@@ -86,7 +86,7 @@ export default function TarifsPage() {
 
   return (
     <>
-      <Topbar title="Éditeur de tarifs" subtitle={`${totalTarifs} tarifs · Synchronisé`} onMenuToggle={() => {}} />
+      <Topbar title="Éditeur de tarifs" subtitle={`${totalTarifs} tarifs · Synchronisé`} />
       <div className="p-6 lg:p-10 space-y-8">
         <div className="flex flex-wrap items-center gap-3">
           <div className="bg-white border border-line rounded-full px-4 py-2 flex items-center gap-2">

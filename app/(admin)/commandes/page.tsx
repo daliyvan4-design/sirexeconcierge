@@ -55,7 +55,7 @@ export default function CommandesPage() {
 
   return (
     <>
-      <Topbar title="Commandes" subtitle={`${total} commandes au total`} onMenuToggle={() => {}}>
+      <Topbar title="Commandes" subtitle={`${total} commandes au total`}>
         <button
           onClick={handleExport}
           className="border border-line rounded-full px-3 py-1.5 text-[12px] flex items-center gap-1.5 hover:border-ink/30"

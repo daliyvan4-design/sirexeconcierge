@@ -30,7 +30,8 @@
     letter-spacing: -0.02em;
     line-height: 1.05;
   }
-  .mono {
+  .mono,
+  .num {
     @apply font-sans;
     font-variant-numeric: tabular-nums lining-nums;
   }
@@ -68,6 +69,22 @@
   }
 }
 
+@layer base {
+  input,
+  select,
+  textarea,
+  button {
+    transition: all 200ms ease;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.18);
+    border-color: #c9a84c !important;
+  }
+}
+
 @layer utilities {
   .btn-press:active {
     transform: translateY(1px);
@@ -76,7 +93,7 @@
     @apply transition-colors duration-200;
   }
   .card-hover:hover {
-    border-color: rgba(26,26,46,.18);
+    border-color: rgba(26, 26, 46, 0.18);
   }
 }
 

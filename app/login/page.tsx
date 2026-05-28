@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { SirexeLogo } from "@/components/brand/sirexe-logo";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -35,16 +36,9 @@ export default function LoginPage() {
     <div className="min-h-screen bg-ink flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
-        <div className="flex items-center justify-center gap-3 mb-10">
-          <span className="flex flex-col gap-1">
-            <span className="dot bg-mining" />
-            <span className="dot bg-cream/90" />
-            <span className="dot bg-energy" />
-          </span>
-          <div>
-            <p className="font-serif text-gold text-[18px] leading-tight">SIREXE Concierge</p>
-            <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50">Panel administration</p>
-          </div>
+        <div className="flex flex-col items-center mb-10">
+          <SirexeLogo dark height={48} />
+          <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50 mt-3">Panel administration</p>
         </div>
 
         {/* Form card */}

@@ -9,7 +9,7 @@ interface KpiCardProps {
 
 export function KpiCard({ label, value, sub, trend }: KpiCardProps) {
   return (
-    <div className="bg-white rounded-2xl border border-line p-5">
+    <div className="bg-white rounded-2xl border border-line p-5 shadow-card">
       <div className="flex items-center justify-between">
         <p className="text-[11px] uppercase tracking-[0.18em] text-mute">{label}</p>
         {trend && (

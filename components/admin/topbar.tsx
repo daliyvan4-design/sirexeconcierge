@@ -2,20 +2,22 @@
 
 import { Search, Bell, ExternalLink, Menu } from "lucide-react";
 import Link from "next/link";
+import { useSidebar } from "./admin-shell";
 
 interface TopbarProps {
   title: string;
   subtitle?: string;
-  onMenuToggle: () => void;
   children?: React.ReactNode;
 }
 
-export function Topbar({ title, subtitle, onMenuToggle, children }: TopbarProps) {
+export function Topbar({ title, subtitle, children }: TopbarProps) {
+  const { toggleSidebar } = useSidebar();
+
   return (
-    <div className="bg-white border-b border-line">
+    <div className="bg-white border-b border-line sticky top-0 z-30">
       <div className="px-6 lg:px-10 h-16 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <button onClick={onMenuToggle} className="lg:hidden text-ink">
+          <button onClick={toggleSidebar} className="lg:hidden text-ink">
             <Menu size={20} />
           </button>
           <div>

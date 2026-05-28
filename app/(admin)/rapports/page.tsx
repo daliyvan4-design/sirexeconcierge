@@ -22,7 +22,7 @@ export default function RapportsPage() {
 
   return (
     <>
-      <Topbar title="Rapports" subtitle="Statistiques d'activité" onMenuToggle={() => {}}>
+      <Topbar title="Rapports" subtitle="Statistiques d'activité">
         <div className="inline-flex bg-cream border border-line rounded-full p-1 text-[12px]">
           {periods.map((p) => (
             <button

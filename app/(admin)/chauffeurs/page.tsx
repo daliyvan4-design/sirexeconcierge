@@ -75,7 +75,7 @@ export default function ChauffeursPage() {
 
   return (
     <>
-      <Topbar title="Chauffeurs" subtitle={`${chauffeurs.length} chauffeurs`} onMenuToggle={() => {}}>
+      <Topbar title="Chauffeurs" subtitle={`${chauffeurs.length} chauffeurs`}>
         <button
           onClick={() => setAdding(true)}
           className="bg-ink text-cream rounded-full px-4 py-2 text-[12px] flex items-center gap-1.5 hover:bg-ink2"

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "SIREXE Concierge — Votre séjour, orchestré avec soin",
@@ -11,5 +12,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <html lang="fr">
+      <body className="bg-cream text-ink3 font-sans antialiased">{children}</body>
+    </html>
+  );
 }

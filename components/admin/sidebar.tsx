@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { SirexeLogo } from "@/components/brand/sirexe-logo";
 import { Role } from "@prisma/client";
 import {
   LayoutDashboard,
@@ -65,9 +64,19 @@ export function Sidebar({ adminName, adminRole, userRole, pendingCount, open, on
           open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <div className="px-5 py-5 border-b border-cream/10">
-          <SirexeLogo dark height={32} />
-          <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50 mt-2">Panel admin</p>
+        <div className="px-5 py-5 border-b border-cream/10 flex items-center gap-3">
+          <span className="flex flex-col gap-1">
+            <span className="dot bg-mining" />
+            <span className="dot bg-cream/90" />
+            <span className="dot bg-energy" />
+          </span>
+          <div>
+            <div>
+              <p className="font-serif text-gold text-[16px] leading-tight tracking-[0.12em]">SIREXE</p>
+              <p className="text-[8px] uppercase tracking-[0.42em] text-gold/70 leading-none">conciergerie</p>
+            </div>
+            <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50">Panel admin</p>
+          </div>
         </div>
 
         <nav className="p-3 space-y-1 flex-1">

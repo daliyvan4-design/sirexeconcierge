@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Topbar } from "@/components/admin/topbar";
-import { useSidebar } from "@/components/admin/admin-shell";
 import { BriefingCard } from "@/components/admin/briefing-card";
 import { ClipboardCheck } from "lucide-react";
 
@@ -21,7 +20,6 @@ interface AssignmentData {
 }
 
 export default function BriefingPage() {
-  const { toggleSidebar } = useSidebar();
   const [assignments, setAssignments] = useState<AssignmentData[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -40,7 +38,7 @@ export default function BriefingPage() {
 
   return (
     <>
-      <Topbar title="Briefing" subtitle="Vos clients assignés" onMenuToggle={toggleSidebar} />
+      <Topbar title="Briefing" subtitle="Vos clients assignés" />
       <div className="p-6 lg:p-10">
         {loading ? (
           <div className="text-center text-mute py-20">Chargement…</div>

@@ -30,7 +30,7 @@ export default function VoyageursPage() {
 
   return (
     <>
-      <Topbar title="Voyageurs" subtitle={`${voyageurs.length} voyageurs`} onMenuToggle={() => {}} />
+      <Topbar title="Voyageurs" subtitle={`${voyageurs.length} voyageurs`} />
       <div className="p-6 lg:p-10">
         <div className="mb-6">
           <div className="bg-white border border-line rounded-full px-4 py-2 inline-flex items-center gap-2">
