@@ -1,98 +1,20 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { DashboardUltra } from "@/components/admin/dashboard-ultra";
+import { DashboardSuper } from "@/components/admin/dashboard-super";
+import { DashboardConcierge } from "@/components/admin/dashboard-concierge";
 
-import { useEffect, useState } from "react";
-import { Topbar } from "@/components/admin/topbar";
-import { KpiCard } from "@/components/admin/kpi-card";
-import { ArrivalsChart } from "@/components/admin/arrivals-chart";
-import { BreakdownBars } from "@/components/admin/breakdown-bars";
-import { OrdersTable } from "@/components/admin/orders-table";
-import { fmt } from "@/lib/utils";
+export default async function DashboardPage() {
+  const session = await getServerSession(authOptions);
 
-export default function DashboardPage() {
-  const [stats, setStats] = useState<any>(null);
-  const [arrivals, setArrivals] = useState<Record<string, number>>({});
-  const [breakdown, setBreakdown] = useState<any[]>([]);
-  const [orders, setOrders] = useState<any[]>([]);
-  const [filter, setFilter] = useState("");
+  if (!session) {
+    redirect("/login");
+  }
 
-  useEffect(() => {
-    fetch("/api/admin/stats").then((r) => r.json()).then(setStats);
-    fetch("/api/admin/stats/arrivals").then((r) => r.json()).then(setArrivals);
-    fetch("/api/admin/stats/breakdown").then((r) => r.json()).then(setBreakdown);
-  }, []);
+  const role = session.user.role;
 
-  useEffect(() => {
-    const params = new URLSearchParams({ page: "1", limit: "8" });
-    if (filter) params.set("status", filter);
-    fetch(`/api/admin/commandes?${params}`).then((r) => r.json()).then((d) => setOrders(d.orders || []));
-  }, [filter]);
-
-  const ordersChange =
-    stats && stats.ordersYesterday > 0
-      ? Math.round(((stats.ordersToday - stats.ordersYesterday) / stats.ordersYesterday) * 100)
-      : 0;
-  const caChange =
-    stats && stats.caYesterday > 0
-      ? Math.round(((stats.caToday - stats.caYesterday) / stats.caYesterday) * 100)
-      : 0;
-  const confRate =
-    stats && stats.monthTotal > 0
-      ? Math.round((stats.monthConfirmed / stats.monthTotal) * 100)
-      : 0;
-
-  return (
-    <>
-      <Topbar
-        title="Tableau de bord"
-        subtitle="Salon SIREXE 2026"
-        onMenuToggle={() => {}}
-      />
-      <div className="p-6 lg:p-10">
-        {/* KPIs */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <KpiCard
-            label="Commandes aujourd'hui"
-            value={String(stats?.ordersToday ?? "—")}
-            sub={`vs. ${stats?.ordersYesterday ?? "—"} hier`}
-            trend={ordersChange !== 0 ? { value: `${ordersChange > 0 ? "+" : ""}${ordersChange}%`, type: "up" } : undefined}
-          />
-          <KpiCard
-            label="CA du jour"
-            value={stats ? fmt(stats.caToday) : "—"}
-            sub={stats ? `≈ ${fmt(stats.caToday, "EUR")}` : ""}
-            trend={caChange !== 0 ? { value: `${caChange > 0 ? "+" : ""}${caChange}%`, type: "up" } : undefined}
-          />
-          <KpiCard
-            label="En attente"
-            value={String(stats?.pending ?? "—")}
-            sub="À traiter sous 2h"
-            trend={stats?.pending > 3 ? { value: `${stats.pending} urgents`, type: "warning" } : undefined}
-          />
-          <KpiCard
-            label="Confirmées"
-            value={String(stats?.monthConfirmed ?? "—")}
-            sub={`Sur ${stats?.monthTotal ?? "—"} ce mois`}
-            trend={confRate > 0 ? { value: `${confRate}%`, type: "success" } : undefined}
-          />
-        </div>
-
-        {/* Charts */}
-        <div className="grid lg:grid-cols-3 gap-5 mb-8">
-          <div className="bg-white rounded-2xl border border-line p-5 lg:col-span-2">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-serif text-[18px] text-ink">Arrivées prévues — 14 prochains jours</h3>
-            </div>
-            <ArrivalsChart data={arrivals} />
-          </div>
-          <div className="bg-white rounded-2xl border border-line p-5">
-            <h3 className="font-serif text-[18px] text-ink mb-5">Répartition CA · ce mois</h3>
-            <BreakdownBars data={breakdown} />
-          </div>
-        </div>
-
-        {/* Orders table */}
-        <OrdersTable orders={orders} filter={filter} onFilterChange={setFilter} />
-      </div>
-    </>
-  );
+  if (role === "CONCIERGE") return <DashboardConcierge />;
+  if (role === "SUPER_ADMIN") return <DashboardSuper />;
+  return <DashboardUltra />;
 }
