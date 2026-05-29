@@ -16,6 +16,12 @@ export function SirexeLogo({
 
   return (
     <div className={`inline-flex flex-col items-center ${className}`}>
+      <span
+        className={`uppercase tracking-[0.3em] font-medium ${dark ? "text-cream/60" : "text-ink/50"}`}
+        style={{ fontSize: height * 0.22, marginBottom: height * -0.02 }}
+      >
+        aïko by
+      </span>
       <Image
         src="/assets/logo-sirexe.webp"
         alt="SIREXE"
@@ -25,12 +31,6 @@ export function SirexeLogo({
         style={{ height, width: "auto" }}
         priority
       />
-      <span
-        className={`uppercase tracking-[0.35em] font-medium ${dark ? "text-cream/60" : "text-ink/50"}`}
-        style={{ fontSize: height * 0.22, marginTop: height * -0.04 }}
-      >
-        aïko
-      </span>
     </div>
   );
 }

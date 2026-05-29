@@ -53,6 +53,7 @@ model Tarif {
 model Commande {
   id                String          @id @default(cuid())
   reference         String          @unique
+  typeReservation   String          @default("NORMALE")
   statut            String          @default("EN_ATTENTE")
   langue            String          @default("fr")
   prenom            String

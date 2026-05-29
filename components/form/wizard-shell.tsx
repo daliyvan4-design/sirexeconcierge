@@ -67,6 +67,7 @@ const defaultCart: CartState = {
 
 export function WizardShell() {
   const [step, setStep] = useState(1);
+  const [typeReservation, setTypeReservation] = useState<"NORMALE" | "INSTITUTIONNELLE">("NORMALE");
   const [traveler, setTraveler] = useState<TravelerData>(defaultTraveler);
   const [cart, setCart] = useState<CartState>(defaultCart);
   const [currency, setCurrency] = useState("XOF");
@@ -87,6 +88,8 @@ export function WizardShell() {
         <StepIdentity
           data={traveler}
           onChange={setTraveler}
+          typeReservation={typeReservation}
+          onTypeChange={setTypeReservation}
           onNext={() => setStep(2)}
         />
       )}

@@ -90,7 +90,7 @@ export default function LoginPage() {
         </form>
 
         <p className="text-center text-cream/30 text-[11px] mt-6">
-          AÏKO · Panel admin · 2026
+          AÏKO by SIREXE · Panel admin · 2026
         </p>
       </div>
     </div>

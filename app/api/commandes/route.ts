@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { voyageur, lignes, devise, langue } = parsed.data;
+  const { voyageur, lignes, devise, langue, typeReservation } = parsed.data;
 
   const arrivee = new Date(voyageur.dateArrivee);
   const depart = new Date(voyageur.dateDepart);
@@ -59,6 +59,7 @@ export async function POST(request: NextRequest) {
   const commande = await prisma.commande.create({
     data: {
       reference: generateReference(),
+      typeReservation: typeReservation || "NORMALE",
       langue,
       prenom: voyageur.prenom,
       nom: voyageur.nom,

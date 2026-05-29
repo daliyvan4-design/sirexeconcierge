@@ -28,6 +28,7 @@ export const commandeSchema = z.object({
   lignes: z.array(ligneSchema).min(1),
   devise: z.enum(["XOF", "EUR", "USD"]).default("XOF"),
   langue: z.enum(["fr", "en", "ar"]).default("fr"),
+  typeReservation: z.enum(["NORMALE", "INSTITUTIONNELLE"]).default("NORMALE"),
 });
 
 export type CommandeInput = z.infer<typeof commandeSchema>;

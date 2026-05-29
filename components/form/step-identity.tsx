@@ -8,6 +8,8 @@ import type { TravelerData } from "./wizard-shell";
 interface StepIdentityProps {
   data: TravelerData;
   onChange: (data: TravelerData) => void;
+  typeReservation: "NORMALE" | "INSTITUTIONNELLE";
+  onTypeChange: (t: "NORMALE" | "INSTITUTIONNELLE") => void;
   onNext: () => void;
 }
 
@@ -20,7 +22,7 @@ function update<K extends keyof TravelerData>(
   onChange({ ...data, [key]: value });
 }
 
-export function StepIdentity({ data, onChange, onNext }: StepIdentityProps) {
+export function StepIdentity({ data, onChange, typeReservation, onTypeChange, onNext }: StepIdentityProps) {
   const t = useTranslations("s2");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -80,6 +82,39 @@ export function StepIdentity({ data, onChange, onNext }: StepIdentityProps) {
             onSubmit={handleSubmit}
             className="grid md:grid-cols-2 gap-x-8 gap-y-6"
           >
+            {/* ── Type de réservation ── */}
+            <div className="md:col-span-2 mb-2">
+              <label className="block text-[12px] font-medium text-ink mb-3 uppercase tracking-wider">
+                Type de réservation
+              </label>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => onTypeChange("NORMALE")}
+                  className={`flex-1 rounded-xl border px-5 py-3.5 text-[14px] font-medium transition-all ${
+                    typeReservation === "NORMALE"
+                      ? "border-gold bg-gold/10 text-ink"
+                      : "border-line bg-white text-mute hover:border-gold/40"
+                  }`}
+                >
+                  <span className="block text-[15px]">Normale</span>
+                  <span className="block text-[11px] text-mute mt-0.5">Réservation standard</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onTypeChange("INSTITUTIONNELLE")}
+                  className={`flex-1 rounded-xl border px-5 py-3.5 text-[14px] font-medium transition-all ${
+                    typeReservation === "INSTITUTIONNELLE"
+                      ? "border-gold bg-gold/10 text-ink"
+                      : "border-line bg-white text-mute hover:border-gold/40"
+                  }`}
+                >
+                  <span className="block text-[15px]">Institutionnelle</span>
+                  <span className="block text-[11px] text-mute mt-0.5">VIP · Délégation d&apos;État</span>
+                </button>
+              </div>
+            </div>
+
             {/* ── Section 01 — Identité ── */}
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-1">
