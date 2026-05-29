@@ -72,8 +72,8 @@ export function Sidebar({ adminName, adminRole, userRole, pendingCount, open, on
           </span>
           <div>
             <div>
-              <p className="font-serif text-gold text-[16px] leading-tight tracking-[0.12em]">SIREXE</p>
-              <p className="text-[8px] uppercase tracking-[0.42em] text-gold/70 leading-none">conciergerie</p>
+              <p className="font-serif text-gold text-[20px] leading-tight tracking-[0.08em]">AÏKO</p>
+              <p className="text-[8px] uppercase tracking-[0.3em] text-gold/70 leading-none">concierge intelligente</p>
             </div>
             <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50">Panel admin</p>
           </div>

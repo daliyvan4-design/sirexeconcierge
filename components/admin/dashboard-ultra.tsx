@@ -3,21 +3,18 @@
 import { useEffect, useState } from "react";
 import { Topbar } from "@/components/admin/topbar";
 import { KpiCard } from "@/components/admin/kpi-card";
-import { ArrivalsChart } from "@/components/admin/arrivals-chart";
 import { BreakdownBars } from "@/components/admin/breakdown-bars";
 import { OrdersTable } from "@/components/admin/orders-table";
 import { fmt } from "@/lib/utils";
 
 export function DashboardUltra() {
   const [stats, setStats] = useState<any>(null);
-  const [arrivals, setArrivals] = useState<Record<string, number>>({});
   const [breakdown, setBreakdown] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
     fetch("/api/admin/stats").then((r) => r.json()).then(setStats);
-    fetch("/api/admin/stats/arrivals").then((r) => r.json()).then(setArrivals);
     fetch("/api/admin/stats/breakdown").then((r) => r.json()).then(setBreakdown);
   }, []);
 
@@ -71,14 +68,8 @@ export function DashboardUltra() {
           />
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-5 mb-8">
-          <div className="bg-white rounded-2xl border border-line p-5 lg:col-span-2 shadow-card">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-serif text-[18px] text-ink">Arrivées prévues — 14 prochains jours</h3>
-            </div>
-            <ArrivalsChart data={arrivals} />
-          </div>
-          <div className="bg-white rounded-2xl border border-line p-5 shadow-card">
+        <div className="mb-8">
+          <div className="bg-white rounded-2xl border border-line p-5 shadow-card max-w-md">
             <h3 className="font-serif text-[18px] text-ink mb-5">Répartition CA · ce mois</h3>
             <BreakdownBars data={breakdown} />
           </div>

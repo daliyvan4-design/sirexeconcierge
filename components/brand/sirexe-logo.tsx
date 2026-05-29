@@ -29,7 +29,7 @@ export function SirexeLogo({
         className={`uppercase tracking-[0.35em] font-medium ${dark ? "text-cream/60" : "text-ink/50"}`}
         style={{ fontSize: height * 0.22, marginTop: height * -0.04 }}
       >
-        conciergerie
+        aïko
       </span>
     </div>
   );
