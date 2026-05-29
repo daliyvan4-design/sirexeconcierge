@@ -80,8 +80,8 @@
   select:focus,
   textarea:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.18);
-    border-color: #c9a84c !important;
+    box-shadow: 0 0 0 3px rgba(232, 119, 34, 0.18);
+    border-color: #E87722 !important;
   }
 }
 

@@ -10,11 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#1A1A2E",
-        ink2: "#252540",
-        ink3: "#2D2D2D",
-        gold: "#C9A84C",
-        gold2: "#B89537",
+        ink: "#1A2E1A",
+        ink2: "#253D25",
+        ink3: "#2D3D2D",
+        gold: "#E87722",
+        gold2: "#D06A1A",
         cream: "#F8F7F4",
         cream2: "#EFEDE5",
         line: "#E5E2D8",
@@ -22,7 +22,7 @@ const config: Config = {
         ok: "#2E7D52",
         err: "#C0392B",
         mining: "#E87722",
-        oil: "#0F0F1C",
+        oil: "#0F1C0F",
         energy: "#2E7D52",
       },
       fontFamily: {
@@ -31,8 +31,8 @@ const config: Config = {
       },
       boxShadow: {
         card: "none",
-        float: "0 12px 36px -22px rgba(26,26,46,.22)",
-        inner1: "inset 0 0 0 1px rgba(26,26,46,.06)",
+        float: "0 12px 36px -22px rgba(26,46,26,.22)",
+        inner1: "inset 0 0 0 1px rgba(26,46,26,.06)",
       },
       keyframes: {
         fadeUp: {

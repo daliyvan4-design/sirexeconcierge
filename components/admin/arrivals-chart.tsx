@@ -34,7 +34,7 @@ export function ArrivalsChart({ data }: ArrivalsChartProps) {
               width="22"
               height={Math.max(h, 4)}
               rx="3"
-              fill={d.isSirexe ? "#C9A84C" : "#1A1A2E"}
+              fill={d.isSirexe ? "#E87722" : "#1A2E1A"}
             />
             <text
               x={x + 11}
@@ -42,7 +42,7 @@ export function ArrivalsChart({ data }: ArrivalsChartProps) {
               textAnchor="middle"
               fontSize="10"
               fontFamily="Inter"
-              fill={d.isSirexe ? "#C9A84C" : "#6B6B72"}
+              fill={d.isSirexe ? "#E87722" : "#6B6B72"}
               fontWeight={d.isSirexe ? "600" : "400"}
             >
               {d.isSirexe && d.label === "15" ? "SIREXE" : d.label}

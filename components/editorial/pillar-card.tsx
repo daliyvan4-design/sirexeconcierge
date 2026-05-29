@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 
 const COLORS: Record<string, string> = {
   mining: "#E87722",
-  oil: "#0F0F1C",
+  oil: "#0F1C0F",
   energy: "#2E7D52",
 };
 
