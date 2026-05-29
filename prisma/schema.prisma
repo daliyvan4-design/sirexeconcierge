@@ -11,6 +11,7 @@ enum Role {
   ULTRA_ADMIN
   SUPER_ADMIN
   CONCIERGE
+  AGENT_INSTITUTIONNEL
 }
 
 model Service {

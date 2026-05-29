@@ -313,6 +313,10 @@ async function main() {
     data: { email: "concierge2@sirexe.com", passwordHash: hash, nom: "Koné Ibrahim", role: "CONCIERGE" },
   });
 
+  await prisma.adminUser.create({
+    data: { email: "institutionnel@sirexe.com", passwordHash: hash, nom: "Ministre Coulibaly", role: "AGENT_INSTITUTIONNEL" },
+  });
+
   // ── Demo chauffeurs ──────────────────────────────────────────
 
   const chauffeurs = [
@@ -372,6 +376,34 @@ async function main() {
       },
     });
     createdOrders.push({ id: order.id, ref: o.ref });
+  }
+
+  // ── Institutional demo orders ──────────────────────────────────
+
+  const institutionalOrders = [
+    { ref: "SIREXE-26-GOV1", prenom: "S.E. Amadou", nom: "Gon Coulibaly", email: "cabinet@primature.ci", telephone: "+22520210000", nationalite: "🇨🇮 Ivoirienne", dateArrivee: "2026-03-11T10:00:00Z", dateDepart: "2026-03-17T18:00:00Z", nombrePersonnes: 8, montantTotal: 4200000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-GOV2", prenom: "Délégation", nom: "Min. Mines Sénégal", email: "delegation@mines.gouv.sn", telephone: "+221338234500", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T14:00:00Z", dateDepart: "2026-03-16T12:00:00Z", nombrePersonnes: 5, montantTotal: 2800000, statut: "EN_ATTENTE" },
+    { ref: "SIREXE-26-GOV3", prenom: "H.E. Nana", nom: "Akufo-Addo", email: "protocol@presidency.gov.gh", telephone: "+233302665421", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T09:00:00Z", dateDepart: "2026-03-15T20:00:00Z", nombrePersonnes: 12, montantTotal: 6500000, statut: "CONFIRMEE" },
+  ];
+
+  for (const o of institutionalOrders) {
+    await prisma.commande.create({
+      data: {
+        reference: o.ref,
+        typeReservation: "INSTITUTIONNELLE",
+        prenom: o.prenom,
+        nom: o.nom,
+        email: o.email,
+        telephone: o.telephone,
+        nationalite: o.nationalite,
+        dateArrivee: new Date(o.dateArrivee),
+        dateDepart: new Date(o.dateDepart),
+        nombrePersonnes: o.nombrePersonnes,
+        montantTotal: o.montantTotal,
+        statut: o.statut,
+        devise: "XOF",
+      },
+    });
   }
 
   // ── Assignments (round-robin demo) ─────────────────────────────

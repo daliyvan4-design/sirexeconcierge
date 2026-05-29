@@ -26,7 +26,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Tableau de bord", roles: ["ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE"] },
+  { href: "/dashboard", icon: LayoutDashboard, label: "Tableau de bord", roles: ["ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE", "AGENT_INSTITUTIONNEL"] },
   { href: "/briefing", icon: ClipboardCheck, label: "Briefing", roles: ["CONCIERGE"] },
   { href: "/commandes", icon: ClipboardList, label: "Commandes", badge: true, roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
   { href: "/tarifs", icon: Banknote, label: "Tarifs", roles: ["ULTRA_ADMIN"] },
@@ -76,7 +76,7 @@ export function Sidebar({ adminName, adminRole, userRole, pendingCount, open, on
               <p className="font-serif text-gold text-[18px] leading-tight tracking-[0.08em]">SIREXE</p>
             </div>
             <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50">
-              {userRole === "ULTRA_ADMIN" ? "Ultra Admin" : userRole === "SUPER_ADMIN" ? "Super Admin" : "Concierge"}
+              {userRole === "ULTRA_ADMIN" ? "Ultra Admin" : userRole === "SUPER_ADMIN" ? "Super Admin" : userRole === "AGENT_INSTITUTIONNEL" ? "Institutionnel" : "Concierge"}
             </p>
           </div>
         </div>
