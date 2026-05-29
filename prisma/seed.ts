@@ -25,11 +25,11 @@ async function main() {
       descEn: "Fast-track customs + porter + Pearl Lounge access",
       descAr: "تسريع الجمارك + حمّال + صالة بيرل لاونج",
       categorie: "transport",
-      prixBase: 75000,
+      prixBase: 37000,
       unite: "personne",
       icon: "plane",
       ordre: 1,
-      tarifs: { create: { label: "Accueil VIP aéroport", prix: 75000 } },
+      tarifs: { create: { label: "Accueil VIP aéroport", prix: 37000 } },
     },
   });
 
@@ -42,11 +42,11 @@ async function main() {
       descEn: "Mercedes E-Class or similar, bilingual FR/EN driver",
       descAr: "مرسيدس الفئة E أو ما يعادلها، سائق ثنائي اللغة فر/إنج",
       categorie: "transport",
-      prixBase: 120000,
+      prixBase: 59000,
       unite: "course",
       icon: "car",
       ordre: 2,
-      tarifs: { create: { label: "Berline 4h", prix: 120000 } },
+      tarifs: { create: { label: "Berline 4h", prix: 59000 } },
     },
   });
 
@@ -59,11 +59,11 @@ async function main() {
       descEn: "Toyota HiAce VIP, ideal for delegations of 4 to 7 people",
       descAr: "تويوتا هايس VIP، مثالي للوفود من 4 إلى 7 أشخاص",
       categorie: "transport",
-      prixBase: 180000,
+      prixBase: 88000,
       unite: "journée",
       icon: "bus",
       ordre: 3,
-      tarifs: { create: { label: "Van 7 places 8h", prix: 180000 } },
+      tarifs: { create: { label: "Van 7 places 8h", prix: 88000 } },
     },
   });
 
@@ -76,11 +76,11 @@ async function main() {
       descEn: "Escort vehicle + certified security agent",
       descAr: "مركبة مرافقة + عميل أمن معتمد",
       categorie: "transport",
-      prixBase: 95000,
+      prixBase: 66000,
       unite: "mission",
       icon: "shield",
       ordre: 4,
-      tarifs: { create: { label: "Escorte sécuritaire", prix: 95000 } },
+      tarifs: { create: { label: "Escorte sécuritaire", prix: 66000 } },
     },
   });
 
@@ -93,11 +93,11 @@ async function main() {
       descEn: "Helicopter transfer Abidjan – SIREXE zone, 4 passengers max",
       descAr: "نقل بالهليكوبتر أبيدجان – منطقة SIREXE، 4 ركاب كحد أقصى",
       categorie: "transport",
-      prixBase: 850000,
+      prixBase: 595000,
       unite: "vol",
       icon: "helicopter",
       ordre: 5,
-      tarifs: { create: { label: "Transfert hélicoptère", prix: 850000 } },
+      tarifs: { create: { label: "Transfert hélicoptère", prix: 595000 } },
     },
   });
 
@@ -112,14 +112,14 @@ async function main() {
       descEn: "Superior room, breakfast included, high-speed Wi-Fi",
       descAr: "غرفة سوبيريور، فطور مشمول، واي فاي عالي السرعة",
       categorie: "hebergement",
-      prixBase: 185000,
+      prixBase: 129000,
       unite: "nuit",
       icon: "hotel",
       etoiles: 5,
       quartier: "Plateau",
       badge: "Hôtel officiel",
       ordre: 1,
-      tarifs: { create: { label: "Pullman Plateau · nuit", prix: 185000 } },
+      tarifs: { create: { label: "Pullman Plateau · nuit", prix: 129000 } },
     },
   });
 
@@ -132,13 +132,13 @@ async function main() {
       descEn: "Junior Suite, lagoon view, pool and spa access",
       descAr: "جناح جونيور، إطلالة على البحيرة، دخول المسبح والسبا",
       categorie: "hebergement",
-      prixBase: 245000,
+      prixBase: 172000,
       unite: "nuit",
       icon: "hotel",
       etoiles: 5,
       quartier: "Cocody",
       ordre: 2,
-      tarifs: { create: { label: "Sofitel Hôtel Ivoire · nuit", prix: 245000 } },
+      tarifs: { create: { label: "Sofitel Hôtel Ivoire · nuit", prix: 172000 } },
     },
   });
 
@@ -151,13 +151,13 @@ async function main() {
       descEn: "Deluxe room, panoramic restaurant, business centre",
       descAr: "غرفة ديلوكس، مطعم بانورامي، مركز أعمال",
       categorie: "hebergement",
-      prixBase: 175000,
+      prixBase: 122000,
       unite: "nuit",
       icon: "hotel",
       etoiles: 5,
       quartier: "Plateau",
       ordre: 3,
-      tarifs: { create: { label: "Mövenpick Abidjan · nuit", prix: 175000 } },
+      tarifs: { create: { label: "Mövenpick Abidjan · nuit", prix: 122000 } },
     },
   });
 
@@ -170,14 +170,14 @@ async function main() {
       descEn: "Standard room, preferential SIREXE delegation rate",
       descAr: "غرفة قياسية، سعر تفضيلي لوفد SIREXE",
       categorie: "hebergement",
-      prixBase: 135000,
+      prixBase: 94000,
       unite: "nuit",
       icon: "hotel",
       etoiles: 4,
       quartier: "Plateau",
       badge: "Tarif délégation",
       ordre: 4,
-      tarifs: { create: { label: "Noom Hotel · nuit", prix: 135000 } },
+      tarifs: { create: { label: "Noom Hotel · nuit", prix: 94000 } },
     },
   });
 
@@ -192,11 +192,11 @@ async function main() {
       descEn: "International buffet, continental and local options",
       descAr: "بوفيه دولي، خيارات قارية ومحلية",
       categorie: "repas",
-      prixBase: 18000,
+      prixBase: 13000,
       unite: "pax",
       icon: "coffee",
       ordre: 1,
-      tarifs: { create: { label: "Petit-déjeuner buffet", prix: 18000 } },
+      tarifs: { create: { label: "Petit-déjeuner buffet", prix: 13000 } },
     },
   });
 
@@ -209,11 +209,11 @@ async function main() {
       descEn: "3-course menu, drinks included, private room available",
       descAr: "قائمة 3 أطباق، مشروبات مشمولة، غرفة خاصة متاحة",
       categorie: "repas",
-      prixBase: 32000,
+      prixBase: 22000,
       unite: "pax",
       icon: "utensils",
       ordre: 2,
-      tarifs: { create: { label: "Déjeuner d'affaires", prix: 32000 } },
+      tarifs: { create: { label: "Déjeuner d'affaires", prix: 22000 } },
     },
   });
 
@@ -226,11 +226,11 @@ async function main() {
       descEn: "5-course tasting menu, wine pairing, star chef",
       descAr: "قائمة تذوق 5 أطباق، مزج النبيذ، شيف حاصل على نجمة",
       categorie: "repas",
-      prixBase: 55000,
+      prixBase: 38000,
       unite: "pax",
       icon: "wine",
       ordre: 3,
-      tarifs: { create: { label: "Dîner gastronomique", prix: 55000 } },
+      tarifs: { create: { label: "Dîner gastronomique", prix: 38000 } },
     },
   });
 
@@ -260,25 +260,25 @@ async function main() {
       descEn: "Premium packed lunch, ideal for sessions",
       descAr: "وجبة غداء معلبة فاخرة، مثالية للجلسات",
       categorie: "repas",
-      prixBase: 14000,
+      prixBase: 10000,
       unite: "pax",
       icon: "sandwich",
       ordre: 5,
-      tarifs: { create: { label: "Boxed lunch SIREXE", prix: 14000 } },
+      tarifs: { create: { label: "Boxed lunch SIREXE", prix: 10000 } },
     },
   });
 
   // ── Extras (8) ─────────────────────────────────────────────────
 
   const extras = [
-    { nom: "SIM 4G + data 20 Go", nomEn: "4G SIM + 20 GB data", nomAr: "شريحة 4G + بيانات 20 جيجا", description: "Carte SIM prépayée Orange CI, 20 Go data + appels locaux", descEn: "Prepaid Orange CI SIM card, 20 GB data + local calls", descAr: "بطاقة SIM مسبقة الدفع أورانج CI، 20 جيجا بيانات + مكالمات محلية", prixBase: 15000, unite: "pièce", icon: "smartphone" },
-    { nom: "Service blanchisserie", nomEn: "Laundry service", nomAr: "خدمة الغسيل", description: "Pressing express livré à l'hôtel sous 24h", descEn: "Express dry cleaning delivered to hotel within 24h", descAr: "تنظيف جاف سريع يُسلَّم إلى الفندق خلال 24 ساعة", prixBase: 22000, unite: "lot", icon: "shirt" },
-    { nom: "Bouquet d'accueil", nomEn: "Welcome bouquet", nomAr: "باقة ترحيب", description: "Bouquet de fleurs tropicales + carte de bienvenue personnalisée", descEn: "Tropical flower bouquet + personalized welcome card", descAr: "باقة زهور استوائية + بطاقة ترحيب مخصصة", prixBase: 18000, unite: "pièce", icon: "flower" },
-    { nom: "Interprète FR↔AR · 4h", nomEn: "FR↔AR interpreter · 4h", nomAr: "مترجم فر↔عر · 4 ساعات", description: "Interprète certifié français-arabe, 4 heures minimum", descEn: "Certified French-Arabic interpreter, 4-hour minimum", descAr: "مترجم فرنسي-عربي معتمد، 4 ساعات كحد أدنى", prixBase: 90000, unite: "séance", icon: "languages" },
-    { nom: "Photographe événementiel", nomEn: "Event photographer", nomAr: "مصور فعاليات", description: "Photographe professionnel, 200 photos HD livrées sous 48h", descEn: "Professional photographer, 200 HD photos delivered within 48h", descAr: "مصور محترف، 200 صورة عالية الدقة تُسلَّم خلال 48 ساعة", prixBase: 120000, unite: "séance", icon: "camera" },
-    { nom: "Excursion Grand-Bassam", nomEn: "Grand-Bassam excursion", nomAr: "رحلة غران باسام", description: "Visite guidée de la ville historique UNESCO, transport inclus", descEn: "Guided tour of the UNESCO historic city, transport included", descAr: "جولة مع مرشد في المدينة التاريخية المدرجة في اليونسكو، النقل مشمول", prixBase: 65000, unite: "personne", icon: "palmtree" },
-    { nom: "Soirée gala SIREXE", nomEn: "SIREXE gala evening", nomAr: "أمسية غالا SIREXE", description: "Invitation soirée de gala officielle SIREXE, tenue de soirée", descEn: "Official SIREXE gala evening invitation, formal attire", descAr: "دعوة لأمسية غالا SIREXE الرسمية، لباس رسمي", prixBase: 80000, unite: "personne", icon: "ticket" },
-    { nom: "Visa Express · 48h", nomEn: "Express Visa · 48h", nomAr: "تأشيرة سريعة · 48 ساعة", description: "Assistance visa accéléré, traitement en 48h garanti", descEn: "Expedited visa assistance, guaranteed 48h processing", descAr: "مساعدة تأشيرة سريعة، معالجة مضمونة خلال 48 ساعة", prixBase: 45000, unite: "personne", icon: "shield-check" },
+    { nom: "SIM 4G + data 20 Go", nomEn: "4G SIM + 20 GB data", nomAr: "شريحة 4G + بيانات 20 جيجا", description: "Carte SIM prépayée Orange CI, 20 Go data + appels locaux", descEn: "Prepaid Orange CI SIM card, 20 GB data + local calls", descAr: "بطاقة SIM مسبقة الدفع أورانج CI، 20 جيجا بيانات + مكالمات محلية", prixBase: 10000, unite: "pièce", icon: "smartphone" },
+    { nom: "Service blanchisserie", nomEn: "Laundry service", nomAr: "خدمة الغسيل", description: "Pressing express livré à l'hôtel sous 24h", descEn: "Express dry cleaning delivered to hotel within 24h", descAr: "تنظيف جاف سريع يُسلَّم إلى الفندق خلال 24 ساعة", prixBase: 15000, unite: "lot", icon: "shirt" },
+    { nom: "Bouquet d'accueil", nomEn: "Welcome bouquet", nomAr: "باقة ترحيب", description: "Bouquet de fleurs tropicales + carte de bienvenue personnalisée", descEn: "Tropical flower bouquet + personalized welcome card", descAr: "باقة زهور استوائية + بطاقة ترحيب مخصصة", prixBase: 13000, unite: "pièce", icon: "flower" },
+    { nom: "Interprète FR↔AR · 4h", nomEn: "FR↔AR interpreter · 4h", nomAr: "مترجم فر↔عر · 4 ساعات", description: "Interprète certifié français-arabe, 4 heures minimum", descEn: "Certified French-Arabic interpreter, 4-hour minimum", descAr: "مترجم فرنسي-عربي معتمد، 4 ساعات كحد أدنى", prixBase: 63000, unite: "séance", icon: "languages" },
+    { nom: "Photographe événementiel", nomEn: "Event photographer", nomAr: "مصور فعاليات", description: "Photographe professionnel, 200 photos HD livrées sous 48h", descEn: "Professional photographer, 200 HD photos delivered within 48h", descAr: "مصور محترف، 200 صورة عالية الدقة تُسلَّم خلال 48 ساعة", prixBase: 59000, unite: "séance", icon: "camera" },
+    { nom: "Excursion Grand-Bassam", nomEn: "Grand-Bassam excursion", nomAr: "رحلة غران باسام", description: "Visite guidée de la ville historique UNESCO, transport inclus", descEn: "Guided tour of the UNESCO historic city, transport included", descAr: "جولة مع مرشد في المدينة التاريخية المدرجة في اليونسكو، النقل مشمول", prixBase: 46000, unite: "personne", icon: "palmtree" },
+    { nom: "Soirée gala SIREXE", nomEn: "SIREXE gala evening", nomAr: "أمسية غالا SIREXE", description: "Invitation soirée de gala officielle SIREXE, tenue de soirée", descEn: "Official SIREXE gala evening invitation, formal attire", descAr: "دعوة لأمسية غالا SIREXE الرسمية، لباس رسمي", prixBase: 56000, unite: "personne", icon: "ticket" },
+    { nom: "Visa Express · 48h", nomEn: "Express Visa · 48h", nomAr: "تأشيرة سريعة · 48 ساعة", description: "Assistance visa accéléré, traitement en 48h garanti", descEn: "Expedited visa assistance, guaranteed 48h processing", descAr: "مساعدة تأشيرة سريعة، معالجة مضمونة خلال 48 ساعة", prixBase: 31000, unite: "personne", icon: "shield-check" },
   ];
 
   for (let i = 0; i < extras.length; i++) {
@@ -330,14 +330,14 @@ async function main() {
   const allServices = await prisma.service.findMany({ include: { tarifs: true } });
 
   const demoOrders = [
-    { ref: "SIREXE-26-A8F2", prenom: "Amadou", nom: "Diallo", email: "amadou.diallo@sonangaz.com", telephone: "+221771234567", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T23:40:00Z", dateDepart: "2026-03-16T08:00:00Z", nombrePersonnes: 2, compagnie: "Air France", numeroVol: "AF 528", heureArrivee: "23:40", montantTotal: 1245000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-B102", prenom: "Sarah", nom: "Mensah", email: "sarah.mensah@ghanamining.gh", telephone: "+233201234567", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T08:15:00Z", dateDepart: "2026-03-17T10:00:00Z", nombrePersonnes: 1, compagnie: "ASKY", numeroVol: "KP 022", heureArrivee: "08:15", montantTotal: 880000, statut: "EN_ATTENTE" },
-    { ref: "SIREXE-26-C937", prenom: "Khalid", nom: "Al-Faisal", email: "k.alfaisal@adnoc.ae", telephone: "+971501234567", nationalite: "🇦🇪 Émiratie", dateArrivee: "2026-03-13T14:30:00Z", dateDepart: "2026-03-18T16:00:00Z", nombrePersonnes: 3, compagnie: "Emirates", numeroVol: "EK 787", heureArrivee: "14:30", montantTotal: 2480000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-D451", prenom: "Jean", nom: "Dupont", email: "j.dupont@totalenergies.fr", telephone: "+33612345678", nationalite: "🇫🇷 Française", dateArrivee: "2026-03-14T06:55:00Z", dateDepart: "2026-03-16T18:00:00Z", nombrePersonnes: 1, compagnie: "Air France", numeroVol: "AF 530", heureArrivee: "06:55", montantTotal: 425000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-E284", prenom: "Fatima", nom: "Bensalah", email: "f.bensalah@ocp.ma", telephone: "+212661234567", nationalite: "🇲🇦 Marocaine", dateArrivee: "2026-03-14T11:20:00Z", dateDepart: "2026-03-17T09:00:00Z", nombrePersonnes: 2, compagnie: "Royal Air Maroc", numeroVol: "AT 552", heureArrivee: "11:20", montantTotal: 1080000, statut: "EN_ATTENTE" },
-    { ref: "SIREXE-26-F673", prenom: "Tunde", nom: "Olatunji", email: "t.olatunji@nnpc.ng", telephone: "+2348012345678", nationalite: "🇳🇬 Nigériane", dateArrivee: "2026-03-14T19:45:00Z", dateDepart: "2026-03-18T12:00:00Z", nombrePersonnes: 2, compagnie: "Arik Air", numeroVol: "W3 101", heureArrivee: "19:45", montantTotal: 1620000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-G129", prenom: "Mary", nom: "Johnson", email: "m.johnson@bp.co.uk", telephone: "+447911234567", nationalite: "🇬🇧 Britannique", dateArrivee: "2026-03-15T09:10:00Z", dateDepart: "2026-03-17T14:00:00Z", nombrePersonnes: 1, compagnie: "British Airways", numeroVol: "BA 079", heureArrivee: "09:10", montantTotal: 760000, statut: "ANNULEE" },
-    { ref: "SIREXE-26-H805", prenom: "Omar", nom: "Sissoko", email: "o.sissoko@somilo.ml", telephone: "+22376123456", nationalite: "🇲🇱 Malienne", dateArrivee: "2026-03-15T15:35:00Z", dateDepart: "2026-03-19T08:00:00Z", nombrePersonnes: 4, compagnie: "ASKY", numeroVol: "KP 045", heureArrivee: "15:35", montantTotal: 1985000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-A8F2", prenom: "Amadou", nom: "Diallo", email: "amadou.diallo@sonangaz.com", telephone: "+221771234567", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T23:40:00Z", dateDepart: "2026-03-16T08:00:00Z", nombrePersonnes: 2, compagnie: "Air France", numeroVol: "AF 528", heureArrivee: "23:40", montantTotal: 872000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-B102", prenom: "Sarah", nom: "Mensah", email: "sarah.mensah@ghanamining.gh", telephone: "+233201234567", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T08:15:00Z", dateDepart: "2026-03-17T10:00:00Z", nombrePersonnes: 1, compagnie: "ASKY", numeroVol: "KP 022", heureArrivee: "08:15", montantTotal: 616000, statut: "EN_ATTENTE" },
+    { ref: "SIREXE-26-C937", prenom: "Khalid", nom: "Al-Faisal", email: "k.alfaisal@adnoc.ae", telephone: "+971501234567", nationalite: "🇦🇪 Émiratie", dateArrivee: "2026-03-13T14:30:00Z", dateDepart: "2026-03-18T16:00:00Z", nombrePersonnes: 3, compagnie: "Emirates", numeroVol: "EK 787", heureArrivee: "14:30", montantTotal: 1736000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-D451", prenom: "Jean", nom: "Dupont", email: "j.dupont@totalenergies.fr", telephone: "+33612345678", nationalite: "🇫🇷 Française", dateArrivee: "2026-03-14T06:55:00Z", dateDepart: "2026-03-16T18:00:00Z", nombrePersonnes: 1, compagnie: "Air France", numeroVol: "AF 530", heureArrivee: "06:55", montantTotal: 298000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-E284", prenom: "Fatima", nom: "Bensalah", email: "f.bensalah@ocp.ma", telephone: "+212661234567", nationalite: "🇲🇦 Marocaine", dateArrivee: "2026-03-14T11:20:00Z", dateDepart: "2026-03-17T09:00:00Z", nombrePersonnes: 2, compagnie: "Royal Air Maroc", numeroVol: "AT 552", heureArrivee: "11:20", montantTotal: 756000, statut: "EN_ATTENTE" },
+    { ref: "SIREXE-26-F673", prenom: "Tunde", nom: "Olatunji", email: "t.olatunji@nnpc.ng", telephone: "+2348012345678", nationalite: "🇳🇬 Nigériane", dateArrivee: "2026-03-14T19:45:00Z", dateDepart: "2026-03-18T12:00:00Z", nombrePersonnes: 2, compagnie: "Arik Air", numeroVol: "W3 101", heureArrivee: "19:45", montantTotal: 1134000, statut: "CONFIRMEE" },
+    { ref: "SIREXE-26-G129", prenom: "Mary", nom: "Johnson", email: "m.johnson@bp.co.uk", telephone: "+447911234567", nationalite: "🇬🇧 Britannique", dateArrivee: "2026-03-15T09:10:00Z", dateDepart: "2026-03-17T14:00:00Z", nombrePersonnes: 1, compagnie: "British Airways", numeroVol: "BA 079", heureArrivee: "09:10", montantTotal: 532000, statut: "ANNULEE" },
+    { ref: "SIREXE-26-H805", prenom: "Omar", nom: "Sissoko", email: "o.sissoko@somilo.ml", telephone: "+22376123456", nationalite: "🇲🇱 Malienne", dateArrivee: "2026-03-15T15:35:00Z", dateDepart: "2026-03-19T08:00:00Z", nombrePersonnes: 4, compagnie: "ASKY", numeroVol: "KP 045", heureArrivee: "15:35", montantTotal: 1390000, statut: "CONFIRMEE" },
   ];
 
   const createdOrders: Array<{ id: string; ref: string }> = [];
