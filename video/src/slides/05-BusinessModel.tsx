@@ -6,10 +6,10 @@ import { GoldLine } from "../components/GoldLine";
 import { COLORS, FONTS } from "../theme";
 
 const REVENUE_STREAMS = [
-  { source: "Commission transport", rate: "18–22%", volume: "Sur chaque trajet réservé" },
-  { source: "Commission hébergement", rate: "12–15%", volume: "Nuitées partenaires" },
-  { source: "Commission restauration", rate: "10–15%", volume: "Réservations restaurant" },
-  { source: "Packages VIP", rate: "Marge 40%+", volume: "Services sur-mesure premium" },
+  { source: "Transport", volume: "Sur chaque trajet réservé" },
+  { source: "Hébergement", volume: "Nuitées partenaires" },
+  { source: "Restauration", volume: "Réservations restaurant" },
+  { source: "Packages VIP", volume: "Services sur-mesure premium" },
 ];
 
 export const BusinessModelSlide: React.FC = () => {
@@ -35,7 +35,7 @@ export const BusinessModelSlide: React.FC = () => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "2fr 1fr 2fr",
+              gridTemplateColumns: "1fr 2fr",
               padding: "14px 28px",
               fontSize: 12,
               letterSpacing: 3,
@@ -45,8 +45,7 @@ export const BusinessModelSlide: React.FC = () => {
             }}
           >
             <span>Source</span>
-            <span>Taux</span>
-            <span>Volume</span>
+            <span>Détail</span>
           </div>
         </AnimatedText>
 
@@ -55,14 +54,13 @@ export const BusinessModelSlide: React.FC = () => {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "2fr 1fr 2fr",
+                gridTemplateColumns: "1fr 2fr",
                 padding: "20px 28px",
                 borderBottom: `1px solid ${COLORS.ink2}`,
                 alignItems: "center",
               }}
             >
               <span style={{ fontSize: 19, color: COLORS.cream, fontWeight: 500 }}>{r.source}</span>
-              <span style={{ fontSize: 24, color: COLORS.gold, fontWeight: 700, fontFamily: FONTS.serif }}>{r.rate}</span>
               <span style={{ fontSize: 15, color: COLORS.mute }}>{r.volume}</span>
             </div>
           </AnimatedText>
@@ -77,15 +75,6 @@ export const BusinessModelSlide: React.FC = () => {
             </div>
             <div style={{ fontSize: 42, color: COLORS.gold, fontFamily: FONTS.serif, fontWeight: 700 }}>€1,5M</div>
             <div style={{ fontSize: 15, color: COLORS.mute, marginTop: 4 }}>de CA sur SIREXE 2026</div>
-          </div>
-        </AnimatedText>
-        <AnimatedText delay={80}>
-          <div style={{ backgroundColor: COLORS.ink2, borderRadius: 20, padding: "28px 36px", border: `1px solid ${COLORS.ok}20`, flex: 1 }}>
-            <div style={{ fontSize: 14, color: COLORS.mute, textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>
-              Marge nette cible
-            </div>
-            <div style={{ fontSize: 42, color: COLORS.ok, fontFamily: FONTS.serif, fontWeight: 700 }}>28%</div>
-            <div style={{ fontSize: 15, color: COLORS.mute, marginTop: 4 }}>Modèle asset-light</div>
           </div>
         </AnimatedText>
       </div>
