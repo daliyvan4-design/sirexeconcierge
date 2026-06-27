@@ -60,7 +60,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@sirexe.com"
+                placeholder="admin@aiko.com"
                 required
                 className="w-full bg-ink border border-cream/10 rounded-xl px-4 py-3 text-[13px] text-cream placeholder:text-cream/30 focus:border-gold focus:ring-1 focus:ring-gold/30"
               />
@@ -90,7 +90,7 @@ export default function LoginPage() {
         </form>
 
         <p className="text-center text-cream/30 text-[11px] mt-6">
-          AÏKO by SIREXE · Panel admin · 2026
+          AÏKO · Panel admin · 2026
         </p>
       </div>
     </div>

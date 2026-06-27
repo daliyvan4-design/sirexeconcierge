@@ -1,9 +1,9 @@
 import { useTranslations } from "next-intl";
 
 const COLORS: Record<string, string> = {
-  mining: "#E87722",
-  oil: "#0F1C0F",
-  energy: "#2E7D52",
+  mining: "#C8A951",
+  oil: "#0A0A0A",
+  energy: "#C8A951",
 };
 
 const ICONS: Record<string, React.ReactNode> = {

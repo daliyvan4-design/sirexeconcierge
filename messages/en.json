@@ -18,7 +18,7 @@
     "admin_open": "Open admin panel ↗"
   },
   "tagline": "Your stay, orchestrated with care",
-  "eyebrow": "Official concierge · SIREXE 2026",
+  "eyebrow": "Intelligent concierge · 2026",
   "h1": "Plan your <highlight>arrival service</highlight> in Abidjan.",
   "lead": "Private transport, curated accommodation, dining and exclusive services — coordinated by a dedicated local team, from the airport to the exhibition hall.",
   "cta_start": "Start my booking",
@@ -34,7 +34,7 @@
       "coord": "05°19′ N",
       "arrivals": "Upcoming arrivals · 24 h",
       "realtime": "Live",
-      "event": "SIREXE · 2026",
+      "event": "AÏKO · 2026",
       "dates": "11 → 17 March"
     },
     "trust": {
@@ -132,7 +132,7 @@
       "extras": "Extras"
     },
     "sec": {
-      "transport": "Transport · SIREXE negotiated rates",
+      "transport": "Transport · AÏKO negotiated rates",
       "hotel": "Accommodation · 4★ – 5★ selection",
       "meals": "Dining · Partner restaurants",
       "extras": "Extras · Exclusive services"
@@ -193,7 +193,7 @@
       "desc": "Across all services"
     },
     "m5": {
-      "name": "SIREXE boxed lunch",
+      "name": "AÏKO boxed lunch",
       "desc": "Served at the pavilion · 12 — 2 pm"
     },
     "x1": "4G SIM + 20 GB data",
@@ -202,7 +202,7 @@
     "x4": "FR↔AR interpreter · 4h",
     "x5": "Event photographer",
     "x6": "Grand-Bassam excursion",
-    "x7": "SIREXE gala evening",
+    "x7": "Gala evening",
     "x8": "Visa Express · 48h"
   },
   "s4": {
@@ -284,7 +284,7 @@
     "modify": "Need to change your booking? Our team is available <strong>24/7</strong> until you arrive."
   },
   "sv": {
-    "eye": "Services · SIREXE 2026 edition",
+    "eye": "Services · 2026 edition",
     "k": "Catalogue",
     "h": "The art of hospitality, <highlight>to the letter</highlight>.",
     "lead": "Four bespoke service categories, negotiated by our local team with selected partners. Fixed pricing throughout the event.",
@@ -303,7 +303,7 @@
     },
     "t3": {
       "h": "Dining",
-      "d": "Halal menus available across all services. Abidjan's gourmet tables booked for you, boxed lunches delivered to the SIREXE pavilion.",
+      "d": "Halal menus available across all services. Abidjan's gourmet tables booked for you, boxed lunches delivered to the pavilion.",
       "price": "14,000 — 55,000 XOF / pax"
     },
     "t4": {
@@ -371,7 +371,7 @@
       "date": "15",
       "date_s": "Mar",
       "lbl": "Evening",
-      "h": "Gala & SIREXE awards",
+      "h": "Gala & awards ceremony",
       "d": "Recognition of the year's mining, energy and oil projects."
     },
     "day4": {
@@ -388,7 +388,7 @@
     },
     "conc": {
       "lbl": "Official concierge",
-      "h": "SIREXE Concierge supports international delegations from 11 to 17 March 2026.",
+      "h": "AÏKO supports international delegations from 11 to 17 March 2026.",
       "cta": "Book my arrival"
     }
   },
@@ -417,7 +417,7 @@
     "ch3": {
       "k": "Formal requests",
       "h": "Email",
-      "num": "concierge@sirexe-ci.com",
+      "num": "concierge@aiko-ci.com",
       "s": "Delegation, quotes, billing",
       "cta": "Send a message"
     },
@@ -425,7 +425,7 @@
       "k": "Emergency line",
       "h": "For any unexpected need during your stay in Abidjan.",
       "d": "Lost documents, flight delay, medical need, change of itinerary — a senior concierge is reachable in under 90 seconds.",
-      "num": "+225 07 SOS SIREXE",
+      "num": "+225 07 SOS AÏKO",
       "sub": "Dedicated line · delegations",
       "sub2": "07 767 747 393 · 24/7"
     },

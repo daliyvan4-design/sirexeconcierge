@@ -19,7 +19,7 @@ import { fmt } from "@/lib/utils";
 
 function genRef(): string {
   const hex = Math.random().toString(16).slice(2, 6).toUpperCase();
-  return `SRX-26-${hex}`;
+  return `AIKO-26-${hex}`;
 }
 
 interface LineItem {
@@ -99,7 +99,7 @@ interface StepRecapProps {
   currency: string;
   setCurrency: (c: string) => void;
   onBack: () => void;
-  onSubmit: () => void;
+  onSubmit: (ref: string) => void;
 }
 
 /* ---------- component ---------- */
@@ -533,6 +533,15 @@ export function StepRecap({
                 })}
               </span>
             </label>
+
+            {/* Confirm button (demo) */}
+            <button
+              onClick={() => onSubmit(ref)}
+              disabled={!cgvChecked}
+              className="w-full mt-5 inline-flex items-center justify-center gap-3 bg-gold hover:bg-gold2 text-ink rounded-full px-6 py-4 text-[15px] font-semibold btn-press disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Confirmer & obtenir mon badge
+            </button>
 
             {/* Security badges */}
             <div className="hr my-5" />

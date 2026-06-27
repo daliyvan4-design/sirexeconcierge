@@ -37,7 +37,7 @@
   }
   .hr {
     height: 1px;
-    background: rgba(26, 26, 46, 0.07);
+    background: rgba(10, 10, 10, 0.07);
   }
   .dot {
     @apply inline-block rounded-full;
@@ -80,8 +80,8 @@
   select:focus,
   textarea:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(232, 119, 34, 0.18);
-    border-color: #E87722 !important;
+    box-shadow: 0 0 0 3px rgba(200, 169, 81, 0.25);
+    border-color: #C8A951 !important;
   }
 }
 
@@ -93,7 +93,7 @@
     @apply transition-colors duration-200;
   }
   .card-hover:hover {
-    border-color: rgba(26, 26, 46, 0.18);
+    border-color: rgba(10, 10, 10, 0.18);
   }
 }
 
@@ -102,7 +102,7 @@
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(26, 26, 46, 0.18);
+  background: rgba(10, 10, 10, 0.18);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-track {

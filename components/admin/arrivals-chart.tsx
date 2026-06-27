@@ -21,7 +21,7 @@ export function ArrivalsChart({ data }: ArrivalsChartProps) {
 
   return (
     <svg viewBox="0 0 600 180" className="w-full h-44">
-      <line x1="0" x2="600" y1="160" y2="160" stroke="#E5E2D8" />
+      <line x1="0" x2="600" y1="160" y2="160" stroke="#E5E5E5" />
       {days.map((d, i) => {
         const x = 10 + i * 42;
         const h = (d.count / maxCount) * 140;
@@ -34,7 +34,7 @@ export function ArrivalsChart({ data }: ArrivalsChartProps) {
               width="22"
               height={Math.max(h, 4)}
               rx="3"
-              fill={d.isSirexe ? "#E87722" : "#1A2E1A"}
+              fill={d.isSirexe ? "#C8A951" : "#0A0A0A"}
             />
             <text
               x={x + 11}
@@ -42,10 +42,10 @@ export function ArrivalsChart({ data }: ArrivalsChartProps) {
               textAnchor="middle"
               fontSize="10"
               fontFamily="Inter"
-              fill={d.isSirexe ? "#E87722" : "#6B6B72"}
+              fill={d.isSirexe ? "#C8A951" : "#888888"}
               fontWeight={d.isSirexe ? "600" : "400"}
             >
-              {d.isSirexe && d.label === "15" ? "SIREXE" : d.label}
+              {d.label}
             </text>
           </g>
         );

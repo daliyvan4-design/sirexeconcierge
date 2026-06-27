@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { StepIdentity } from "./step-identity";
 import { StepServices } from "./step-services";
 import { StepRecap } from "./step-recap";
+import { StepConfirmation } from "./step-confirmation";
 
 export interface TravelerData {
   prenom: string;
@@ -71,6 +72,7 @@ export function WizardShell() {
   const [traveler, setTraveler] = useState<TravelerData>(defaultTraveler);
   const [cart, setCart] = useState<CartState>(defaultCart);
   const [currency, setCurrency] = useState("XOF");
+  const [bookingRef, setBookingRef] = useState("");
 
   const computedNights = useMemo(() => {
     if (traveler.dateArrivee && traveler.dateDepart) {
@@ -110,7 +112,17 @@ export function WizardShell() {
           currency={currency}
           setCurrency={setCurrency}
           onBack={() => setStep(2)}
-          onSubmit={() => {}}
+          onSubmit={(ref: string) => {
+            setBookingRef(ref);
+            setStep(4);
+          }}
+        />
+      )}
+      {step === 4 && (
+        <StepConfirmation
+          reference={bookingRef}
+          traveler={traveler}
+          typeReservation={typeReservation}
         />
       )}
     </div>

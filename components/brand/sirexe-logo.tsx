@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 interface SirexeLogoProps {
   dark?: boolean;
   className?: string;
@@ -11,26 +9,20 @@ export function SirexeLogo({
   height = 44,
   className = "",
 }: SirexeLogoProps) {
-  const imgHeight = height;
-  const imgWidth = Math.round(imgHeight * (2821 / 720));
-
   return (
     <div className={`inline-flex flex-col items-center ${className}`}>
       <span
-        className={`uppercase tracking-[0.3em] font-medium ${dark ? "text-cream/60" : "text-ink/50"}`}
-        style={{ fontSize: height * 0.22, marginBottom: height * -0.02 }}
+        className={`font-serif font-bold tracking-[0.08em] ${dark ? "text-gold" : "text-ink"}`}
+        style={{ fontSize: height * 0.7, lineHeight: 1 }}
       >
-        aïko by
+        AÏKO
       </span>
-      <Image
-        src="/assets/logo-sirexe.webp"
-        alt="SIREXE"
-        width={imgWidth}
-        height={imgHeight}
-        className={`object-contain ${dark ? "brightness-0 invert" : ""}`}
-        style={{ height, width: "auto" }}
-        priority
-      />
+      <span
+        className={`uppercase tracking-[0.3em] font-medium ${dark ? "text-cream/50" : "text-mute"}`}
+        style={{ fontSize: height * 0.18 }}
+      >
+        concierge
+      </span>
     </div>
   );
 }

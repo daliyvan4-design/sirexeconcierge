@@ -20,7 +20,7 @@ export default function SalonPage() {
                 <span>{t("eye")}</span>
               </div>
               <h1 className="font-serif text-[52px] sm:text-[72px] lg:text-[96px] leading-[0.98] text-cream tracking-tight">
-                SIREXE<br />
+                Salon<br />
                 <span className="text-gold">2026</span>
               </h1>
               <p className="font-serif italic text-[20px] text-cream/70 mt-6 max-w-xl">

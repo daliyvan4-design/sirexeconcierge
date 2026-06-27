@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
   return new NextResponse(header + rows, {
     headers: {
       "Content-Type": "text/csv",
-      "Content-Disposition": `attachment; filename=commandes-sirexe-${new Date().toISOString().split("T")[0]}.csv`,
+      "Content-Disposition": `attachment; filename=commandes-aiko-${new Date().toISOString().split("T")[0]}.csv`,
     },
   });
 }

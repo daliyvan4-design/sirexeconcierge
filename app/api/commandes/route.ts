@@ -4,7 +4,7 @@ import { commandeSchema } from "@/lib/validation";
 
 function generateReference(): string {
   const hex = Math.random().toString(16).substring(2, 6).toUpperCase();
-  return `SIREXE-26-${hex}`;
+  return `AIKO-26-${hex}`;
 }
 
 export async function POST(request: NextRequest) {

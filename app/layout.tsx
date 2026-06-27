@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "AÏKO — Accueil Intelligent · Knowledge · Orientation",
   description:
-    "AÏKO — Votre concierge intelligente pour le salon SIREXE 2026 à Abidjan. Transport, hébergement, restauration et services premium.",
+    "AÏKO — Votre concierge intelligente pour le salon 2026 à Abidjan. Transport, hébergement, restauration et services premium.",
 };
 
 export default function RootLayout({

@@ -89,9 +89,9 @@ async function main() {
       nom: "Transfert hélicoptère",
       nomEn: "Helicopter transfer",
       nomAr: "نقل بالهليكوبتر",
-      description: "Transfert héliporté Abidjan – zone SIREXE, 4 passagers max",
-      descEn: "Helicopter transfer Abidjan – SIREXE zone, 4 passengers max",
-      descAr: "نقل بالهليكوبتر أبيدجان – منطقة SIREXE، 4 ركاب كحد أقصى",
+      description: "Transfert héliporté Abidjan – zone salon, 4 passagers max",
+      descEn: "Helicopter transfer Abidjan – event zone, 4 passengers max",
+      descAr: "نقل بالهليكوبتر أبيدجان – منطقة المعرض، 4 ركاب كحد أقصى",
       categorie: "transport",
       prixBase: 595000,
       unite: "vol",
@@ -166,9 +166,9 @@ async function main() {
       nom: "Noom Hotel",
       nomEn: "Noom Hotel",
       nomAr: "فندق نوم",
-      description: "Chambre Standard, tarif préférentiel délégation SIREXE",
-      descEn: "Standard room, preferential SIREXE delegation rate",
-      descAr: "غرفة قياسية، سعر تفضيلي لوفد SIREXE",
+      description: "Chambre Standard, tarif préférentiel délégation",
+      descEn: "Standard room, preferential delegation rate",
+      descAr: "غرفة قياسية، سعر تفضيلي لوفد",
       categorie: "hebergement",
       prixBase: 94000,
       unite: "nuit",
@@ -253,9 +253,9 @@ async function main() {
 
   await prisma.service.create({
     data: {
-      nom: "Boxed lunch SIREXE",
-      nomEn: "SIREXE boxed lunch",
-      nomAr: "غداء معلب SIREXE",
+      nom: "Boxed lunch AÏKO",
+      nomEn: "AÏKO boxed lunch",
+      nomAr: "غداء معلب AÏKO",
       description: "Panier repas premium à emporter, idéal pour les sessions",
       descEn: "Premium packed lunch, ideal for sessions",
       descAr: "وجبة غداء معلبة فاخرة، مثالية للجلسات",
@@ -264,7 +264,7 @@ async function main() {
       unite: "pax",
       icon: "sandwich",
       ordre: 5,
-      tarifs: { create: { label: "Boxed lunch SIREXE", prix: 10000 } },
+      tarifs: { create: { label: "Boxed lunch AÏKO", prix: 10000 } },
     },
   });
 
@@ -277,7 +277,7 @@ async function main() {
     { nom: "Interprète FR↔AR · 4h", nomEn: "FR↔AR interpreter · 4h", nomAr: "مترجم فر↔عر · 4 ساعات", description: "Interprète certifié français-arabe, 4 heures minimum", descEn: "Certified French-Arabic interpreter, 4-hour minimum", descAr: "مترجم فرنسي-عربي معتمد، 4 ساعات كحد أدنى", prixBase: 63000, unite: "séance", icon: "languages" },
     { nom: "Photographe événementiel", nomEn: "Event photographer", nomAr: "مصور فعاليات", description: "Photographe professionnel, 200 photos HD livrées sous 48h", descEn: "Professional photographer, 200 HD photos delivered within 48h", descAr: "مصور محترف، 200 صورة عالية الدقة تُسلَّم خلال 48 ساعة", prixBase: 59000, unite: "séance", icon: "camera" },
     { nom: "Excursion Grand-Bassam", nomEn: "Grand-Bassam excursion", nomAr: "رحلة غران باسام", description: "Visite guidée de la ville historique UNESCO, transport inclus", descEn: "Guided tour of the UNESCO historic city, transport included", descAr: "جولة مع مرشد في المدينة التاريخية المدرجة في اليونسكو، النقل مشمول", prixBase: 46000, unite: "personne", icon: "palmtree" },
-    { nom: "Soirée gala SIREXE", nomEn: "SIREXE gala evening", nomAr: "أمسية غالا SIREXE", description: "Invitation soirée de gala officielle SIREXE, tenue de soirée", descEn: "Official SIREXE gala evening invitation, formal attire", descAr: "دعوة لأمسية غالا SIREXE الرسمية، لباس رسمي", prixBase: 56000, unite: "personne", icon: "ticket" },
+    { nom: "Soirée gala", nomEn: "Gala evening", nomAr: "أمسية غالا", description: "Invitation soirée de gala officielle, tenue de soirée", descEn: "Official Gala evening invitation, formal attire", descAr: "دعوة لأمسية غالا الرسمية، لباس رسمي", prixBase: 56000, unite: "personne", icon: "ticket" },
     { nom: "Visa Express · 48h", nomEn: "Express Visa · 48h", nomAr: "تأشيرة سريعة · 48 ساعة", description: "Assistance visa accéléré, traitement en 48h garanti", descEn: "Expedited visa assistance, guaranteed 48h processing", descAr: "مساعدة تأشيرة سريعة، معالجة مضمونة خلال 48 ساعة", prixBase: 31000, unite: "personne", icon: "shield-check" },
   ];
 
@@ -334,14 +334,14 @@ async function main() {
   const allServices = await prisma.service.findMany({ include: { tarifs: true } });
 
   const demoOrders = [
-    { ref: "SIREXE-26-A8F2", prenom: "Amadou", nom: "Diallo", email: "amadou.diallo@sonangaz.com", telephone: "+221771234567", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T23:40:00Z", dateDepart: "2026-03-16T08:00:00Z", nombrePersonnes: 2, compagnie: "Air France", numeroVol: "AF 528", heureArrivee: "23:40", montantTotal: 872000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-B102", prenom: "Sarah", nom: "Mensah", email: "sarah.mensah@ghanamining.gh", telephone: "+233201234567", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T08:15:00Z", dateDepart: "2026-03-17T10:00:00Z", nombrePersonnes: 1, compagnie: "ASKY", numeroVol: "KP 022", heureArrivee: "08:15", montantTotal: 616000, statut: "EN_ATTENTE" },
-    { ref: "SIREXE-26-C937", prenom: "Khalid", nom: "Al-Faisal", email: "k.alfaisal@adnoc.ae", telephone: "+971501234567", nationalite: "🇦🇪 Émiratie", dateArrivee: "2026-03-13T14:30:00Z", dateDepart: "2026-03-18T16:00:00Z", nombrePersonnes: 3, compagnie: "Emirates", numeroVol: "EK 787", heureArrivee: "14:30", montantTotal: 1736000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-D451", prenom: "Jean", nom: "Dupont", email: "j.dupont@totalenergies.fr", telephone: "+33612345678", nationalite: "🇫🇷 Française", dateArrivee: "2026-03-14T06:55:00Z", dateDepart: "2026-03-16T18:00:00Z", nombrePersonnes: 1, compagnie: "Air France", numeroVol: "AF 530", heureArrivee: "06:55", montantTotal: 298000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-E284", prenom: "Fatima", nom: "Bensalah", email: "f.bensalah@ocp.ma", telephone: "+212661234567", nationalite: "🇲🇦 Marocaine", dateArrivee: "2026-03-14T11:20:00Z", dateDepart: "2026-03-17T09:00:00Z", nombrePersonnes: 2, compagnie: "Royal Air Maroc", numeroVol: "AT 552", heureArrivee: "11:20", montantTotal: 756000, statut: "EN_ATTENTE" },
-    { ref: "SIREXE-26-F673", prenom: "Tunde", nom: "Olatunji", email: "t.olatunji@nnpc.ng", telephone: "+2348012345678", nationalite: "🇳🇬 Nigériane", dateArrivee: "2026-03-14T19:45:00Z", dateDepart: "2026-03-18T12:00:00Z", nombrePersonnes: 2, compagnie: "Arik Air", numeroVol: "W3 101", heureArrivee: "19:45", montantTotal: 1134000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-G129", prenom: "Mary", nom: "Johnson", email: "m.johnson@bp.co.uk", telephone: "+447911234567", nationalite: "🇬🇧 Britannique", dateArrivee: "2026-03-15T09:10:00Z", dateDepart: "2026-03-17T14:00:00Z", nombrePersonnes: 1, compagnie: "British Airways", numeroVol: "BA 079", heureArrivee: "09:10", montantTotal: 532000, statut: "ANNULEE" },
-    { ref: "SIREXE-26-H805", prenom: "Omar", nom: "Sissoko", email: "o.sissoko@somilo.ml", telephone: "+22376123456", nationalite: "🇲🇱 Malienne", dateArrivee: "2026-03-15T15:35:00Z", dateDepart: "2026-03-19T08:00:00Z", nombrePersonnes: 4, compagnie: "ASKY", numeroVol: "KP 045", heureArrivee: "15:35", montantTotal: 1390000, statut: "CONFIRMEE" },
+    { ref: "AIKO-26-A8F2", prenom: "Amadou", nom: "Diallo", email: "amadou.diallo@sonangaz.com", telephone: "+221771234567", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T23:40:00Z", dateDepart: "2026-03-16T08:00:00Z", nombrePersonnes: 2, compagnie: "Air France", numeroVol: "AF 528", heureArrivee: "23:40", montantTotal: 872000, statut: "CONFIRMEE" },
+    { ref: "AIKO-26-B102", prenom: "Sarah", nom: "Mensah", email: "sarah.mensah@ghanamining.gh", telephone: "+233201234567", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T08:15:00Z", dateDepart: "2026-03-17T10:00:00Z", nombrePersonnes: 1, compagnie: "ASKY", numeroVol: "KP 022", heureArrivee: "08:15", montantTotal: 616000, statut: "EN_ATTENTE" },
+    { ref: "AIKO-26-C937", prenom: "Khalid", nom: "Al-Faisal", email: "k.alfaisal@adnoc.ae", telephone: "+971501234567", nationalite: "🇦🇪 Émiratie", dateArrivee: "2026-03-13T14:30:00Z", dateDepart: "2026-03-18T16:00:00Z", nombrePersonnes: 3, compagnie: "Emirates", numeroVol: "EK 787", heureArrivee: "14:30", montantTotal: 1736000, statut: "CONFIRMEE" },
+    { ref: "AIKO-26-D451", prenom: "Jean", nom: "Dupont", email: "j.dupont@totalenergies.fr", telephone: "+33612345678", nationalite: "🇫🇷 Française", dateArrivee: "2026-03-14T06:55:00Z", dateDepart: "2026-03-16T18:00:00Z", nombrePersonnes: 1, compagnie: "Air France", numeroVol: "AF 530", heureArrivee: "06:55", montantTotal: 298000, statut: "CONFIRMEE" },
+    { ref: "AIKO-26-E284", prenom: "Fatima", nom: "Bensalah", email: "f.bensalah@ocp.ma", telephone: "+212661234567", nationalite: "🇲🇦 Marocaine", dateArrivee: "2026-03-14T11:20:00Z", dateDepart: "2026-03-17T09:00:00Z", nombrePersonnes: 2, compagnie: "Royal Air Maroc", numeroVol: "AT 552", heureArrivee: "11:20", montantTotal: 756000, statut: "EN_ATTENTE" },
+    { ref: "AIKO-26-F673", prenom: "Tunde", nom: "Olatunji", email: "t.olatunji@nnpc.ng", telephone: "+2348012345678", nationalite: "🇳🇬 Nigériane", dateArrivee: "2026-03-14T19:45:00Z", dateDepart: "2026-03-18T12:00:00Z", nombrePersonnes: 2, compagnie: "Arik Air", numeroVol: "W3 101", heureArrivee: "19:45", montantTotal: 1134000, statut: "CONFIRMEE" },
+    { ref: "AIKO-26-G129", prenom: "Mary", nom: "Johnson", email: "m.johnson@bp.co.uk", telephone: "+447911234567", nationalite: "🇬🇧 Britannique", dateArrivee: "2026-03-15T09:10:00Z", dateDepart: "2026-03-17T14:00:00Z", nombrePersonnes: 1, compagnie: "British Airways", numeroVol: "BA 079", heureArrivee: "09:10", montantTotal: 532000, statut: "ANNULEE" },
+    { ref: "AIKO-26-H805", prenom: "Omar", nom: "Sissoko", email: "o.sissoko@somilo.ml", telephone: "+22376123456", nationalite: "🇲🇱 Malienne", dateArrivee: "2026-03-15T15:35:00Z", dateDepart: "2026-03-19T08:00:00Z", nombrePersonnes: 4, compagnie: "ASKY", numeroVol: "KP 045", heureArrivee: "15:35", montantTotal: 1390000, statut: "CONFIRMEE" },
   ];
 
   const createdOrders: Array<{ id: string; ref: string }> = [];
@@ -381,9 +381,9 @@ async function main() {
   // ── Institutional demo orders ──────────────────────────────────
 
   const institutionalOrders = [
-    { ref: "SIREXE-26-GOV1", prenom: "S.E. Amadou", nom: "Gon Coulibaly", email: "cabinet@primature.ci", telephone: "+22520210000", nationalite: "🇨🇮 Ivoirienne", dateArrivee: "2026-03-11T10:00:00Z", dateDepart: "2026-03-17T18:00:00Z", nombrePersonnes: 8, montantTotal: 4200000, statut: "CONFIRMEE" },
-    { ref: "SIREXE-26-GOV2", prenom: "Délégation", nom: "Min. Mines Sénégal", email: "delegation@mines.gouv.sn", telephone: "+221338234500", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T14:00:00Z", dateDepart: "2026-03-16T12:00:00Z", nombrePersonnes: 5, montantTotal: 2800000, statut: "EN_ATTENTE" },
-    { ref: "SIREXE-26-GOV3", prenom: "H.E. Nana", nom: "Akufo-Addo", email: "protocol@presidency.gov.gh", telephone: "+233302665421", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T09:00:00Z", dateDepart: "2026-03-15T20:00:00Z", nombrePersonnes: 12, montantTotal: 6500000, statut: "CONFIRMEE" },
+    { ref: "AIKO-26-GOV1", prenom: "S.E. Amadou", nom: "Gon Coulibaly", email: "cabinet@primature.ci", telephone: "+22520210000", nationalite: "🇨🇮 Ivoirienne", dateArrivee: "2026-03-11T10:00:00Z", dateDepart: "2026-03-17T18:00:00Z", nombrePersonnes: 8, montantTotal: 4200000, statut: "CONFIRMEE" },
+    { ref: "AIKO-26-GOV2", prenom: "Délégation", nom: "Min. Mines Sénégal", email: "delegation@mines.gouv.sn", telephone: "+221338234500", nationalite: "🇸🇳 Sénégalaise", dateArrivee: "2026-03-12T14:00:00Z", dateDepart: "2026-03-16T12:00:00Z", nombrePersonnes: 5, montantTotal: 2800000, statut: "EN_ATTENTE" },
+    { ref: "AIKO-26-GOV3", prenom: "H.E. Nana", nom: "Akufo-Addo", email: "protocol@presidency.gov.gh", telephone: "+233302665421", nationalite: "🇬🇭 Ghanéenne", dateArrivee: "2026-03-13T09:00:00Z", dateDepart: "2026-03-15T20:00:00Z", nombrePersonnes: 12, montantTotal: 6500000, statut: "CONFIRMEE" },
   ];
 
   for (const o of institutionalOrders) {
@@ -423,7 +423,7 @@ async function main() {
       { commandeId: firstOrder.id, jour: 1, heure: "23:40", type: "transport", titre: "Accueil VIP aéroport FHB", details: "Chauffeur: Konan Yao · Mercedes E-Class · FR/EN", auto: true },
       { commandeId: firstOrder.id, jour: 1, heure: "00:30", type: "hebergement", titre: "Pullman Plateau — Check-in", details: "Chambre Supérieure, 3e étage", auto: true },
       { commandeId: firstOrder.id, jour: 2, heure: "07:30", type: "repas", titre: "Petit-déjeuner buffet", details: "2 pax — Buffet international", auto: true },
-      { commandeId: firstOrder.id, jour: 2, heure: "09:00", type: "transport", titre: "Berline → Pavillon SIREXE", details: "Chauffeur: Konan Yao · anglophone", auto: true },
+      { commandeId: firstOrder.id, jour: 2, heure: "09:00", type: "transport", titre: "Berline → Pavillon", details: "Chauffeur: Konan Yao · anglophone", auto: true },
       { commandeId: firstOrder.id, jour: 2, heure: "12:30", type: "repas", titre: "Déjeuner d'affaires", details: "2 pax — Restaurant Le Bélier, salle privée", auto: true },
       { commandeId: firstOrder.id, jour: 2, heure: "19:30", type: "repas", titre: "Dîner gastronomique", details: "2 pax — Chef étoilé, menu dégustation", auto: true },
       { commandeId: firstOrder.id, jour: 2, heure: "10:00", type: "custom", titre: "Note concierge", details: "Client préfère eau plate, préparer au véhicule", auto: false },

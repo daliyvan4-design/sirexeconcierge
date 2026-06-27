@@ -38,7 +38,7 @@ export function HeroCard() {
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
             <span className="text-[10px] tracking-[0.28em] uppercase text-cream/50">
-              SIREXE 2026 · Abidjan
+              Salon 2026 · Abidjan
             </span>
           </div>
           <span className="text-[10px] mono text-cream/40">11 → 17 mars</span>
