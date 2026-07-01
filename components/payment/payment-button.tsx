@@ -1,0 +1,110 @@
+"use client";
+
+import { useState } from "react";
+import { Loader2, ShieldCheck } from "lucide-react";
+import type { MethodChoice } from "./payment-method-picker";
+
+interface Props {
+  amount: number;
+  currency?: string;
+  method: MethodChoice | null;
+  description?: string;
+  customerName?: string;
+  customerEmail?: string;
+  customerPhone?: string;
+  eventId?: string;
+  type?: "event_creation" | "badge" | "ticket";
+  onSuccess?: (reference: string, checkoutUrl: string) => void;
+  onError?: (message: string) => void;
+  disabled?: boolean;
+  label?: string;
+}
+
+export function PaymentButton({
+  amount,
+  currency = "XOF",
+  method,
+  description,
+  customerName,
+  customerEmail,
+  customerPhone,
+  eventId,
+  type,
+  onSuccess,
+  onError,
+  disabled,
+  label,
+}: Props) {
+  const [loading, setLoading] = useState(false);
+
+  const handlePay = async () => {
+    if (!method) {
+      onError?.("Veuillez choisir un mode de paiement");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/payments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount,
+          currency,
+          payment_method: method,
+          description,
+          customer_name: customerName,
+          customer_email: customerEmail,
+          customer_phone: customerPhone,
+          event_id: eventId,
+          type,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        onError?.(data.error ?? "Erreur lors du paiement");
+        return;
+      }
+
+      const redirectUrl = data.checkout_url ?? data.payment_url;
+      if (redirectUrl) {
+        onSuccess?.(data.reference, redirectUrl);
+        window.location.href = redirectUrl;
+      } else {
+        onError?.("Aucune URL de paiement retournee");
+      }
+    } catch {
+      onError?.("Impossible de contacter le serveur de paiement");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatted = new Intl.NumberFormat("fr-FR").format(amount);
+  const buttonLabel =
+    label ?? `Payer ${formatted} ${currency}`;
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={handlePay}
+        disabled={disabled || loading || !method}
+        className="btn-press w-full flex items-center justify-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-8 py-4 text-[15px] font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        {loading ? (
+          <Loader2 className="w-5 h-5 animate-spin" />
+        ) : (
+          buttonLabel
+        )}
+      </button>
+      <p className="flex items-center justify-center gap-1.5 text-[11px] text-mute mt-3">
+        <ShieldCheck className="w-3.5 h-3.5" />
+        Paiement securise via GeniusPay
+      </p>
+    </div>
+  );
+}

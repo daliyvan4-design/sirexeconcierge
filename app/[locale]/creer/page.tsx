@@ -22,6 +22,8 @@ import {
   Code2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/payment-method-picker";
+import { PaymentButton } from "@/components/payment/payment-button";
 
 type EventType = "conference" | "concert" | "salon" | "hackathon";
 
@@ -75,6 +77,9 @@ export default function CreerPage() {
     organisateur: "",
   });
   const [eventId] = useState(genEventId);
+
+  const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
+  const [payError, setPayError] = useState("");
 
   const update = (patch: Partial<EventForm>) => setForm({ ...form, ...patch });
   const isConcert = form.type === "concert";
@@ -485,6 +490,14 @@ export default function CreerPage() {
               </p>
             </div>
 
+            <PaymentMethodPicker value={payMethod} onChange={setPayMethod} />
+
+            {payError && (
+              <div className="bg-err/10 border border-err/20 text-err rounded-xl px-4 py-3 text-[13px]">
+                {payError}
+              </div>
+            )}
+
             <div className="flex justify-between pt-4">
               <button
                 onClick={() => setStep(2)}
@@ -493,14 +506,21 @@ export default function CreerPage() {
                 <ArrowLeft className="w-4 h-4" />
                 Précédent
               </button>
-              <button
-                onClick={() => setStep(4)}
+              <PaymentButton
+                amount={32500}
+                currency="XOF"
+                method={payMethod}
+                description={`Création événement AÏKO — ${form.name}`}
+                customerName={form.organisateur}
+                customerEmail={form.contactEmail}
+                customerPhone={form.contactTel}
+                eventId={eventId}
+                type="event_creation"
+                onSuccess={() => setStep(4)}
+                onError={setPayError}
                 disabled={!form.contactEmail}
-                className="btn-press inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-8 py-4 text-[15px] font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                Créer mon événement — 50 €
-                <CheckCircle2 className="w-4 h-4" />
-              </button>
+                label="Payer 50 € et créer"
+              />
             </div>
           </div>
         )}

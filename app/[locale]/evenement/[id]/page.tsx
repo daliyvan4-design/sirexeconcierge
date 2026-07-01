@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useLocale } from "next-intl";
+import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/payment-method-picker";
+import { PaymentButton } from "@/components/payment/payment-button";
 
 const EVENTS: Record<string, {
   name: string;
@@ -88,6 +90,8 @@ export default function EventPage() {
     useForBadge: true,
   });
   const [ref] = useState(genRef);
+  const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
+  const [payError, setPayError] = useState("");
 
   if (!event) {
     return (
@@ -398,13 +402,42 @@ export default function EventPage() {
                 </div>
               )}
 
+              {!isFree && (
+                <div className="md:col-span-2">
+                  <PaymentMethodPicker value={payMethod} onChange={setPayMethod} />
+                </div>
+              )}
+
+              {payError && (
+                <div className="md:col-span-2 bg-err/10 border border-err/20 text-err rounded-xl px-4 py-3 text-[13px]">
+                  {payError}
+                </div>
+              )}
+
               <div className="md:col-span-2 flex justify-end pt-2">
-                <button
-                  type="submit"
-                  className="btn-press inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-8 py-4 text-[15px] font-semibold"
-                >
-                  {isFree ? "Obtenir mon badge" : `Payer & obtenir mon ${isConcert ? "ticket" : "badge"}`}
-                </button>
+                {isFree ? (
+                  <button
+                    type="submit"
+                    className="btn-press inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-8 py-4 text-[15px] font-semibold"
+                  >
+                    Obtenir mon badge
+                  </button>
+                ) : (
+                  <PaymentButton
+                    amount={price}
+                    method={payMethod}
+                    description={`${isConcert ? "Ticket" : "Badge"} — ${event.name}`}
+                    customerName={`${form.prenom} ${form.nom}`}
+                    customerEmail={form.email}
+                    customerPhone={form.telephone}
+                    eventId={eventId}
+                    type={isConcert ? "ticket" : "badge"}
+                    onSuccess={() => setStep("done")}
+                    onError={setPayError}
+                    disabled={!form.prenom || !form.nom || !form.email}
+                    label={`Payer ${new Intl.NumberFormat("fr-FR").format(price)} XOF`}
+                  />
+                )}
               </div>
             </form>
           </div>
