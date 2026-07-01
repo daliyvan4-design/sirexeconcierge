@@ -19,9 +19,9 @@ export function SirexeLogo({
       </span>
       <span
         className={`uppercase tracking-[0.3em] font-medium ${dark ? "text-cream/50" : "text-mute"}`}
-        style={{ fontSize: height * 0.18 }}
+        style={{ fontSize: height * 0.16 }}
       >
-        concierge
+        event & tech
       </span>
     </div>
   );

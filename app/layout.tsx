@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AÏKO — Accueil Intelligent · Knowledge · Orientation",
+  title: "AÏKO — Event & Tech · Créez, participez, badgez",
   description:
-    "AÏKO — Votre concierge intelligente pour le salon 2026 à Abidjan. Transport, hébergement, restauration et services premium.",
+    "AÏKO Event & Tech — Plateforme de création et gestion d'événements. Badges, tickets et accréditations avec QR code. www.aïkoevent.com",
 };
 
 export default function RootLayout({

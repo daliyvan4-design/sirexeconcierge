@@ -1,13 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useLocale } from "next-intl";
 import { LangSwitcher } from "./lang-switcher";
 import { SirexeLogo } from "@/components/brand/sirexe-logo";
 
 export function Header() {
-  const t = useTranslations();
   const locale = useLocale();
 
   return (
@@ -18,18 +16,26 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-[12px] tracking-wide text-cream/55">
-          <Link href={`/${locale}/services`} className="hover:text-cream transition-colors">
-            {t("nav.services")}
+          <Link href={`/${locale}#creer`} className="hover:text-cream transition-colors">
+            Créer un événement
           </Link>
-          <Link href={`/${locale}/salon`} className="hover:text-cream transition-colors">
-            {t("nav.salon")}
+          <Link href={`/${locale}#participer`} className="hover:text-cream transition-colors">
+            Participer
           </Link>
-          <Link href={`/${locale}/assistance`} className="hover:text-cream transition-colors">
-            {t("nav.assistance")}
+          <Link href={`/${locale}#tarifs`} className="hover:text-cream transition-colors">
+            Tarifs
           </Link>
         </nav>
 
-        <LangSwitcher />
+        <div className="flex items-center gap-4">
+          <Link
+            href={`/${locale}/creer`}
+            className="hidden sm:inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-5 py-2 text-[12px] font-semibold btn-press"
+          >
+            Créer un événement
+          </Link>
+          <LangSwitcher />
+        </div>
       </div>
     </header>
   );
