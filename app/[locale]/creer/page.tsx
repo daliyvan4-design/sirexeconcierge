@@ -16,7 +16,12 @@ import {
   CheckCircle2,
   Copy,
   ExternalLink,
+  Mic,
+  Music,
+  Building2,
+  Code2,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 type EventType = "conference" | "concert" | "salon" | "hackathon";
 
@@ -38,11 +43,11 @@ interface EventForm {
   organisateur: string;
 }
 
-const EVENT_TYPES: { value: EventType; label: string; icon: string }[] = [
-  { value: "conference", label: "Conférence", icon: "🎤" },
-  { value: "concert", label: "Concert", icon: "🎵" },
-  { value: "salon", label: "Salon / Expo", icon: "🏢" },
-  { value: "hackathon", label: "Hackathon", icon: "💻" },
+const EVENT_TYPES: { value: EventType; label: string; icon: LucideIcon }[] = [
+  { value: "conference", label: "Conférence", icon: Mic },
+  { value: "concert", label: "Concert", icon: Music },
+  { value: "salon", label: "Salon / Expo", icon: Building2 },
+  { value: "hackathon", label: "Hackathon", icon: Code2 },
 ];
 
 function genEventId() {
@@ -254,7 +259,7 @@ export default function CreerPage() {
                         : "border-line bg-cream2 hover:border-gold/30"
                     }`}
                   >
-                    <span className="text-[24px] block mb-2">{t.icon}</span>
+                    <t.icon className="w-6 h-6 mx-auto mb-2 text-gold" />
                     <span className="text-[13px] font-medium text-ink">{t.label}</span>
                   </button>
                 ))}

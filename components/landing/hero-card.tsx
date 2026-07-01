@@ -3,12 +3,14 @@
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
+import { Hotel, Car, UtensilsCrossed, Star } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const SERVICES = [
-  { icon: "🏨", label: "Appart-hôtels & meublés", tag: "AÏKO direct", highlight: true },
-  { icon: "🚘", label: "Transport VIP", tag: "Chauffeur privé", highlight: false },
-  { icon: "🍽️", label: "Restauration", tag: "Tables réservées", highlight: false },
-  { icon: "✨", label: "Services premium", tag: "Sur-mesure", highlight: false },
+const SERVICES: { icon: LucideIcon; label: string; tag: string; highlight: boolean }[] = [
+  { icon: Hotel, label: "Appart-hôtels & meublés", tag: "AÏKO direct", highlight: true },
+  { icon: Car, label: "Transport VIP", tag: "Chauffeur privé", highlight: false },
+  { icon: UtensilsCrossed, label: "Restauration", tag: "Tables réservées", highlight: false },
+  { icon: Star, label: "Services premium", tag: "Sur-mesure", highlight: false },
 ];
 
 function useCountdown(target: Date) {
@@ -79,7 +81,7 @@ export function HeroCard() {
                   : "bg-cream/[0.03] border border-cream/[0.06] hover:bg-cream/[0.06]"
               }`}
             >
-              <span className="text-[20px] leading-none">{s.icon}</span>
+              <s.icon className={`w-5 h-5 ${s.highlight ? "text-gold" : "text-cream/60"}`} />
               <div className="flex-1 min-w-0">
                 <p className={`text-[13px] leading-tight ${s.highlight ? "text-gold font-medium" : "text-cream"}`}>
                   {s.label}
