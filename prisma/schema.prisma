@@ -161,3 +161,74 @@ model PlanningEntry {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+// ─── AÏKO Event & Tech ─────────────────────────────
+
+model Event {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  nom           String
+  type          String        @default("conference")
+  description   String?
+  organisateur  String
+  lieu          String
+  ville         String
+  dateDebut     DateTime
+  dateFin       DateTime
+  capacite      Int           @default(500)
+  logoUrl       String?
+  badgePayant   Boolean       @default(false)
+  prixBadge     Float         @default(0)
+  ticketPayant  Boolean       @default(false)
+  prixTicket    Float         @default(0)
+  contactEmail  String
+  contactTel    String?
+  statut        String        @default("actif")
+  paymentRef    String?
+  participants  Participant[]
+  payments      Payment[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Participant {
+  id            String   @id @default(cuid())
+  eventId       String
+  event         Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  reference     String   @unique
+  ticketNumber  Int
+  prenom        String
+  nom           String
+  email         String
+  telephone     String
+  organisation  String?
+  type          String   @default("badge")
+  statut        String   @default("confirme")
+  paymentRef    String?
+  montant       Float    @default(0)
+  checkedIn     Boolean  @default(false)
+  checkedInAt   DateTime?
+  createdAt     DateTime @default(now())
+
+  @@index([eventId])
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  eventId       String?
+  event         Event?   @relation(fields: [eventId], references: [id])
+  reference     String   @unique
+  type          String
+  montant       Float
+  devise        String   @default("XOF")
+  statut        String   @default("pending")
+  methode       String?
+  geniusRef     String?
+  customerName  String?
+  customerEmail String?
+  metadata      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([eventId])
+}

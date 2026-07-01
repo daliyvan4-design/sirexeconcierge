@@ -76,16 +76,52 @@ export default function CreerPage() {
     contactTel: "",
     organisateur: "",
   });
-  const [eventId] = useState(genEventId);
-
+  const [eventSlug, setEventSlug] = useState("");
   const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
   const [payError, setPayError] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const update = (patch: Partial<EventForm>) => setForm({ ...form, ...patch });
   const isConcert = form.type === "concert";
 
+  const saveEvent = async () => {
+    setSaving(true);
+    try {
+      const res = await fetch("/api/events", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nom: form.name,
+          type: form.type,
+          description: form.description,
+          organisateur: form.organisateur,
+          lieu: form.lieu,
+          ville: form.ville,
+          dateDebut: form.dateStart,
+          dateFin: form.dateEnd || form.dateStart,
+          capacite: form.capacite,
+          badgePayant: form.badgePayant,
+          prixBadge: form.prixBadge,
+          ticketPayant: form.ticketPayant,
+          prixTicket: form.prixTicket,
+          contactEmail: form.contactEmail,
+          contactTel: form.contactTel,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEventSlug(data.slug);
+      }
+    } catch {
+      // fallback slug
+    }
+    setSaving(false);
+    setStep(4);
+  };
+
   if (step === 4) {
-    const eventUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/${locale}/evenement/${eventId}`;
+    const slug = eventSlug || genEventId();
+    const eventUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/${locale}/evenement/${slug}`;
 
     return (
       <section className="animate-fade-up">
@@ -195,14 +231,18 @@ export default function CreerPage() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href={`/${locale}/evenement/${eventId}`}
+              href={`/${locale}/organisateur/${slug}`}
               className="btn-press inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-8 py-4 text-[15px] font-semibold"
             >
-              <ExternalLink className="w-4 h-4" />
-              Voir la page de mon événement
+              <Users className="w-4 h-4" />
+              Mon dashboard organisateur
             </Link>
-            <Link href={`/${locale}`} className="text-[14px] text-mute hover:text-ink">
-              Retour à l&apos;accueil
+            <Link
+              href={`/${locale}/evenement/${slug}`}
+              className="btn-press inline-flex items-center gap-2 bg-ink hover:bg-ink2 text-cream rounded-full px-6 py-3 text-[14px] font-medium"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Page publique
             </Link>
           </div>
         </div>
@@ -510,16 +550,16 @@ export default function CreerPage() {
                 amount={32500}
                 currency="XOF"
                 method={payMethod}
-                description={`Création événement AÏKO — ${form.name}`}
+                description={`Creation evenement AIKO — ${form.name}`}
                 customerName={form.organisateur}
                 customerEmail={form.contactEmail}
                 customerPhone={form.contactTel}
-                eventId={eventId}
+                eventId={eventSlug}
                 type="event_creation"
-                onSuccess={() => setStep(4)}
+                onSuccess={() => saveEvent()}
                 onError={setPayError}
-                disabled={!form.contactEmail}
-                label="Payer 50 € et créer"
+                disabled={!form.contactEmail || saving}
+                label="Payer 50 € et creer"
               />
             </div>
           </div>

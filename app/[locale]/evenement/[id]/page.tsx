@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { QRCodeSVG } from "qrcode.react";
 import {
@@ -12,73 +12,117 @@ import {
   Printer,
   Download,
   Ticket,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { useLocale } from "next-intl";
 import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/payment-method-picker";
 import { PaymentButton } from "@/components/payment/payment-button";
+import { generateTicketPDF } from "@/lib/generate-ticket-pdf";
 
-const EVENTS: Record<string, {
-  name: string;
-  type: "conference" | "concert";
-  date: string;
-  lieu: string;
+interface EventData {
+  slug: string;
+  nom: string;
+  type: string;
   description: string;
-  participants: number;
-  badgePrice: number;
-  ticketPrice: number;
-}> = {
+  organisateur: string;
+  lieu: string;
+  ville: string;
+  dateDebut: string;
+  dateFin: string;
+  capacite: number;
+  badgePayant: boolean;
+  prixBadge: number;
+  ticketPayant: boolean;
+  prixTicket: number;
+  _count: { participants: number };
+}
+
+const DEMO_EVENTS: Record<string, EventData> = {
   "salon-tech-2026": {
-    name: "Salon Tech Abidjan 2026",
+    slug: "salon-tech-2026",
+    nom: "Salon Tech Abidjan 2026",
     type: "conference",
-    date: "11 — 17 mars 2026",
-    lieu: "Sofitel Hôtel Ivoire · Abidjan",
-    description: "Le rendez-vous annuel de la tech et de l&apos;innovation en Afrique de l&apos;Ouest. Conférences, B2B, networking.",
-    participants: 850,
-    badgePrice: 0,
-    ticketPrice: 0,
+    description: "Le rendez-vous annuel de la tech et de l’innovation en Afrique de l’Ouest. Conferences, B2B, networking.",
+    organisateur: "AIKO Events",
+    lieu: "Sofitel Hotel Ivoire",
+    ville: "Abidjan",
+    dateDebut: "2026-03-11",
+    dateFin: "2026-03-17",
+    capacite: 1000,
+    badgePayant: false,
+    prixBadge: 0,
+    ticketPayant: false,
+    prixTicket: 0,
+    _count: { participants: 850 },
   },
   "afro-music-festival": {
-    name: "Afro Music Festival",
+    slug: "afro-music-festival",
+    nom: "Afro Music Festival",
     type: "concert",
-    date: "22 — 24 avril 2026",
-    lieu: "Palais de la Culture · Abidjan",
-    description: "3 jours de musique live — Afrobeats, Coupé-Décalé, Amapiano. 20+ artistes internationaux.",
-    participants: 3200,
-    badgePrice: 0,
-    ticketPrice: 15000,
+    description: "3 jours de musique live — Afrobeats, Coupe-Decale, Amapiano. 20+ artistes internationaux.",
+    organisateur: "AfroBeat Productions",
+    lieu: "Palais de la Culture",
+    ville: "Abidjan",
+    dateDebut: "2026-04-22",
+    dateFin: "2026-04-24",
+    capacite: 5000,
+    badgePayant: false,
+    prixBadge: 0,
+    ticketPayant: true,
+    prixTicket: 15000,
+    _count: { participants: 3200 },
   },
   "summit-mines-energie": {
-    name: "Summit Mines & Énergie",
+    slug: "summit-mines-energie",
+    nom: "Summit Mines & Energie",
     type: "conference",
-    date: "5 — 7 mai 2026",
-    lieu: "Radisson Blu · Abidjan",
-    description: "Forum international sur les ressources extractives et énergétiques en Côte d&apos;Ivoire.",
-    participants: 420,
-    badgePrice: 0,
-    ticketPrice: 0,
+    description: "Forum international sur les ressources extractives et energetiques en Cote d’Ivoire.",
+    organisateur: "Ministere des Mines",
+    lieu: "Radisson Blu",
+    ville: "Abidjan",
+    dateDebut: "2026-05-05",
+    dateFin: "2026-05-07",
+    capacite: 500,
+    badgePayant: false,
+    prixBadge: 0,
+    ticketPayant: false,
+    prixTicket: 0,
+    _count: { participants: 420 },
   },
   "hackathon-ci": {
-    name: "Hackathon CI 2026",
+    slug: "hackathon-ci",
+    nom: "Hackathon CI 2026",
     type: "conference",
-    date: "15 — 16 juin 2026",
-    lieu: "Ivoirienne de Tech · Cocody",
-    description: "48h de code non-stop. Thèmes : FinTech, HealthTech, AgriTech. Prix : 5M XOF.",
-    participants: 200,
-    badgePrice: 5000,
-    ticketPrice: 0,
+    description: "48h de code non-stop. Themes : FinTech, HealthTech, AgriTech. Prix : 5M XOF.",
+    organisateur: "Ivoirienne de Tech",
+    lieu: "Ivoirienne de Tech",
+    ville: "Cocody",
+    dateDebut: "2026-06-15",
+    dateFin: "2026-06-16",
+    capacite: 250,
+    badgePayant: true,
+    prixBadge: 5000,
+    ticketPayant: false,
+    prixTicket: 0,
+    _count: { participants: 200 },
   },
 };
 
-function genRef() {
-  return `AIKO-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+function formatDateRange(start: string, end: string) {
+  const s = new Date(start);
+  const e = new Date(end);
+  const opts: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
+  return `${s.toLocaleDateString("fr-FR", { day: "numeric" })} — ${e.toLocaleDateString("fr-FR", opts)}`;
 }
 
 export default function EventPage() {
   const params = useParams();
   const locale = useLocale();
   const eventId = params.id as string;
-  const event = EVENTS[eventId];
+
+  const [event, setEvent] = useState<EventData | null>(DEMO_EVENTS[eventId] ?? null);
+  const [loading, setLoading] = useState(!DEMO_EVENTS[eventId]);
 
   const [step, setStep] = useState<"info" | "form" | "done">("info");
   const [form, setForm] = useState({
@@ -89,46 +133,98 @@ export default function EventPage() {
     organisation: "",
     useForBadge: true,
   });
-  const [ref] = useState(genRef);
+  const [ref, setRef] = useState("");
+  const [ticketNum, setTicketNum] = useState(0);
   const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
   const [payError, setPayError] = useState("");
+
+  useEffect(() => {
+    if (DEMO_EVENTS[eventId]) return;
+    fetch(`/api/events/${eventId}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success) setEvent(d.data);
+      })
+      .finally(() => setLoading(false));
+  }, [eventId]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-32">
+        <Loader2 className="w-8 h-8 animate-spin text-gold" />
+      </div>
+    );
+  }
 
   if (!event) {
     return (
       <div className="max-w-3xl mx-auto px-5 py-24 text-center">
-        <p className="text-mute text-[16px]">Événement introuvable</p>
+        <p className="text-mute text-[16px]">Evenement introuvable</p>
         <Link href={`/${locale}`} className="text-gold mt-4 inline-block">
-          Retour à l&apos;accueil
+          Retour
         </Link>
       </div>
     );
   }
 
   const isConcert = event.type === "concert";
-  const price = isConcert ? event.ticketPrice : event.badgePrice;
+  const price = isConcert ? event.prixTicket : event.prixBadge;
   const isFree = price === 0;
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!isFree) return;
+
+    try {
+      const res = await fetch(`/api/events/${event.slug}/participants`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prenom: form.prenom,
+          nom: form.nom,
+          email: form.email,
+          telephone: form.telephone,
+          organisation: form.organisation,
+          type: isConcert ? "ticket" : "badge",
+          montant: 0,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setRef(data.data.reference);
+        setTicketNum(data.data.ticketNumber);
+      } else {
+        setRef(`AIKO-${Math.random().toString(36).substring(2, 8).toUpperCase()}`);
+      }
+    } catch {
+      setRef(`AIKO-${Math.random().toString(36).substring(2, 8).toUpperCase()}`);
+    }
+
+    setStep("done");
+  };
+
   if (step === "done") {
+    const displayRef = ref || `AIKO-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+
     return (
       <section className="animate-fade-up">
         <div className="max-w-3xl mx-auto px-5 lg:px-8 pt-10 pb-24">
           <div className="text-center mb-12">
             <CheckCircle2 className="w-16 h-16 text-ok mx-auto mb-5" />
             <h2 className="font-serif text-[36px] sm:text-[44px] text-ink">
-              {isConcert ? "Ticket confirmé" : "Accréditation confirmée"}
+              {isConcert ? "Ticket confirme" : "Accreditation confirmee"}
             </h2>
             <p className="text-mute mt-3 text-[16px] max-w-lg mx-auto">
-              {form.prenom}, votre {isConcert ? "ticket" : "badge"} pour <strong>{event.name}</strong> est prêt.
-              Présentez le QR code à l&apos;entrée.
+              {form.prenom}, votre {isConcert ? "ticket" : "badge"} pour <strong>{event.nom}</strong> est pret.
             </p>
           </div>
 
-          {/* Badge / Ticket */}
           <div className="flex flex-col items-center gap-6">
             <div className="w-[380px] bg-ink rounded-2xl overflow-hidden shadow-float" id="badge-print">
               <div className="bg-gold px-6 py-4 flex items-center justify-between">
                 <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 700, color: "#0A0A0A", letterSpacing: "0.04em" }}>
-                  AÏKO
+                  AIKO
                 </span>
                 <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", color: "#0A0A0A", fontWeight: 600 }}>
                   {isConcert ? "Ticket" : "Badge"}
@@ -147,36 +243,56 @@ export default function EventPage() {
               <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "0 24px" }} />
 
               <div className="px-6 py-4">
-                <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>Événement</p>
-                <p style={{ fontSize: 15, color: "#C8A951", fontWeight: 600, marginTop: 4 }}>{event.name}</p>
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 4 }}>{event.date}</p>
-                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 2 }}>{event.lieu}</p>
+                <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>Evenement</p>
+                <p style={{ fontSize: 15, color: "#C8A951", fontWeight: 600, marginTop: 4 }}>{event.nom}</p>
+                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 4 }}>{formatDateRange(event.dateDebut, event.dateFin)}</p>
+                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 2 }}>{event.lieu} · {event.ville}</p>
               </div>
 
               <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "0 24px" }} />
 
               <div className="px-6 py-3 flex items-center justify-between">
                 <div>
-                  <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>Référence</p>
-                  <p style={{ fontSize: 14, color: "#C8A951", fontWeight: 600, marginTop: 2, fontFamily: "monospace" }}>{ref}</p>
+                  <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>Reference</p>
+                  <p style={{ fontSize: 14, color: "#C8A951", fontWeight: 600, marginTop: 2, fontFamily: "monospace" }}>{displayRef}</p>
                 </div>
-                {isConcert && (
+                {isConcert && ticketNum > 0 && (
                   <div className="text-right">
-                    <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>Prix</p>
-                    <p style={{ fontSize: 14, color: "#fff", fontWeight: 500, marginTop: 2 }}>{new Intl.NumberFormat("fr-FR").format(price)} XOF</p>
+                    <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>Ticket N°</p>
+                    <p style={{ fontSize: 18, color: "#fff", fontWeight: 700, marginTop: 2, fontFamily: "monospace" }}>
+                      {String(ticketNum).padStart(4, "0")}
+                    </p>
+                  </div>
+                )}
+                {!isConcert && (
+                  <div className="text-right">
+                    <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>N°</p>
+                    <p style={{ fontSize: 14, color: "#fff", fontWeight: 500, marginTop: 2 }}>{String(ticketNum || 1).padStart(4, "0")}</p>
                   </div>
                 )}
               </div>
 
+              {!isFree && (
+                <>
+                  <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "0 24px" }} />
+                  <div className="px-6 py-2">
+                    <div className="flex items-center justify-between">
+                      <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>Montant</p>
+                      <p style={{ fontSize: 14, color: "#fff", fontWeight: 500 }}>{new Intl.NumberFormat("fr-FR").format(price)} XOF</p>
+                    </div>
+                  </div>
+                </>
+              )}
+
               <div className="px-6 py-5 flex items-center justify-center" style={{ background: "rgba(255,255,255,0.03)" }}>
                 <QRCodeSVG
                   value={JSON.stringify({
-                    ref,
-                    event: event.name,
+                    ref: displayRef,
+                    event: event.nom,
                     name: `${form.prenom} ${form.nom}`,
                     email: form.email,
                     type: isConcert ? "ticket" : "badge",
-                    date: event.date,
+                    ticket: ticketNum,
                   })}
                   size={150}
                   bgColor="transparent"
@@ -187,7 +303,7 @@ export default function EventPage() {
 
               <div className="px-6 pb-4 text-center">
                 <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.3em", color: "rgba(255,255,255,0.3)" }}>
-                  Scannez avec l&apos;app AÏKO · {isConcert ? "Ticket numérique" : "Accréditation"}
+                  Scannez avec AIKO · {isConcert ? "Ticket numerique" : "Accreditation"}
                 </p>
               </div>
             </div>
@@ -197,9 +313,9 @@ export default function EventPage() {
                 onClick={() => {
                   const el = document.getElementById("badge-print");
                   if (!el) return;
-                  const w = window.open("", "_blank", "width=420,height=700");
+                  const w = window.open("", "_blank", "width=420,height=750");
                   if (!w) return;
-                  w.document.write(`<!DOCTYPE html><html><head><title>${isConcert ? "Ticket" : "Badge"} AÏKO — ${ref}</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh}@media print{body{margin:0;padding:0}}</style></head><body>${el.innerHTML}<script>window.onload=function(){window.print();window.close()}<\/script></body></html>`);
+                  w.document.write(`<!DOCTYPE html><html><head><title>${isConcert ? "Ticket" : "Badge"} AIKO — ${displayRef}</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh}@media print{body{margin:0;padding:0}}</style></head><body>${el.innerHTML}<script>window.onload=function(){window.print()}<\/script></body></html>`);
                   w.document.close();
                 }}
                 className="btn-press inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-6 py-3 text-[14px] font-semibold"
@@ -209,12 +325,34 @@ export default function EventPage() {
               </button>
               <button
                 onClick={() => {
-                  const el = document.getElementById("badge-print");
-                  if (!el) return;
-                  const w = window.open("", "_blank", "width=420,height=700");
-                  if (!w) return;
-                  w.document.write(`<!DOCTYPE html><html><head><title>${isConcert ? "Ticket" : "Badge"} AÏKO — ${ref}</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh}</style></head><body>${el.innerHTML}</body></html>`);
-                  w.document.close();
+                  const svgEl = document.querySelector("#badge-print svg") as SVGSVGElement | null;
+                  if (!svgEl) return;
+                  const canvas = document.createElement("canvas");
+                  canvas.width = 300;
+                  canvas.height = 300;
+                  const ctx = canvas.getContext("2d");
+                  if (!ctx) return;
+                  const svgData = new XMLSerializer().serializeToString(svgEl);
+                  const img = new Image();
+                  img.onload = () => {
+                    ctx.fillStyle = "#0A0A0A";
+                    ctx.fillRect(0, 0, 300, 300);
+                    ctx.drawImage(img, 0, 0, 300, 300);
+                    const qrDataUrl = canvas.toDataURL("image/png");
+                    const pdf = generateTicketPDF({
+                      eventName: event.nom,
+                      eventDate: formatDateRange(event.dateDebut, event.dateFin),
+                      eventLieu: `${event.lieu} · ${event.ville}`,
+                      participantName: `${form.prenom} ${form.nom}`,
+                      email: form.email,
+                      reference: displayRef,
+                      ticketNumber: ticketNum || 1,
+                      price,
+                      qrDataUrl,
+                    });
+                    pdf.save(`${isConcert ? "ticket" : "badge"}-${displayRef}.pdf`);
+                  };
+                  img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
                 }}
                 className="btn-press inline-flex items-center gap-2 bg-ink hover:bg-ink2 text-cream rounded-full px-6 py-3 text-[14px] font-medium"
               >
@@ -226,7 +364,7 @@ export default function EventPage() {
 
           <div className="mt-12 text-center">
             <Link href={`/${locale}`} className="text-[14px] text-gold hover:text-gold2 font-medium">
-              ← Retour à l&apos;accueil
+              ← Retour
             </Link>
           </div>
         </div>
@@ -237,20 +375,18 @@ export default function EventPage() {
   return (
     <section className="animate-fade-up">
       <div className="max-w-5xl mx-auto px-5 lg:px-8 pt-10 pb-24">
-        {/* Back */}
         <Link href={`/${locale}`} className="text-[13px] text-mute hover:text-ink flex items-center gap-1.5 mb-8">
           <ArrowLeft className="w-4 h-4" />
-          Retour aux événements
+          Retour aux evenements
         </Link>
 
-        {/* Event header */}
         <div className="bg-ink text-cream rounded-2xl p-8 sm:p-10 mb-8">
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-wider text-cream/40 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-            <span>{isConcert ? "Concert" : "Conférence"}</span>
+            <span>{isConcert ? "Concert" : "Conference"}</span>
           </div>
           <h1 className="font-serif text-[32px] sm:text-[44px] text-cream leading-tight">
-            {event.name}
+            {event.nom}
           </h1>
           <p className="text-cream/50 text-[15px] mt-4 max-w-xl">{event.description}</p>
           <div className="grid sm:grid-cols-3 gap-6 mt-8">
@@ -258,21 +394,21 @@ export default function EventPage() {
               <Calendar className="w-5 h-5 text-gold" />
               <div>
                 <p className="text-[12px] text-cream/40">Date</p>
-                <p className="text-[14px] text-cream font-medium">{event.date}</p>
+                <p className="text-[14px] text-cream font-medium">{formatDateRange(event.dateDebut, event.dateFin)}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="w-5 h-5 text-gold" />
               <div>
                 <p className="text-[12px] text-cream/40">Lieu</p>
-                <p className="text-[14px] text-cream font-medium">{event.lieu}</p>
+                <p className="text-[14px] text-cream font-medium">{event.lieu} · {event.ville}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Users className="w-5 h-5 text-gold" />
               <div>
                 <p className="text-[12px] text-cream/40">Participants</p>
-                <p className="text-[14px] text-cream font-medium">{event.participants} inscrits</p>
+                <p className="text-[14px] text-cream font-medium">{event._count.participants} inscrits</p>
               </div>
             </div>
           </div>
@@ -287,7 +423,7 @@ export default function EventPage() {
               {isConcert ? (
                 <>
                   <Ticket className="w-5 h-5" />
-                  Acheter mon ticket — {new Intl.NumberFormat("fr-FR").format(price)} XOF
+                  {isFree ? "Obtenir mon ticket" : `Acheter mon ticket — ${new Intl.NumberFormat("fr-FR").format(price)} XOF`}
                 </>
               ) : (
                 <>
@@ -305,82 +441,40 @@ export default function EventPage() {
               {isConcert ? "Acheter votre ticket" : "Inscription"}
             </h2>
             <p className="text-mute text-[14px] mb-8">
-              Remplissez vos informations pour obtenir votre {isConcert ? "ticket numérique" : "badge d&apos;accréditation"}.
+              Remplissez vos informations pour obtenir votre {isConcert ? "ticket numerique" : "badge"}.
             </p>
 
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setStep("done");
-              }}
-              className="grid md:grid-cols-2 gap-x-8 gap-y-6"
-            >
+            <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-x-8 gap-y-6">
               <div>
-                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Prénom</label>
-                <input
-                  required
-                  value={form.prenom}
-                  onChange={(e) => setForm({ ...form, prenom: e.target.value })}
-                  placeholder="Amadou"
-                  className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]"
-                />
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Prenom</label>
+                <input required value={form.prenom} onChange={(e) => setForm({ ...form, prenom: e.target.value })} placeholder="Amadou" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
               </div>
               <div>
                 <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Nom</label>
-                <input
-                  required
-                  value={form.nom}
-                  onChange={(e) => setForm({ ...form, nom: e.target.value })}
-                  placeholder="Diallo"
-                  className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]"
-                />
+                <input required value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })} placeholder="Diallo" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
               </div>
               <div>
                 <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Email</label>
-                <input
-                  required
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="amadou@exemple.com"
-                  className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]"
-                />
+                <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="amadou@exemple.com" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
               </div>
               <div>
-                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Téléphone</label>
-                <input
-                  required
-                  value={form.telephone}
-                  onChange={(e) => setForm({ ...form, telephone: e.target.value })}
-                  placeholder="+225 07 12 34 56 78"
-                  className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px] mono"
-                />
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Telephone</label>
+                <input required value={form.telephone} onChange={(e) => setForm({ ...form, telephone: e.target.value })} placeholder="+225 07 12 34 56 78" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px] mono" />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Organisation / Entreprise</label>
-                <input
-                  value={form.organisation}
-                  onChange={(e) => setForm({ ...form, organisation: e.target.value })}
-                  placeholder="Optionnel"
-                  className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]"
-                />
+                <input value={form.organisation} onChange={(e) => setForm({ ...form, organisation: e.target.value })} placeholder="Optionnel" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
               </div>
 
-              {/* Use for badge checkbox */}
               <div className="md:col-span-2 border-t border-line pt-6">
                 <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={form.useForBadge}
-                    onChange={(e) => setForm({ ...form, useForBadge: e.target.checked })}
-                    className="accent-gold w-5 h-5 mt-0.5"
-                  />
+                  <input type="checkbox" checked={form.useForBadge} onChange={(e) => setForm({ ...form, useForBadge: e.target.checked })} className="accent-gold w-5 h-5 mt-0.5" />
                   <div>
                     <p className="text-[14px] text-ink font-medium">
-                      Utiliser ces données pour mon {isConcert ? "ticket" : "accréditation"}
+                      Utiliser ces donnees pour mon {isConcert ? "ticket" : "accreditation"}
                     </p>
                     <p className="text-[12px] text-mute mt-1">
-                      Vos informations seront imprimées sur votre {isConcert ? "ticket numérique" : "badge"} avec un QR code vérifiable.
+                      Vos informations seront imprimees sur votre {isConcert ? "ticket numerique" : "badge"} avec un QR code verifiable.
                     </p>
                   </div>
                 </label>
@@ -391,10 +485,10 @@ export default function EventPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-[14px] text-ink font-medium">
-                        {isConcert ? "Ticket" : "Badge"} — {event.name}
+                        {isConcert ? "Ticket" : "Badge"} — {event.nom}
                       </p>
                       <p className="text-[12px] text-mute mt-1">
-                        {isConcert ? "Commission AÏKO 10% incluse" : "Frais d&apos;identification AÏKO 10 € inclus"}
+                        {isConcert ? "Commission AIKO 10% incluse" : "Frais AIKO 10 EUR inclus"}
                       </p>
                     </div>
                     <p className="font-serif text-[28px] text-ink">{new Intl.NumberFormat("fr-FR").format(price)} <span className="text-[14px] text-mute">XOF</span></p>
@@ -416,21 +510,18 @@ export default function EventPage() {
 
               <div className="md:col-span-2 flex justify-end pt-2">
                 {isFree ? (
-                  <button
-                    type="submit"
-                    className="btn-press inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-8 py-4 text-[15px] font-semibold"
-                  >
-                    Obtenir mon badge
+                  <button type="submit" className="btn-press inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-8 py-4 text-[15px] font-semibold">
+                    Obtenir mon {isConcert ? "ticket" : "badge"}
                   </button>
                 ) : (
                   <PaymentButton
                     amount={price}
                     method={payMethod}
-                    description={`${isConcert ? "Ticket" : "Badge"} — ${event.name}`}
+                    description={`${isConcert ? "Ticket" : "Badge"} — ${event.nom}`}
                     customerName={`${form.prenom} ${form.nom}`}
                     customerEmail={form.email}
                     customerPhone={form.telephone}
-                    eventId={eventId}
+                    eventId={event.slug}
                     type={isConcert ? "ticket" : "badge"}
                     onSuccess={() => setStep("done")}
                     onError={setPayError}

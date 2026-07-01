@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLocale } from "next-intl";
 import { Calendar, Users, Ticket, QrCode, Plus, ArrowRight, Sparkles, Music, Briefcase, GraduationCap } from "lucide-react";
@@ -58,9 +58,32 @@ const PRICING = [
   { label: "Tickets concert", price: "10%", sub: "Commission sur chaque vente" },
 ];
 
+interface DbEvent {
+  slug: string;
+  nom: string;
+  type: string;
+  lieu: string;
+  ville: string;
+  dateDebut: string;
+  dateFin: string;
+  prixBadge: number;
+  prixTicket: number;
+  _count: { participants: number };
+}
+
 export default function LandingPage() {
   const locale = useLocale();
   const [tab, setTab] = useState<"participer" | "creer">("participer");
+  const [dbEvents, setDbEvents] = useState<DbEvent[]>([]);
+
+  useEffect(() => {
+    fetch("/api/events")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success) setDbEvents(d.data);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="animate-fade-up">
@@ -213,6 +236,35 @@ export default function LandingPage() {
                 <span className="text-[12px] text-mute mono">{evt.participants} participants</span>
                 <span className="text-[12px] text-gold font-medium">
                   {evt.badgePrice === 0 ? "Gratuit" : `${new Intl.NumberFormat("fr-FR").format(evt.badgePrice)} XOF`}
+                </span>
+              </div>
+            </Link>
+          ))}
+          {dbEvents.map((evt) => (
+            <Link
+              key={evt.slug}
+              href={`/${locale}/evenement/${evt.slug}`}
+              className="bg-white border border-line rounded-2xl p-6 hover:shadow-float transition-all group"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-gold/10 text-gold">
+                  <Calendar size={20} />
+                </span>
+                <span className="text-[10px] uppercase tracking-wider text-mute bg-cream2 px-2 py-1 rounded-full">
+                  {evt.type === "concert" ? "Concert" : evt.type === "hackathon" ? "Tech" : "Conference"}
+                </span>
+              </div>
+              <h3 className="font-serif text-[18px] text-ink leading-tight mb-2 group-hover:text-gold transition-colors">
+                {evt.nom}
+              </h3>
+              <p className="text-[13px] text-mute">
+                {new Date(evt.dateDebut).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })} — {new Date(evt.dateFin).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+              </p>
+              <p className="text-[12px] text-mute/60 mt-1">{evt.lieu} · {evt.ville}</p>
+              <div className="mt-5 pt-4 border-t border-line flex items-center justify-between">
+                <span className="text-[12px] text-mute mono">{evt._count.participants} participants</span>
+                <span className="text-[12px] text-gold font-medium">
+                  {evt.prixBadge === 0 && evt.prixTicket === 0 ? "Gratuit" : `${new Intl.NumberFormat("fr-FR").format(evt.prixTicket || evt.prixBadge)} XOF`}
                 </span>
               </div>
             </Link>

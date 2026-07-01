@@ -1,0 +1,288 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import { useLocale } from "next-intl";
+import Link from "next/link";
+import { QRCodeSVG } from "qrcode.react";
+import {
+  ArrowLeft,
+  Users,
+  Ticket,
+  Calendar,
+  MapPin,
+  Copy,
+  CheckCircle2,
+  XCircle,
+  Loader2,
+  Download,
+  Search,
+} from "lucide-react";
+
+interface Participant {
+  id: string;
+  reference: string;
+  ticketNumber: number;
+  prenom: string;
+  nom: string;
+  email: string;
+  telephone: string;
+  organisation: string | null;
+  type: string;
+  statut: string;
+  montant: number;
+  checkedIn: boolean;
+  createdAt: string;
+}
+
+interface EventData {
+  id: string;
+  slug: string;
+  nom: string;
+  type: string;
+  description: string;
+  organisateur: string;
+  lieu: string;
+  ville: string;
+  dateDebut: string;
+  dateFin: string;
+  capacite: number;
+  badgePayant: boolean;
+  prixBadge: number;
+  ticketPayant: boolean;
+  prixTicket: number;
+  contactEmail: string;
+  statut: string;
+  _count: { participants: number };
+  participants: Participant[];
+}
+
+function formatDate(d: string) {
+  return new Date(d).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+}
+
+export default function OrganisateurDashboard() {
+  const params = useParams();
+  const locale = useLocale();
+  const slug = params.slug as string;
+
+  const [event, setEvent] = useState<EventData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetch(`/api/events/${slug}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success) setEvent(d.data);
+      })
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-32">
+        <Loader2 className="w-8 h-8 animate-spin text-gold" />
+      </div>
+    );
+  }
+
+  if (!event) {
+    return (
+      <div className="max-w-3xl mx-auto px-5 py-24 text-center">
+        <p className="text-mute text-[16px]">Evenement introuvable</p>
+        <Link href={`/${locale}`} className="text-gold mt-4 inline-block">Retour</Link>
+      </div>
+    );
+  }
+
+  const isConcert = event.type === "concert";
+  const totalRevenue = event.participants.reduce((sum, p) => sum + p.montant, 0);
+  const checkedInCount = event.participants.filter((p) => p.checkedIn).length;
+  const eventUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/${locale}/evenement/${event.slug}`;
+
+  const filtered = event.participants.filter((p) => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return (
+      p.prenom.toLowerCase().includes(q) ||
+      p.nom.toLowerCase().includes(q) ||
+      p.email.toLowerCase().includes(q) ||
+      p.reference.toLowerCase().includes(q)
+    );
+  });
+
+  return (
+    <section className="animate-fade-up">
+      <div className="max-w-6xl mx-auto px-5 lg:px-8 pt-10 pb-24">
+        <Link href={`/${locale}`} className="text-[13px] text-mute hover:text-ink flex items-center gap-1.5 mb-8">
+          <ArrowLeft className="w-4 h-4" />
+          Retour
+        </Link>
+
+        {/* Header */}
+        <div className="bg-ink text-cream rounded-2xl p-8 sm:p-10 mb-8">
+          <div className="flex items-center gap-3 text-[10px] uppercase tracking-wider text-cream/40 mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+            <span>Dashboard organisateur</span>
+          </div>
+          <h1 className="font-serif text-[32px] sm:text-[40px] text-cream leading-tight">
+            {event.nom}
+          </h1>
+          <p className="text-cream/50 text-[14px] mt-2">{event.organisateur}</p>
+
+          <div className="grid sm:grid-cols-4 gap-6 mt-8">
+            <div>
+              <p className="text-[11px] text-cream/40 uppercase tracking-wider">Participants</p>
+              <p className="font-serif text-[32px] text-gold">{event._count.participants}</p>
+            </div>
+            <div>
+              <p className="text-[11px] text-cream/40 uppercase tracking-wider">Check-ins</p>
+              <p className="font-serif text-[32px] text-cream">{checkedInCount}</p>
+            </div>
+            <div>
+              <p className="text-[11px] text-cream/40 uppercase tracking-wider">Revenus</p>
+              <p className="font-serif text-[32px] text-gold">{new Intl.NumberFormat("fr-FR").format(totalRevenue)} <span className="text-[14px] text-cream/40">XOF</span></p>
+            </div>
+            <div>
+              <p className="text-[11px] text-cream/40 uppercase tracking-wider">Capacite</p>
+              <p className="font-serif text-[32px] text-cream">{event._count.participants}/{event.capacite}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Event info + QR */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="md:col-span-2 bg-white border border-line rounded-2xl p-6">
+            <p className="text-[12px] uppercase tracking-wider text-mute mb-4">Informations</p>
+            <div className="grid sm:grid-cols-2 gap-4 text-[14px]">
+              <div className="flex items-center gap-3">
+                <Calendar className="w-4 h-4 text-gold" />
+                <span>{formatDate(event.dateDebut)} — {formatDate(event.dateFin)}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <MapPin className="w-4 h-4 text-gold" />
+                <span>{event.lieu} · {event.ville}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Ticket className="w-4 h-4 text-gold" />
+                <span>{isConcert ? "Concert" : "Conference"} · {event.badgePayant || event.ticketPayant ? "Payant" : "Gratuit"}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Users className="w-4 h-4 text-gold" />
+                <span>Capacite : {event.capacite} places</span>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-line">
+              <p className="text-[12px] uppercase tracking-wider text-mute mb-2">Lien inscription</p>
+              <div className="flex items-center gap-2">
+                <input readOnly value={eventUrl} className="flex-1 bg-cream2 border border-line rounded-xl px-4 py-2.5 text-[13px] mono" />
+                <button onClick={() => navigator.clipboard?.writeText(eventUrl)} className="btn-press bg-ink text-cream rounded-xl px-3 py-2.5">
+                  <Copy className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white border border-line rounded-2xl p-6 flex flex-col items-center justify-center">
+            <QRCodeSVG value={eventUrl} size={140} bgColor="transparent" fgColor="#0A0A0A" level="M" />
+            <p className="text-[11px] text-mute mt-3 text-center">QR Code inscription</p>
+          </div>
+        </div>
+
+        {/* Participant list */}
+        <div className="bg-white border border-line rounded-2xl overflow-hidden">
+          <div className="px-6 py-5 border-b border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="font-serif text-[22px] text-ink">Participants</h2>
+              <p className="text-[13px] text-mute">{event._count.participants} inscrits</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Search className="w-4 h-4 text-mute absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Rechercher..."
+                  className="bg-cream2 border border-line rounded-xl pl-9 pr-4 py-2.5 text-[13px] w-[220px]"
+                />
+              </div>
+              <button
+                onClick={() => {
+                  const csv = [
+                    "N°,Reference,Prenom,Nom,Email,Telephone,Organisation,Type,Montant,Check-in",
+                    ...event.participants.map((p) =>
+                      `${p.ticketNumber},${p.reference},${p.prenom},${p.nom},${p.email},${p.telephone},${p.organisation ?? ""},${p.type},${p.montant},${p.checkedIn ? "Oui" : "Non"}`
+                    ),
+                  ].join("\n");
+                  const blob = new Blob([csv], { type: "text/csv" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `${event.slug}-participants.csv`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+                className="btn-press inline-flex items-center gap-2 bg-ink text-cream rounded-xl px-4 py-2.5 text-[13px] font-medium"
+              >
+                <Download className="w-4 h-4" />
+                CSV
+              </button>
+            </div>
+          </div>
+
+          {filtered.length === 0 ? (
+            <div className="px-6 py-16 text-center">
+              <Users className="w-10 h-10 text-line mx-auto mb-3" />
+              <p className="text-mute text-[14px]">
+                {search ? "Aucun resultat" : "Aucun participant pour le moment"}
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-[13px]">
+                <thead>
+                  <tr className="text-[11px] uppercase tracking-wider text-mute bg-cream2">
+                    <th className="text-left px-6 py-3 font-medium">N°</th>
+                    <th className="text-left px-4 py-3 font-medium">Ref</th>
+                    <th className="text-left px-4 py-3 font-medium">Nom</th>
+                    <th className="text-left px-4 py-3 font-medium">Email</th>
+                    <th className="text-left px-4 py-3 font-medium">Type</th>
+                    <th className="text-right px-4 py-3 font-medium">Montant</th>
+                    <th className="text-center px-4 py-3 font-medium">Check-in</th>
+                    <th className="text-left px-6 py-3 font-medium">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((p) => (
+                    <tr key={p.id} className="border-t border-line hover:bg-cream2/50">
+                      <td className="px-6 py-3 font-mono font-semibold">{String(p.ticketNumber).padStart(4, "0")}</td>
+                      <td className="px-4 py-3 font-mono text-gold text-[12px]">{p.reference}</td>
+                      <td className="px-4 py-3 font-medium">{p.prenom} {p.nom}</td>
+                      <td className="px-4 py-3 text-mute">{p.email}</td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-flex items-center gap-1 text-[11px] uppercase tracking-wider px-2 py-0.5 rounded-full ${p.type === "ticket" ? "bg-gold/10 text-gold" : "bg-ink/5 text-ink"}`}>
+                          {p.type}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-right font-mono">{p.montant > 0 ? `${new Intl.NumberFormat("fr-FR").format(p.montant)} XOF` : "Gratuit"}</td>
+                      <td className="px-4 py-3 text-center">
+                        {p.checkedIn ? (
+                          <CheckCircle2 className="w-4 h-4 text-ok mx-auto" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-line mx-auto" />
+                        )}
+                      </td>
+                      <td className="px-6 py-3 text-mute text-[12px]">{new Date(p.createdAt).toLocaleDateString("fr-FR")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
