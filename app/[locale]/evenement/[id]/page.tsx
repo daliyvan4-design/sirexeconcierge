@@ -19,6 +19,7 @@ import { useLocale } from "next-intl";
 import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/payment-method-picker";
 import { PaymentButton } from "@/components/payment/payment-button";
 import { generateTicketPDF } from "@/lib/generate-ticket-pdf";
+import { EventMap } from "@/components/ui/event-map";
 
 interface EventData {
   slug: string;
@@ -35,6 +36,8 @@ interface EventData {
   prixBadge: number;
   ticketPayant: boolean;
   prixTicket: number;
+  latitude?: number;
+  longitude?: number;
   _count: { participants: number };
 }
 
@@ -54,6 +57,8 @@ const DEMO_EVENTS: Record<string, EventData> = {
     prixBadge: 0,
     ticketPayant: false,
     prixTicket: 0,
+    latitude: 5.3364,
+    longitude: -4.0267,
     _count: { participants: 850 },
   },
   "afro-music-festival": {
@@ -71,6 +76,8 @@ const DEMO_EVENTS: Record<string, EventData> = {
     prixBadge: 0,
     ticketPayant: true,
     prixTicket: 15000,
+    latitude: 5.3189,
+    longitude: -3.9735,
     _count: { participants: 3200 },
   },
   "summit-mines-energie": {
@@ -88,6 +95,8 @@ const DEMO_EVENTS: Record<string, EventData> = {
     prixBadge: 0,
     ticketPayant: false,
     prixTicket: 0,
+    latitude: 5.3599,
+    longitude: -3.9912,
     _count: { participants: 420 },
   },
   "hackathon-ci": {
@@ -105,6 +114,8 @@ const DEMO_EVENTS: Record<string, EventData> = {
     prixBadge: 5000,
     ticketPayant: false,
     prixTicket: 0,
+    latitude: 5.3490,
+    longitude: -3.9830,
     _count: { participants: 200 },
   },
 };
@@ -439,6 +450,17 @@ export default function EventPage() {
             </div>
           </div>
         </div>
+
+        {event.latitude && event.longitude && (
+          <div className="mb-8">
+            <EventMap
+              lat={event.latitude}
+              lng={event.longitude}
+              lieu={event.lieu}
+              ville={event.ville}
+            />
+          </div>
+        )}
 
         {step === "info" && (
           <div className="text-center py-8">

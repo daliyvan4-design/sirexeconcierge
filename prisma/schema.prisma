@@ -173,6 +173,8 @@ model Event {
   organisateur  String
   lieu          String
   ville         String
+  latitude      Float?
+  longitude     Float?
   dateDebut     DateTime
   dateFin       DateTime
   capacite      Int           @default(500)

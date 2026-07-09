@@ -36,6 +36,8 @@ export async function POST(req: NextRequest) {
         prixTicket: body.prixTicket ? parseFloat(body.prixTicket) : 0,
         contactEmail: body.contactEmail,
         contactTel: body.contactTel,
+        latitude: body.latitude ? parseFloat(body.latitude) : null,
+        longitude: body.longitude ? parseFloat(body.longitude) : null,
         statut: body.statut ?? "actif",
         paymentRef: body.paymentRef,
       },
