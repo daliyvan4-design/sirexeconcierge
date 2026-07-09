@@ -12,9 +12,10 @@ interface Props {
   customerName?: string;
   customerEmail?: string;
   customerPhone?: string;
-  eventId?: string;
+  eventSlug?: string;
+  participantRef?: string;
   type?: "event_creation" | "badge" | "ticket";
-  onSuccess?: (reference: string, checkoutUrl: string) => void;
+  onBeforePay?: () => Promise<{ participantRef?: string; eventSlug?: string } | void>;
   onError?: (message: string) => void;
   disabled?: boolean;
   label?: string;
@@ -28,9 +29,10 @@ export function PaymentButton({
   customerName,
   customerEmail,
   customerPhone,
-  eventId,
+  eventSlug,
+  participantRef,
   type,
-  onSuccess,
+  onBeforePay,
   onError,
   disabled,
   label,
@@ -46,6 +48,15 @@ export function PaymentButton({
     setLoading(true);
 
     try {
+      let finalEventSlug = eventSlug;
+      let finalParticipantRef = participantRef;
+
+      if (onBeforePay) {
+        const result = await onBeforePay();
+        if (result?.eventSlug) finalEventSlug = result.eventSlug;
+        if (result?.participantRef) finalParticipantRef = result.participantRef;
+      }
+
       const res = await fetch("/api/payments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -57,7 +68,8 @@ export function PaymentButton({
           customer_name: customerName,
           customer_email: customerEmail,
           customer_phone: customerPhone,
-          event_id: eventId,
+          event_slug: finalEventSlug,
+          participant_ref: finalParticipantRef,
           type,
         }),
       });
@@ -71,7 +83,6 @@ export function PaymentButton({
 
       const redirectUrl = data.checkout_url ?? data.payment_url;
       if (redirectUrl) {
-        onSuccess?.(data.reference, redirectUrl);
         window.location.href = redirectUrl;
       } else {
         onError?.("Aucune URL de paiement retournee");
@@ -84,8 +95,7 @@ export function PaymentButton({
   };
 
   const formatted = new Intl.NumberFormat("fr-FR").format(amount);
-  const buttonLabel =
-    label ?? `Payer ${formatted} ${currency}`;
+  const buttonLabel = label ?? `Payer ${formatted} ${currency}`;
 
   return (
     <div>

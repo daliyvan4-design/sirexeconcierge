@@ -33,6 +33,7 @@ export async function POST(
         telephone: body.telephone,
         organisation: body.organisation,
         type: body.type ?? (event.type === "concert" ? "ticket" : "badge"),
+        statut: body.statut ?? "confirme",
         montant: body.montant ?? 0,
         paymentRef: body.paymentRef,
       },

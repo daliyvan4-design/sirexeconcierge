@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 import { verifyWebhookSignature, type WebhookPayload } from "@/lib/geniuspay";
 
 export async function POST(req: NextRequest) {
@@ -19,9 +20,45 @@ export async function POST(req: NextRequest) {
 
   switch (event) {
     case "payment.success": {
-      const { reference, amount, metadata } = payload.data;
+      const { metadata } = payload.data;
+      const payRef = metadata?.pay_ref;
+
+      if (payRef) {
+        await prisma.payment.updateMany({
+          where: { reference: payRef },
+          data: {
+            statut: "completed",
+            geniusRef: payload.data.reference?.toString(),
+            methode: payload.data.payment_method,
+          },
+        });
+      }
+
+      const participantRef = metadata?.participant_ref;
+      if (participantRef) {
+        await prisma.participant.updateMany({
+          where: { reference: participantRef },
+          data: {
+            statut: "confirme",
+            paymentRef: payRef,
+          },
+        });
+      }
+
+      const eventSlug = metadata?.event_slug;
+      const type = metadata?.type;
+      if (eventSlug && type === "event_creation") {
+        await prisma.event.updateMany({
+          where: { slug: eventSlug },
+          data: {
+            statut: "actif",
+            paymentRef: payRef,
+          },
+        });
+      }
+
       console.log(
-        `[GeniusPay] Payment completed: ${reference} — ${amount} XOF — event: ${metadata?.event_id ?? "n/a"}`,
+        `[GeniusPay] Payment completed: ${payRef} — participant: ${participantRef ?? "n/a"} — event: ${eventSlug ?? "n/a"}`,
       );
       break;
     }
@@ -29,18 +66,41 @@ export async function POST(req: NextRequest) {
     case "payment.failed":
     case "payment.cancelled":
     case "payment.expired": {
-      const { reference, status } = payload.data;
-      console.log(
-        `[GeniusPay] Payment ${status}: ${reference}`,
-      );
+      const { metadata, status } = payload.data;
+      const payRef = metadata?.pay_ref;
+      const dbStatus = status === "failed" ? "echoue" : status === "cancelled" ? "annule" : "expire";
+
+      if (payRef) {
+        await prisma.payment.updateMany({
+          where: { reference: payRef },
+          data: { statut: dbStatus },
+        });
+      }
+
+      const participantRef = metadata?.participant_ref;
+      if (participantRef) {
+        await prisma.participant.updateMany({
+          where: { reference: participantRef },
+          data: { statut: "echoue" },
+        });
+      }
+
+      console.log(`[GeniusPay] Payment ${status}: ${payRef}`);
       break;
     }
 
     case "payment.refunded": {
-      const { reference, amount } = payload.data;
-      console.log(
-        `[GeniusPay] Payment refunded: ${reference} — ${amount} XOF`,
-      );
+      const { metadata, amount } = payload.data;
+      const payRef = metadata?.pay_ref;
+
+      if (payRef) {
+        await prisma.payment.updateMany({
+          where: { reference: payRef },
+          data: { statut: "rembourse" },
+        });
+      }
+
+      console.log(`[GeniusPay] Payment refunded: ${payRef} — ${amount} XOF`);
       break;
     }
 

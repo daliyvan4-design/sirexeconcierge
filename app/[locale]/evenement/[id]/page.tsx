@@ -43,7 +43,7 @@ const DEMO_EVENTS: Record<string, EventData> = {
     slug: "salon-tech-2026",
     nom: "Salon Tech Abidjan 2026",
     type: "conference",
-    description: "Le rendez-vous annuel de la tech et de l’innovation en Afrique de l’Ouest. Conferences, B2B, networking.",
+    description: "Le rendez-vous annuel de la tech et de l'innovation en Afrique de l'Ouest. Conferences, B2B, networking.",
     organisateur: "AIKO Events",
     lieu: "Sofitel Hotel Ivoire",
     ville: "Abidjan",
@@ -77,7 +77,7 @@ const DEMO_EVENTS: Record<string, EventData> = {
     slug: "summit-mines-energie",
     nom: "Summit Mines & Energie",
     type: "conference",
-    description: "Forum international sur les ressources extractives et energetiques en Cote d’Ivoire.",
+    description: "Forum international sur les ressources extractives et energetiques en Cote d'Ivoire.",
     organisateur: "Ministere des Mines",
     lieu: "Radisson Blu",
     ville: "Abidjan",
@@ -202,6 +202,32 @@ export default function EventPage() {
     }
 
     setStep("done");
+  };
+
+  const saveParticipantBeforePay = async (): Promise<{ participantRef?: string; eventSlug?: string }> => {
+    try {
+      const res = await fetch(`/api/events/${event.slug}/participants`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prenom: form.prenom,
+          nom: form.nom,
+          email: form.email,
+          telephone: form.telephone,
+          organisation: form.organisation,
+          type: isConcert ? "ticket" : "badge",
+          statut: "pending",
+          montant: price,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        return { participantRef: data.data.reference, eventSlug: event.slug };
+      }
+    } catch {
+      // continue to payment anyway
+    }
+    return { eventSlug: event.slug };
   };
 
   if (step === "done") {
@@ -521,9 +547,9 @@ export default function EventPage() {
                     customerName={`${form.prenom} ${form.nom}`}
                     customerEmail={form.email}
                     customerPhone={form.telephone}
-                    eventId={event.slug}
+                    eventSlug={event.slug}
                     type={isConcert ? "ticket" : "badge"}
-                    onSuccess={() => setStep("done")}
+                    onBeforePay={saveParticipantBeforePay}
                     onError={setPayError}
                     disabled={!form.prenom || !form.nom || !form.email}
                     label={`Payer ${new Intl.NumberFormat("fr-FR").format(price)} XOF`}

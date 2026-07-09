@@ -8,11 +8,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Upload,
-  Calendar,
-  MapPin,
   Users,
-  Ticket,
-  QrCode,
   CheckCircle2,
   Copy,
   ExternalLink,
@@ -52,10 +48,6 @@ const EVENT_TYPES: { value: EventType; label: string; icon: LucideIcon }[] = [
   { value: "hackathon", label: "Hackathon", icon: Code2 },
 ];
 
-function genEventId() {
-  return `evt-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`;
-}
-
 export default function CreerPage() {
   const locale = useLocale();
   const [step, setStep] = useState(1);
@@ -79,13 +71,11 @@ export default function CreerPage() {
   const [eventSlug, setEventSlug] = useState("");
   const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
   const [payError, setPayError] = useState("");
-  const [saving, setSaving] = useState(false);
 
   const update = (patch: Partial<EventForm>) => setForm({ ...form, ...patch });
   const isConcert = form.type === "concert";
 
-  const saveEvent = async () => {
-    setSaving(true);
+  const saveEventBeforePay = async (): Promise<{ eventSlug?: string }> => {
     try {
       const res = await fetch("/api/events", {
         method: "POST",
@@ -106,21 +96,22 @@ export default function CreerPage() {
           prixTicket: form.prixTicket,
           contactEmail: form.contactEmail,
           contactTel: form.contactTel,
+          statut: "pending",
         }),
       });
       const data = await res.json();
       if (data.success) {
         setEventSlug(data.slug);
+        return { eventSlug: data.slug };
       }
     } catch {
-      // fallback slug
+      // continue to payment anyway
     }
-    setSaving(false);
-    setStep(4);
+    return {};
   };
 
   if (step === 4) {
-    const slug = eventSlug || genEventId();
+    const slug = eventSlug;
     const eventUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/${locale}/evenement/${slug}`;
 
     return (
@@ -129,18 +120,17 @@ export default function CreerPage() {
           <div className="text-center mb-12">
             <CheckCircle2 className="w-16 h-16 text-ok mx-auto mb-5" />
             <h2 className="font-serif text-[36px] sm:text-[44px] text-ink">
-              Événement créé !
+              {"É"}v{"é"}nement cr{"é"}{"é"} !
             </h2>
             <p className="text-mute mt-3 text-[16px] max-w-lg mx-auto">
               <strong>{form.name}</strong> est en ligne. Partagez le lien avec vos participants.
             </p>
           </div>
 
-          {/* Event summary card */}
           <div className="w-[380px] mx-auto bg-ink rounded-2xl overflow-hidden shadow-float mb-8">
             <div className="bg-gold px-6 py-4 flex items-center justify-between">
               <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 700, color: "#0A0A0A", letterSpacing: "0.04em" }}>
-                AÏKO
+                A{"Ï"}KO
               </span>
               <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", color: "#0A0A0A", fontWeight: 600 }}>
                 Organisateur
@@ -179,12 +169,11 @@ export default function CreerPage() {
 
             <div className="px-6 pb-4 text-center">
               <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.3em", color: "rgba(255,255,255,0.3)" }}>
-                QR Code de l&apos;événement
+                QR Code de l&apos;{"é"}v{"é"}nement
               </p>
             </div>
           </div>
 
-          {/* Link share */}
           <div className="bg-cream2 border border-line rounded-2xl p-5 mb-8">
             <p className="text-[12px] uppercase tracking-wider text-mute mb-3">Lien d&apos;inscription participants</p>
             <div className="flex items-center gap-2">
@@ -202,18 +191,17 @@ export default function CreerPage() {
             </div>
           </div>
 
-          {/* Pricing summary */}
           <div className="bg-cream2 border border-line rounded-2xl p-5 mb-8">
-            <p className="text-[12px] uppercase tracking-wider text-mute mb-3">Récapitulatif facturation</p>
+            <p className="text-[12px] uppercase tracking-wider text-mute mb-3">R{"é"}capitulatif facturation</p>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[14px] text-ink">Création d&apos;événement</span>
-                <span className="text-[14px] text-ink font-semibold">50 €</span>
+                <span className="text-[14px] text-ink">Cr{"é"}ation d&apos;{"é"}v{"é"}nement</span>
+                <span className="text-[14px] text-ink font-semibold">50 {"€"}</span>
               </div>
               {form.badgePayant && (
                 <div className="flex items-center justify-between">
                   <span className="text-[14px] text-mute">Frais d&apos;identification badge</span>
-                  <span className="text-[14px] text-mute">10 € / badge</span>
+                  <span className="text-[14px] text-mute">10 {"€"} / badge</span>
                 </div>
               )}
               {isConcert && form.ticketPayant && (
@@ -223,8 +211,8 @@ export default function CreerPage() {
                 </div>
               )}
               <div className="border-t border-line pt-3 flex items-center justify-between">
-                <span className="text-[14px] text-ink font-medium">Total dû maintenant</span>
-                <span className="font-serif text-[24px] text-ink">50 €</span>
+                <span className="text-[14px] text-ink font-medium">Total d{"û"} maintenant</span>
+                <span className="font-serif text-[24px] text-ink">50 {"€"}</span>
               </div>
             </div>
           </div>
@@ -253,13 +241,11 @@ export default function CreerPage() {
   return (
     <section className="animate-fade-up">
       <div className="max-w-3xl mx-auto px-5 lg:px-8 pt-10 pb-24">
-        {/* Back */}
         <Link href={`/${locale}`} className="text-[13px] text-mute hover:text-ink flex items-center gap-1.5 mb-8">
           <ArrowLeft className="w-4 h-4" />
           Retour
         </Link>
 
-        {/* Progress */}
         <div className="flex items-center gap-2 mb-10">
           {[1, 2, 3].map((s) => (
             <div
@@ -272,16 +258,16 @@ export default function CreerPage() {
         </div>
 
         <h1 className="font-serif text-[32px] sm:text-[40px] text-ink mb-2">
-          Créer votre événement
+          Cr{"é"}er votre {"é"}v{"é"}nement
         </h1>
         <p className="text-mute text-[14px] mb-10">
-          Étape {step} sur 3 — {step === 1 ? "Informations générales" : step === 2 ? "Lieu & dates" : "Tarification & contact"}
+          {"É"}tape {step} sur 3 — {step === 1 ? "Informations générales" : step === 2 ? "Lieu & dates" : "Tarification & contact"}
         </p>
 
         {step === 1 && (
           <div className="space-y-6 animate-fade-up">
             <div>
-              <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Nom de l&apos;événement</label>
+              <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Nom de l&apos;{"é"}v{"é"}nement</label>
               <input
                 value={form.name}
                 onChange={(e) => update({ name: e.target.value })}
@@ -291,7 +277,7 @@ export default function CreerPage() {
             </div>
 
             <div>
-              <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Type d&apos;événement</label>
+              <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Type d&apos;{"é"}v{"é"}nement</label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {EVENT_TYPES.map((t) => (
                   <button
@@ -333,7 +319,7 @@ export default function CreerPage() {
             </div>
 
             <div>
-              <label className="block text-[12px] font-medium text-ink mb-3 uppercase tracking-wider">Logo de l&apos;événement</label>
+              <label className="block text-[12px] font-medium text-ink mb-3 uppercase tracking-wider">Logo de l&apos;{"é"}v{"é"}nement</label>
               <div className="border-2 border-dashed border-line rounded-2xl p-8 text-center hover:border-gold/30 transition-colors cursor-pointer">
                 <Upload className="w-8 h-8 text-mute mx-auto mb-3" />
                 <p className="text-[13px] text-mute">Glissez votre logo ici ou cliquez pour choisir</p>
@@ -358,7 +344,7 @@ export default function CreerPage() {
           <div className="space-y-6 animate-fade-up">
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
-                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Date de début</label>
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Date de d{"é"}but</label>
                 <input
                   type="date"
                   value={form.dateStart}
@@ -398,7 +384,7 @@ export default function CreerPage() {
             </div>
 
             <div>
-              <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Capacité (nombre de places)</label>
+              <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Capacit{"é"} (nombre de places)</label>
               <input
                 type="number"
                 value={form.capacite}
@@ -414,7 +400,7 @@ export default function CreerPage() {
                 className="text-[14px] text-mute hover:text-ink flex items-center gap-1"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Précédent
+                Pr{"é"}c{"é"}dent
               </button>
               <button
                 onClick={() => setStep(3)}
@@ -430,7 +416,6 @@ export default function CreerPage() {
 
         {step === 3 && (
           <div className="space-y-6 animate-fade-up">
-            {/* Badge pricing */}
             <div className="bg-cream2 border border-line rounded-2xl p-6">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
@@ -440,9 +425,9 @@ export default function CreerPage() {
                   className="accent-gold w-5 h-5 mt-0.5"
                 />
                 <div>
-                  <p className="text-[14px] text-ink font-medium">Badge / accréditation payant</p>
+                  <p className="text-[14px] text-ink font-medium">Badge / accr{"é"}ditation payant</p>
                   <p className="text-[12px] text-mute mt-1">
-                    Frais d&apos;identification AÏKO : 10 € par badge délivré
+                    Frais d&apos;identification A{"Ï"}KO : 10 {"€"} par badge d{"é"}livr{"é"}
                   </p>
                 </div>
               </label>
@@ -460,7 +445,6 @@ export default function CreerPage() {
               )}
             </div>
 
-            {/* Ticket pricing (concerts only) */}
             {isConcert && (
               <div className="bg-cream2 border border-line rounded-2xl p-6">
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -473,7 +457,7 @@ export default function CreerPage() {
                   <div>
                     <p className="text-[14px] text-ink font-medium">Tickets payants</p>
                     <p className="text-[12px] text-mute mt-1">
-                      Commission AÏKO : 10% sur chaque ticket vendu
+                      Commission A{"Ï"}KO : 10% sur chaque ticket vendu
                     </p>
                   </div>
                 </label>
@@ -494,7 +478,6 @@ export default function CreerPage() {
 
             <div style={{ height: 1 }} className="bg-line" />
 
-            {/* Contact */}
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Email de contact</label>
@@ -507,7 +490,7 @@ export default function CreerPage() {
                 />
               </div>
               <div>
-                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Téléphone</label>
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">T{"é"}l{"é"}phone</label>
                 <input
                   value={form.contactTel}
                   onChange={(e) => update({ contactTel: e.target.value })}
@@ -517,15 +500,14 @@ export default function CreerPage() {
               </div>
             </div>
 
-            {/* Price summary */}
             <div className="bg-ink rounded-2xl p-6 text-cream">
               <p className="text-[12px] uppercase tracking-wider text-cream/40 mb-4">Votre facture</p>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[14px]">Création d&apos;événement AÏKO</span>
-                <span className="font-serif text-[20px] text-gold">50 €</span>
+                <span className="text-[14px]">Cr{"é"}ation d&apos;{"é"}v{"é"}nement A{"Ï"}KO</span>
+                <span className="font-serif text-[20px] text-gold">50 {"€"}</span>
               </div>
               <p className="text-[11px] text-cream/30">
-                {form.badgePayant && "· 10 € / badge payant délivré  "}
+                {form.badgePayant && `· 10 € / badge payant délivré  `}
                 {isConcert && form.ticketPayant && "· 10% / ticket vendu"}
               </p>
             </div>
@@ -544,7 +526,7 @@ export default function CreerPage() {
                 className="text-[14px] text-mute hover:text-ink flex items-center gap-1"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Précédent
+                Pr{"é"}c{"é"}dent
               </button>
               <PaymentButton
                 amount={32500}
@@ -554,11 +536,10 @@ export default function CreerPage() {
                 customerName={form.organisateur}
                 customerEmail={form.contactEmail}
                 customerPhone={form.contactTel}
-                eventId={eventSlug}
                 type="event_creation"
-                onSuccess={() => saveEvent()}
+                onBeforePay={saveEventBeforePay}
                 onError={setPayError}
-                disabled={!form.contactEmail || saving}
+                disabled={!form.contactEmail}
                 label="Payer 50 € et creer"
               />
             </div>
