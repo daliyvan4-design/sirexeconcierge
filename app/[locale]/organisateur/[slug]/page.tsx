@@ -17,6 +17,7 @@ import {
   Loader2,
   Download,
   Search,
+  ScanLine,
 } from "lucide-react";
 
 interface Participant {
@@ -138,7 +139,10 @@ export default function OrganisateurDashboard() {
             </div>
             <div>
               <p className="text-[11px] text-cream/40 uppercase tracking-wider">Check-ins</p>
-              <p className="font-serif text-[32px] text-cream">{checkedInCount}</p>
+              <p className="font-serif text-[32px] text-cream">
+                {checkedInCount}
+                <span className="text-[14px] text-cream/30 ml-1">/ {event._count.participants}</span>
+              </p>
             </div>
             <div>
               <p className="text-[11px] text-cream/40 uppercase tracking-wider">Revenus</p>
@@ -148,6 +152,16 @@ export default function OrganisateurDashboard() {
               <p className="text-[11px] text-cream/40 uppercase tracking-wider">Capacite</p>
               <p className="font-serif text-[32px] text-cream">{event._count.participants}/{event.capacite}</p>
             </div>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-cream/10">
+            <Link
+              href={`/${locale}/scan/${event.slug}`}
+              className="btn-press inline-flex items-center gap-2.5 bg-gold hover:bg-gold2 text-ink rounded-full px-6 py-3.5 text-[14px] font-semibold"
+            >
+              <ScanLine className="w-5 h-5" />
+              Scanner les badges
+            </Link>
           </div>
         </div>
 
