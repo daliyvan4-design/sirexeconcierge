@@ -7,7 +7,6 @@ import { QRCodeSVG } from "qrcode.react";
 import {
   ArrowLeft,
   ArrowRight,
-  Upload,
   Users,
   CheckCircle2,
   Copy,
@@ -20,6 +19,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/payment-method-picker";
 import { PaymentButton } from "@/components/payment/payment-button";
+import { ImageUpload } from "@/components/ui/image-upload";
 
 type EventType = "conference" | "concert" | "salon" | "hackathon";
 
@@ -39,6 +39,8 @@ interface EventForm {
   contactEmail: string;
   contactTel: string;
   organisateur: string;
+  logoUrl: string;
+  coverUrl: string;
 }
 
 const EVENT_TYPES: { value: EventType; label: string; icon: LucideIcon }[] = [
@@ -67,6 +69,8 @@ export default function CreerPage() {
     contactEmail: "",
     contactTel: "",
     organisateur: "",
+    logoUrl: "",
+    coverUrl: "",
   });
   const [eventSlug, setEventSlug] = useState("");
   const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
@@ -96,6 +100,8 @@ export default function CreerPage() {
           prixTicket: form.prixTicket,
           contactEmail: form.contactEmail,
           contactTel: form.contactTel,
+          logoUrl: form.logoUrl || undefined,
+          coverUrl: form.coverUrl || undefined,
           statut: "pending",
         }),
       });
@@ -318,13 +324,23 @@ export default function CreerPage() {
               />
             </div>
 
-            <div>
-              <label className="block text-[12px] font-medium text-ink mb-3 uppercase tracking-wider">Logo de l&apos;{"é"}v{"é"}nement</label>
-              <div className="border-2 border-dashed border-line rounded-2xl p-8 text-center hover:border-gold/30 transition-colors cursor-pointer">
-                <Upload className="w-8 h-8 text-mute mx-auto mb-3" />
-                <p className="text-[13px] text-mute">Glissez votre logo ici ou cliquez pour choisir</p>
-                <p className="text-[11px] text-mute/60 mt-1">PNG, JPG — max 2 Mo</p>
-              </div>
+            <div className="grid sm:grid-cols-2 gap-6">
+              <ImageUpload
+                value={form.logoUrl}
+                onChange={(url) => update({ logoUrl: url })}
+                folder="logos"
+                aspect="square"
+                label={`Logo de l'événement`}
+                placeholder="Logo (carre)"
+              />
+              <ImageUpload
+                value={form.coverUrl}
+                onChange={(url) => update({ coverUrl: url })}
+                folder="covers"
+                aspect="cover"
+                label="Image de couverture"
+                placeholder="Cover (panoramique)"
+              />
             </div>
 
             <div className="flex justify-end pt-4">

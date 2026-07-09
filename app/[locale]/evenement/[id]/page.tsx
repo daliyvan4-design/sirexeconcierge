@@ -38,6 +38,8 @@ interface EventData {
   prixTicket: number;
   latitude?: number;
   longitude?: number;
+  logoUrl?: string;
+  coverUrl?: string;
   _count: { participants: number };
 }
 
@@ -417,8 +419,18 @@ export default function EventPage() {
           Retour aux evenements
         </Link>
 
-        <div className="bg-ink text-cream rounded-2xl p-8 sm:p-10 mb-8">
+        <div className="bg-ink text-cream rounded-2xl overflow-hidden mb-8">
+          {event.coverUrl && (
+            <div className="relative h-48 sm:h-64">
+              <img src={event.coverUrl} alt="" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
+            </div>
+          )}
+          <div className={event.coverUrl ? "px-8 sm:px-10 pb-8 sm:pb-10 -mt-16 relative" : "p-8 sm:p-10"}>
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-wider text-cream/40 mb-4">
+            {event.logoUrl && (
+              <img src={event.logoUrl} alt="" className="w-8 h-8 rounded-lg object-cover" />
+            )}
             <span className="w-1.5 h-1.5 rounded-full bg-gold" />
             <span>{isConcert ? "Concert" : "Conference"}</span>
           </div>
@@ -448,6 +460,7 @@ export default function EventPage() {
                 <p className="text-[14px] text-cream font-medium">{event._count.participants} inscrits</p>
               </div>
             </div>
+          </div>
           </div>
         </div>
 

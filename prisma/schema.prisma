@@ -179,6 +179,7 @@ model Event {
   dateFin       DateTime
   capacite      Int           @default(500)
   logoUrl       String?
+  coverUrl      String?
   badgePayant   Boolean       @default(false)
   prixBadge     Float         @default(0)
   ticketPayant  Boolean       @default(false)
