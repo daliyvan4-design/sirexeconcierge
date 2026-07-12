@@ -13,6 +13,8 @@ import {
   Download,
   Ticket,
   Loader2,
+  Bed,
+  Star,
 } from "lucide-react";
 import Link from "next/link";
 import { useLocale } from "next-intl";
@@ -20,6 +22,28 @@ import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/pay
 import { PaymentButton } from "@/components/payment/payment-button";
 import { generateTicketPDF } from "@/lib/generate-ticket-pdf";
 import { EventMap } from "@/components/ui/event-map";
+
+interface ResidenceTarif {
+  id: string;
+  label: string;
+  typeChambre: string;
+  prixParNuit: number;
+  devise: string;
+  capacite: number;
+}
+
+interface ResidenceData {
+  id: string;
+  nom: string;
+  type: string;
+  description?: string;
+  adresse: string;
+  ville: string;
+  quartier?: string;
+  equipements?: string;
+  images: { url: string; legende?: string }[];
+  tarifs: ResidenceTarif[];
+}
 
 interface EventData {
   slug: string;
@@ -40,6 +64,8 @@ interface EventData {
   longitude?: number;
   logoUrl?: string;
   coverUrl?: string;
+  offreLogement?: boolean;
+  residence?: ResidenceData | null;
   _count: { participants: number };
 }
 
@@ -150,6 +176,10 @@ export default function EventPage() {
   const [ticketNum, setTicketNum] = useState(0);
   const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
   const [payError, setPayError] = useState("");
+  const [selectedTarifId, setSelectedTarifId] = useState<string | null>(null);
+
+  const hasLogement = event?.offreLogement && event.residence && event.residence.tarifs.length > 0;
+  const selectedTarif = hasLogement ? event!.residence!.tarifs.find((t) => t.id === selectedTarifId) : null;
 
   useEffect(() => {
     if (DEMO_EVENTS[eventId]) return;
@@ -201,6 +231,7 @@ export default function EventPage() {
           organisation: form.organisation,
           type: isConcert ? "ticket" : "badge",
           montant: 0,
+          residenceTarifId: selectedTarifId,
         }),
       });
       const data = await res.json();
@@ -231,6 +262,7 @@ export default function EventPage() {
           type: isConcert ? "ticket" : "badge",
           statut: "pending",
           montant: price,
+          residenceTarifId: selectedTarifId,
         }),
       });
       const data = await res.json();
@@ -526,6 +558,70 @@ export default function EventPage() {
                 <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Organisation / Entreprise</label>
                 <input value={form.organisation} onChange={(e) => setForm({ ...form, organisation: e.target.value })} placeholder="Optionnel" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
               </div>
+
+              {hasLogement && (
+                <div className="md:col-span-2 border-t border-line pt-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Bed className="w-5 h-5 text-gold" />
+                    <h3 className="text-[16px] font-serif text-ink">Hebergement disponible</h3>
+                  </div>
+                  <p className="text-[13px] text-mute mb-4">
+                    {event!.residence!.nom} — {event!.residence!.adresse}, {event!.residence!.ville}
+                    {event!.residence!.quartier && ` (${event!.residence!.quartier})`}
+                  </p>
+                  {event!.residence!.images.length > 0 && (
+                    <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+                      {event!.residence!.images.map((img, i) => (
+                        <img key={i} src={img.url} alt={img.legende || ""} className="w-28 h-20 rounded-lg object-cover flex-shrink-0" />
+                      ))}
+                    </div>
+                  )}
+                  {event!.residence!.equipements && (
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {event!.residence!.equipements.split(",").map((eq, i) => (
+                        <span key={i} className="text-[11px] bg-cream2 text-mute px-2.5 py-1 rounded-full">{eq.trim()}</span>
+                      ))}
+                    </div>
+                  )}
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedTarifId(null)}
+                      className={`text-left rounded-xl border p-4 transition-all ${
+                        !selectedTarifId ? "border-gold bg-gold/5 ring-1 ring-gold" : "border-line hover:border-mute"
+                      }`}
+                    >
+                      <p className="text-[14px] text-ink font-medium">Sans hebergement</p>
+                      <p className="text-[12px] text-mute mt-1">Je m&apos;occupe de mon logement</p>
+                    </button>
+                    {event!.residence!.tarifs.map((tarif) => (
+                      <button
+                        key={tarif.id}
+                        type="button"
+                        onClick={() => setSelectedTarifId(tarif.id)}
+                        className={`text-left rounded-xl border p-4 transition-all ${
+                          selectedTarifId === tarif.id ? "border-gold bg-gold/5 ring-1 ring-gold" : "border-line hover:border-mute"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <p className="text-[14px] text-ink font-medium">{tarif.label}</p>
+                          <Star className="w-4 h-4 text-gold" />
+                        </div>
+                        <p className="text-[12px] text-mute mt-1">{tarif.typeChambre} · {tarif.capacite} pers. max</p>
+                        <p className="text-[15px] text-gold font-semibold mt-2">
+                          {new Intl.NumberFormat("fr-FR").format(tarif.prixParNuit)} {tarif.devise}<span className="text-[11px] text-mute font-normal"> /nuit</span>
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                  {selectedTarif && (
+                    <div className="mt-3 bg-gold/10 border border-gold/20 rounded-xl px-4 py-3 text-[13px] text-ink">
+                      <Bed className="w-4 h-4 text-gold inline mr-1.5" />
+                      Chambre reservee : <strong>{selectedTarif.label}</strong> — {new Intl.NumberFormat("fr-FR").format(selectedTarif.prixParNuit)} {selectedTarif.devise}/nuit
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="md:col-span-2 border-t border-line pt-6">
                 <label className="flex items-start gap-3 cursor-pointer">

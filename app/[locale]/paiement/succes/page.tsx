@@ -10,10 +10,12 @@ import {
   Loader2,
   Printer,
   Download,
+  FileText,
 } from "lucide-react";
 import { Suspense } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { generateTicketPDF } from "@/lib/generate-ticket-pdf";
+import { generateReceiptPDF } from "@/lib/generate-receipt-pdf";
 
 interface ParticipantData {
   reference: string;
@@ -261,6 +263,33 @@ function SuccessContent() {
               >
                 <Download className="w-4 h-4" />
                 PDF
+              </button>
+              <button
+                onClick={() => {
+                  const receipt = generateReceiptPDF({
+                    reference: participant.reference,
+                    date: new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }),
+                    customerName: `${participant.prenom} ${participant.nom}`,
+                    customerEmail: participant.email,
+                    eventName: participant.event.nom,
+                    eventDate: formatDateRange(participant.event.dateDebut, participant.event.dateFin),
+                    eventLieu: `${participant.event.lieu} · ${participant.event.ville}`,
+                    items: [
+                      {
+                        label: `${isConcert ? "Ticket" : "Badge"} — ${participant.event.nom}`,
+                        amount: price,
+                      },
+                    ],
+                    total: price,
+                    currency: "XOF",
+                    paymentMethod: "GeniusPay",
+                  });
+                  receipt.save(`recu-${participant.reference}.pdf`);
+                }}
+                className="btn-press inline-flex items-center gap-2 border border-line text-ink rounded-full px-6 py-3 text-[14px] font-medium hover:bg-cream2"
+              >
+                <FileText className="w-4 h-4" />
+                Recu
               </button>
             </div>
           </div>

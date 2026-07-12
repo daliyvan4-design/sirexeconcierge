@@ -267,6 +267,7 @@ model Participant {
   statut        String   @default("confirme")
   paymentRef    String?
   montant       Float    @default(0)
+  residenceTarifId String?
   checkedIn     Boolean  @default(false)
   checkedInAt   DateTime?
   createdAt     DateTime @default(now())

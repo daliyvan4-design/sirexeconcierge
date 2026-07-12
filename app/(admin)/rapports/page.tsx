@@ -4,14 +4,34 @@ import { useEffect, useState } from "react";
 import { Topbar } from "@/components/admin/topbar";
 import { fmt } from "@/lib/utils";
 
+interface EventStats {
+  totalEvents: number;
+  totalParticipants: number;
+  totalRevenue: number;
+  totalCheckins: number;
+  events: {
+    slug: string;
+    nom: string;
+    participants: number;
+    revenue: number;
+    checkins: number;
+    dateDebut: string;
+  }[];
+}
+
 export default function RapportsPage() {
   const [period, setPeriod] = useState(30);
   const [data, setData] = useState<any>(null);
+  const [eventStats, setEventStats] = useState<EventStats | null>(null);
+  const [tab, setTab] = useState<"concierge" | "events">("events");
 
   useEffect(() => {
     fetch(`/api/admin/stats/reports?days=${period}`)
       .then((r) => r.json())
       .then(setData);
+    fetch("/api/admin/stats/events")
+      .then((r) => r.json())
+      .then((d) => { if (d.success) setEventStats(d.data); });
   }, [period]);
 
   const periods = [
@@ -22,22 +42,92 @@ export default function RapportsPage() {
 
   return (
     <>
-      <Topbar title="Rapports" subtitle="Statistiques d'activité">
-        <div className="inline-flex bg-cream border border-line rounded-full p-1 text-[12px]">
-          {periods.map((p) => (
+      <Topbar title="Rapports" subtitle="Statistiques d'activite">
+        <div className="flex items-center gap-3">
+          <div className="inline-flex bg-cream border border-line rounded-full p-1 text-[12px]">
             <button
-              key={p.days}
-              onClick={() => setPeriod(p.days)}
-              className={`px-3 py-1 rounded-full ${
-                period === p.days ? "bg-ink text-cream font-medium" : "text-mute"
-              }`}
+              onClick={() => setTab("events")}
+              className={`px-3 py-1 rounded-full ${tab === "events" ? "bg-gold text-ink font-medium" : "text-mute"}`}
             >
-              {p.label}
+              Events
             </button>
-          ))}
+            <button
+              onClick={() => setTab("concierge")}
+              className={`px-3 py-1 rounded-full ${tab === "concierge" ? "bg-ink text-cream font-medium" : "text-mute"}`}
+            >
+              Concierge
+            </button>
+          </div>
+          {tab === "concierge" && (
+            <div className="inline-flex bg-cream border border-line rounded-full p-1 text-[12px]">
+              {periods.map((p) => (
+                <button
+                  key={p.days}
+                  onClick={() => setPeriod(p.days)}
+                  className={`px-3 py-1 rounded-full ${period === p.days ? "bg-ink text-cream font-medium" : "text-mute"}`}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </Topbar>
       <div className="p-6 lg:p-10">
+        {tab === "events" && eventStats && (
+          <div className="space-y-8 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-white rounded-2xl border border-line p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-mute">Evenements</p>
+                <p className="figure text-[32px] text-ink mt-2">{eventStats.totalEvents}</p>
+              </div>
+              <div className="bg-white rounded-2xl border border-line p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-mute">Participants</p>
+                <p className="figure text-[32px] text-ink mt-2">{eventStats.totalParticipants}</p>
+              </div>
+              <div className="bg-white rounded-2xl border border-line p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-mute">Revenus Events</p>
+                <p className="figure text-[32px] text-gold mt-2">{fmt(eventStats.totalRevenue)}</p>
+              </div>
+              <div className="bg-white rounded-2xl border border-line p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-mute">Check-ins</p>
+                <p className="figure text-[32px] text-ink mt-2">{eventStats.totalCheckins}</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-line p-5">
+              <h3 className="font-serif text-[18px] text-ink mb-4">Evenements actifs</h3>
+              <table className="w-full text-[13px]">
+                <thead className="text-[10px] uppercase tracking-[0.18em] text-mute">
+                  <tr>
+                    <th className="text-left font-medium py-2">Evenement</th>
+                    <th className="text-right font-medium py-2">Participants</th>
+                    <th className="text-right font-medium py-2">Check-ins</th>
+                    <th className="text-right font-medium py-2">Revenus</th>
+                    <th className="text-right font-medium py-2">Date</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line">
+                  {eventStats.events.map((ev) => (
+                    <tr key={ev.slug}>
+                      <td className="py-3 text-ink font-medium">{ev.nom}</td>
+                      <td className="py-3 text-right mono text-mute">{ev.participants}</td>
+                      <td className="py-3 text-right mono text-mute">{ev.checkins}</td>
+                      <td className="py-3 text-right mono text-gold font-semibold">{fmt(ev.revenue)}</td>
+                      <td className="py-3 text-right text-mute text-[12px]">
+                        {new Date(ev.dateDebut).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {tab === "concierge" && (
+          <>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white rounded-2xl border border-line p-5">
             <p className="text-[11px] uppercase tracking-[0.18em] text-mute">CA total</p>
@@ -101,6 +191,8 @@ export default function RapportsPage() {
             </div>
           )}
         </div>
+          </>
+        )}
       </div>
     </>
   );

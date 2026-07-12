@@ -14,6 +14,12 @@ export async function GET(
           orderBy: { createdAt: "desc" },
           take: 50,
         },
+        residence: {
+          include: {
+            images: { orderBy: { ordre: "asc" }, take: 5 },
+            tarifs: { where: { actif: true }, orderBy: { prixParNuit: "asc" } },
+          },
+        },
       },
     });
 

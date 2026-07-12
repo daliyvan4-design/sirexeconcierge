@@ -18,6 +18,9 @@ import {
   Download,
   Search,
   ScanLine,
+  TrendingUp,
+  BarChart3,
+  DollarSign,
 } from "lucide-react";
 
 interface Participant {
@@ -204,6 +207,73 @@ export default function OrganisateurDashboard() {
             <p className="text-[11px] text-mute mt-3 text-center">QR Code inscription</p>
           </div>
         </div>
+
+        {/* Revenue analytics */}
+        {totalRevenue > 0 && (
+          <div className="bg-white border border-line rounded-2xl p-6 mb-8">
+            <div className="flex items-center gap-2 mb-6">
+              <BarChart3 className="w-5 h-5 text-gold" />
+              <h2 className="font-serif text-[20px] text-ink">Analyse des revenus</h2>
+            </div>
+
+            <div className="grid sm:grid-cols-3 gap-4 mb-6">
+              <div className="bg-cream2 rounded-xl p-4">
+                <p className="text-[11px] text-mute uppercase tracking-wider">Revenu total</p>
+                <p className="font-serif text-[24px] text-ink mt-1">
+                  {new Intl.NumberFormat("fr-FR").format(totalRevenue)} <span className="text-[12px] text-mute">XOF</span>
+                </p>
+              </div>
+              <div className="bg-cream2 rounded-xl p-4">
+                <p className="text-[11px] text-mute uppercase tracking-wider">Panier moyen</p>
+                <p className="font-serif text-[24px] text-ink mt-1">
+                  {new Intl.NumberFormat("fr-FR").format(
+                    Math.round(totalRevenue / (event.participants.filter((p) => p.montant > 0).length || 1))
+                  )} <span className="text-[12px] text-mute">XOF</span>
+                </p>
+              </div>
+              <div className="bg-cream2 rounded-xl p-4">
+                <p className="text-[11px] text-mute uppercase tracking-wider">Taux de conversion</p>
+                <p className="font-serif text-[24px] text-ink mt-1">
+                  {event._count.participants > 0
+                    ? Math.round((event.participants.filter((p) => p.montant > 0).length / event._count.participants) * 100)
+                    : 0}
+                  <span className="text-[12px] text-mute"> %</span>
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[11px] text-mute uppercase tracking-wider mb-3">Repartition par jour</p>
+              <div className="space-y-2">
+                {(() => {
+                  const byDay: Record<string, { count: number; revenue: number }> = {};
+                  event.participants.forEach((p) => {
+                    const day = new Date(p.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+                    if (!byDay[day]) byDay[day] = { count: 0, revenue: 0 };
+                    byDay[day].count++;
+                    byDay[day].revenue += p.montant;
+                  });
+                  const maxRev = Math.max(...Object.values(byDay).map((d) => d.revenue), 1);
+                  return Object.entries(byDay).map(([day, data]) => (
+                    <div key={day} className="flex items-center gap-3">
+                      <span className="text-[12px] text-mute w-16 text-right">{day}</span>
+                      <div className="flex-1 bg-cream2 rounded-full h-6 overflow-hidden">
+                        <div
+                          className="bg-gold/30 h-full rounded-full flex items-center px-2"
+                          style={{ width: `${Math.max((data.revenue / maxRev) * 100, 8)}%` }}
+                        >
+                          <span className="text-[10px] text-ink font-medium whitespace-nowrap">
+                            {data.count} inscr. · {new Intl.NumberFormat("fr-FR").format(data.revenue)} XOF
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ));
+                })()}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Participant list */}
         <div className="bg-white border border-line rounded-2xl overflow-hidden">

@@ -43,6 +43,7 @@ export async function POST(
         statut,
         montant: body.montant ?? 0,
         paymentRef: body.paymentRef,
+        residenceTarifId: body.residenceTarifId ?? null,
       },
     });
 

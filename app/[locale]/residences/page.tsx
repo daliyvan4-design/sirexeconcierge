@@ -146,7 +146,7 @@ export default function ResidencesPublicPage() {
               const minPrice = r.tarifs.length > 0 ? Math.min(...r.tarifs.map((t) => t.prixParNuit)) : null;
 
               return (
-                <div key={r.id} className="bg-cream2 border border-line rounded-2xl overflow-hidden hover:shadow-float transition-shadow">
+                <Link key={r.id} href={`/${locale}/residences/${r.id}`} className="bg-cream2 border border-line rounded-2xl overflow-hidden hover:shadow-float transition-shadow block">
                   <ImageCarousel images={r.images} />
 
                   <div className="p-5">
@@ -206,18 +206,15 @@ export default function ResidencesPublicPage() {
                     )}
 
                     {r.latitude && r.longitude && (
-                      <a
-                        href={`https://www.google.com/maps/dir/?api=1&destination=${r.latitude},${r.longitude}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 inline-flex items-center gap-1.5 text-[12px] text-gold hover:underline"
+                      <span
+                        className="mt-3 inline-flex items-center gap-1.5 text-[12px] text-gold"
                       >
                         <Navigation className="w-3 h-3" />
                         Voir l&apos;itin{"é"}raire
-                      </a>
+                      </span>
                     )}
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
