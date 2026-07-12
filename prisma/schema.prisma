@@ -165,33 +165,91 @@ model PlanningEntry {
 // ─── AÏKO Event & Tech ─────────────────────────────
 
 model Event {
-  id            String        @id @default(cuid())
-  slug          String        @unique
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  nom             String
+  type            String        @default("conference")
+  description     String?
+  organisateur    String
+  lieu            String
+  ville           String
+  latitude        Float?
+  longitude       Float?
+  dateDebut       DateTime
+  dateFin         DateTime
+  capacite        Int           @default(500)
+  logoUrl         String?
+  coverUrl        String?
+  badgePayant     Boolean       @default(false)
+  prixBadge       Float         @default(0)
+  ticketPayant    Boolean       @default(false)
+  prixTicket      Float         @default(0)
+  offreLogement   Boolean       @default(false)
+  offreVehicule   Boolean       @default(false)
+  offreExtras     Boolean       @default(false)
+  residenceId     String?
+  residence       Residence?    @relation(fields: [residenceId], references: [id])
+  contactEmail    String
+  contactTel      String?
+  statut          String        @default("actif")
+  paymentRef      String?
+  participants    Participant[]
+  payments        Payment[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+// ─── Résidences ─────────────────────────────────────
+
+model Residence {
+  id            String            @id @default(cuid())
   nom           String
-  type          String        @default("conference")
+  type          String            @default("hotel")
   description   String?
-  organisateur  String
-  lieu          String
+  adresse       String
   ville         String
+  quartier      String?
   latitude      Float?
   longitude     Float?
-  dateDebut     DateTime
-  dateFin       DateTime
-  capacite      Int           @default(500)
-  logoUrl       String?
-  coverUrl      String?
-  badgePayant   Boolean       @default(false)
-  prixBadge     Float         @default(0)
-  ticketPayant  Boolean       @default(false)
-  prixTicket    Float         @default(0)
-  contactEmail  String
+  capacite      Int               @default(10)
+  equipements   String?
+  contactNom    String?
   contactTel    String?
-  statut        String        @default("actif")
-  paymentRef    String?
-  participants  Participant[]
-  payments      Payment[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  contactEmail  String?
+  statut        String            @default("actif")
+  images        ResidenceImage[]
+  tarifs        ResidenceTarif[]
+  events        Event[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model ResidenceImage {
+  id          String    @id @default(cuid())
+  residenceId String
+  residence   Residence @relation(fields: [residenceId], references: [id], onDelete: Cascade)
+  url         String
+  legende     String?
+  ordre       Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  @@index([residenceId])
+}
+
+model ResidenceTarif {
+  id          String    @id @default(cuid())
+  residenceId String
+  residence   Residence @relation(fields: [residenceId], references: [id], onDelete: Cascade)
+  label       String
+  typeChambre String
+  prixParNuit Float
+  devise      String    @default("XOF")
+  capacite    Int       @default(2)
+  actif       Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([residenceId])
 }
 
 model Participant {

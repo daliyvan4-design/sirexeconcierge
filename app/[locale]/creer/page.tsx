@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
@@ -15,6 +15,10 @@ import {
   Music,
   Building2,
   Code2,
+  Bed,
+  Car,
+  Ticket,
+  Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/payment-method-picker";
@@ -36,11 +40,23 @@ interface EventForm {
   prixBadge: string;
   ticketPayant: boolean;
   prixTicket: string;
+  offreLogement: boolean;
+  offreVehicule: boolean;
+  offreExtras: boolean;
+  residenceId: string;
   contactEmail: string;
   contactTel: string;
   organisateur: string;
   logoUrl: string;
   coverUrl: string;
+}
+
+interface ResidenceOption {
+  id: string;
+  nom: string;
+  ville: string;
+  type: string;
+  quartier: string | null;
 }
 
 const EVENT_TYPES: { value: EventType; label: string; icon: LucideIcon }[] = [
@@ -66,6 +82,10 @@ export default function CreerPage() {
     prixBadge: "",
     ticketPayant: false,
     prixTicket: "",
+    offreLogement: false,
+    offreVehicule: false,
+    offreExtras: false,
+    residenceId: "",
     contactEmail: "",
     contactTel: "",
     organisateur: "",
@@ -75,6 +95,14 @@ export default function CreerPage() {
   const [eventSlug, setEventSlug] = useState("");
   const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
   const [payError, setPayError] = useState("");
+  const [residences, setResidences] = useState<ResidenceOption[]>([]);
+
+  useEffect(() => {
+    fetch("/api/residences")
+      .then((r) => r.json())
+      .then((d) => { if (d.success) setResidences(d.data); })
+      .catch(() => {});
+  }, []);
 
   const update = (patch: Partial<EventForm>) => setForm({ ...form, ...patch });
   const isConcert = form.type === "concert";
@@ -98,6 +126,10 @@ export default function CreerPage() {
           prixBadge: form.prixBadge,
           ticketPayant: form.ticketPayant,
           prixTicket: form.prixTicket,
+          offreLogement: form.offreLogement,
+          offreVehicule: form.offreVehicule,
+          offreExtras: form.offreExtras,
+          residenceId: form.residenceId || undefined,
           contactEmail: form.contactEmail,
           contactTel: form.contactTel,
           logoUrl: form.logoUrl || undefined,
@@ -432,63 +464,123 @@ export default function CreerPage() {
 
         {step === 3 && (
           <div className="space-y-6 animate-fade-up">
-            <div className="bg-cream2 border border-line rounded-2xl p-6">
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={form.badgePayant}
-                  onChange={(e) => update({ badgePayant: e.target.checked })}
-                  className="accent-gold w-5 h-5 mt-0.5"
-                />
-                <div>
-                  <p className="text-[14px] text-ink font-medium">Badge / accr{"é"}ditation payant</p>
-                  <p className="text-[12px] text-mute mt-1">
-                    Frais d&apos;identification A{"Ï"}KO : 10 {"€"} par badge d{"é"}livr{"é"}
-                  </p>
-                </div>
-              </label>
-              {form.badgePayant && (
-                <div className="mt-4 ml-8">
-                  <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Prix du badge (XOF)</label>
-                  <input
-                    type="number"
-                    value={form.prixBadge}
-                    onChange={(e) => update({ prixBadge: e.target.value })}
-                    placeholder="ex: 5000"
-                    className="w-full bg-white border border-line rounded-xl px-4 py-3.5 text-[15px]"
-                  />
-                </div>
-              )}
-            </div>
-
-            {isConcert && (
-              <div className="bg-cream2 border border-line rounded-2xl p-6">
-                <label className="flex items-start gap-3 cursor-pointer">
+            <div>
+              <p className="text-[12px] font-medium text-ink mb-3 uppercase tracking-wider">
+                Services propos{"é"}s par l&apos;{"é"}v{"é"}nement
+              </p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <label className={`flex items-start gap-3 cursor-pointer bg-cream2 border rounded-2xl p-4 transition-all ${form.offreLogement ? "border-gold bg-gold/5" : "border-line"}`}>
                   <input
                     type="checkbox"
-                    checked={form.ticketPayant}
-                    onChange={(e) => update({ ticketPayant: e.target.checked })}
+                    checked={form.offreLogement}
+                    onChange={(e) => update({ offreLogement: e.target.checked })}
                     className="accent-gold w-5 h-5 mt-0.5"
                   />
-                  <div>
-                    <p className="text-[14px] text-ink font-medium">Tickets payants</p>
-                    <p className="text-[12px] text-mute mt-1">
-                      Commission A{"Ï"}KO : 10% sur chaque ticket vendu
-                    </p>
+                  <div className="flex items-start gap-2">
+                    <Bed className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-[13px] text-ink font-medium">Logement</p>
+                      <p className="text-[11px] text-mute mt-0.5">H{"é"}bergement pour les participants</p>
+                    </div>
                   </div>
                 </label>
-                {form.ticketPayant && (
-                  <div className="mt-4 ml-8">
-                    <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Prix du ticket (XOF)</label>
+
+                <label className={`flex items-start gap-3 cursor-pointer bg-cream2 border rounded-2xl p-4 transition-all ${form.badgePayant ? "border-gold bg-gold/5" : "border-line"}`}>
+                  <input
+                    type="checkbox"
+                    checked={form.badgePayant}
+                    onChange={(e) => update({ badgePayant: e.target.checked })}
+                    className="accent-gold w-5 h-5 mt-0.5"
+                  />
+                  <div className="flex items-start gap-2">
+                    <Ticket className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-[13px] text-ink font-medium">Badge / Ticket payant</p>
+                      <p className="text-[11px] text-mute mt-0.5">Accr{"é"}ditation ou entr{"é"}e payante</p>
+                    </div>
+                  </div>
+                </label>
+
+                <label className={`flex items-start gap-3 cursor-pointer bg-cream2 border rounded-2xl p-4 transition-all ${form.offreVehicule ? "border-gold bg-gold/5" : "border-line"}`}>
+                  <input
+                    type="checkbox"
+                    checked={form.offreVehicule}
+                    onChange={(e) => update({ offreVehicule: e.target.checked })}
+                    className="accent-gold w-5 h-5 mt-0.5"
+                  />
+                  <div className="flex items-start gap-2">
+                    <Car className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-[13px] text-ink font-medium">V{"é"}hicule / D{"é"}placement</p>
+                      <p className="text-[11px] text-mute mt-0.5">Transport et navettes</p>
+                    </div>
+                  </div>
+                </label>
+
+                <label className={`flex items-start gap-3 cursor-pointer bg-cream2 border rounded-2xl p-4 transition-all ${form.offreExtras ? "border-gold bg-gold/5" : "border-line"}`}>
+                  <input
+                    type="checkbox"
+                    checked={form.offreExtras}
+                    onChange={(e) => update({ offreExtras: e.target.checked })}
+                    className="accent-gold w-5 h-5 mt-0.5"
+                  />
+                  <div className="flex items-start gap-2">
+                    <Sparkles className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-[13px] text-ink font-medium">Services suppl{"é"}mentaires</p>
+                      <p className="text-[11px] text-mute mt-0.5">Restauration, excursions, extras</p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {form.offreLogement && residences.length > 0 && (
+              <div className="animate-fade-up">
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">
+                  R{"é"}sidence associ{"é"}e
+                </label>
+                <select
+                  value={form.residenceId}
+                  onChange={(e) => update({ residenceId: e.target.value })}
+                  className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]"
+                >
+                  <option value="">-- Choisir une r{"é"}sidence --</option>
+                  {residences.map((r) => (
+                    <option key={r.id} value={r.id}>
+                      {r.nom} ({r.type}) — {r.quartier ? `${r.quartier}, ` : ""}{r.ville}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {form.badgePayant && (
+              <div className="bg-cream2 border border-gold/20 rounded-2xl p-5 animate-fade-up">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Prix du badge (XOF)</label>
                     <input
                       type="number"
-                      value={form.prixTicket}
-                      onChange={(e) => update({ prixTicket: e.target.value })}
-                      placeholder="ex: 15000"
+                      value={form.prixBadge}
+                      onChange={(e) => update({ prixBadge: e.target.value })}
+                      placeholder="ex: 5000"
                       className="w-full bg-white border border-line rounded-xl px-4 py-3.5 text-[15px]"
                     />
                   </div>
-                )}
+                  {isConcert && (
+                    <div>
+                      <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Prix du ticket (XOF)</label>
+                      <input
+                        type="number"
+                        value={form.prixTicket}
+                        onChange={(e) => update({ prixTicket: e.target.value })}
+                        placeholder="ex: 15000"
+                        className="w-full bg-white border border-line rounded-xl px-4 py-3.5 text-[15px]"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
