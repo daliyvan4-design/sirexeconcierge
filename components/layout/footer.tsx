@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { AikoLogo } from "@/components/brand/aiko-logo";
 
 export function Footer() {
   const locale = useLocale();
+  const t = useTranslations("footer");
   const year = new Date().getFullYear();
 
   return (
@@ -15,29 +16,28 @@ export function Footer() {
           <div className="md:col-span-2">
             <AikoLogo dark height={32} />
             <p className="mt-4 text-[13px] text-cream/50 leading-relaxed max-w-md">
-              Plateforme de gestion événementielle complète. Billetterie, badges,
-              hébergement, paiement mobile et conciergerie — tout en un.
+              {t("description")}
             </p>
           </div>
 
           <div>
             <h4 className="text-[11px] uppercase tracking-[0.15em] text-gold mb-4">
-              Plateforme
+              {t("platform")}
             </h4>
             <ul className="space-y-2 text-[13px] text-cream/50">
               <li>
                 <Link href={`/${locale}#creer`} className="hover:text-cream transition-colors">
-                  Créer un événement
+                  {t("create_event")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/residences`} className="hover:text-cream transition-colors">
-                  Résidences
+                  {t("residences")}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/services`} className="hover:text-cream transition-colors">
-                  Services
+                  {t("services")}
                 </Link>
               </li>
             </ul>
@@ -45,7 +45,7 @@ export function Footer() {
 
           <div>
             <h4 className="text-[11px] uppercase tracking-[0.15em] text-gold mb-4">
-              Contact
+              {t("contact")}
             </h4>
             <ul className="space-y-2 text-[13px] text-cream/50">
               <li>
@@ -55,7 +55,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/login" className="hover:text-cream transition-colors">
-                  Espace admin
+                  {t("admin_space")}
                 </Link>
               </li>
             </ul>
@@ -64,10 +64,10 @@ export function Footer() {
 
         <div className="mt-10 pt-6 border-t border-cream/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[11px] text-cream/30">
-            © {year} AÏKO Event & Tech. Tous droits réservés.
+            &copy; {year} AÏKO Event &amp; Tech. {t("rights")}
           </p>
           <p className="text-[11px] text-cream/30">
-            Conçu en Afrique de l&apos;Ouest
+            {t("made_in")}
           </p>
         </div>
       </div>

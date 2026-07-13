@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { LangSwitcher } from "./lang-switcher";
 import { AikoLogo } from "@/components/brand/aiko-logo";
 
 export function Header() {
   const locale = useLocale();
+  const t = useTranslations("header");
 
   return (
     <header className="bg-ink text-cream sticky top-0 z-40">
@@ -17,13 +18,13 @@ export function Header() {
 
         <nav className="hidden md:flex items-center gap-8 text-[12px] tracking-wide text-cream/55">
           <Link href={`/${locale}#creer`} className="hover:text-cream transition-colors">
-            Créer un événement
+            {t("create_event")}
           </Link>
           <Link href={`/${locale}#participer`} className="hover:text-cream transition-colors">
-            Participer
+            {t("participate")}
           </Link>
           <Link href={`/${locale}#tarifs`} className="hover:text-cream transition-colors">
-            Tarifs
+            {t("pricing")}
           </Link>
         </nav>
 
@@ -32,7 +33,7 @@ export function Header() {
             href={`/${locale}/creer`}
             className="hidden sm:inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-5 py-2 text-[12px] font-semibold btn-press"
           >
-            Créer un événement
+            {t("create_event")}
           </Link>
           <LangSwitcher />
         </div>

@@ -5,6 +5,22 @@
     "assistance": "Assistance",
     "admin": "Admin"
   },
+  "header": {
+    "create_event": "Créer un événement",
+    "participate": "Participer",
+    "pricing": "Tarifs"
+  },
+  "footer": {
+    "description": "Plateforme de gestion événementielle complète. Billetterie, badges, hébergement, paiement mobile et conciergerie — tout en un.",
+    "platform": "Plateforme",
+    "create_event": "Créer un événement",
+    "residences": "Résidences",
+    "services": "Services",
+    "contact": "Contact",
+    "admin_space": "Espace admin",
+    "rights": "Tous droits réservés.",
+    "made_in": "Conçu en Afrique de l'Ouest"
+  },
   "fab": {
     "title": "Navigation prototype",
     "journey": "Parcours voyageur",

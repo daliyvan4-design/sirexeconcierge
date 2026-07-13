@@ -5,6 +5,22 @@
     "assistance": "Support",
     "admin": "Admin"
   },
+  "header": {
+    "create_event": "Create an event",
+    "participate": "Attend",
+    "pricing": "Pricing"
+  },
+  "footer": {
+    "description": "Complete event management platform. Ticketing, badges, accommodation, mobile payment and concierge — all in one.",
+    "platform": "Platform",
+    "create_event": "Create an event",
+    "residences": "Residences",
+    "services": "Services",
+    "contact": "Contact",
+    "admin_space": "Admin panel",
+    "rights": "All rights reserved.",
+    "made_in": "Made in West Africa"
+  },
   "fab": {
     "title": "Prototype navigation",
     "journey": "Traveler journey",
