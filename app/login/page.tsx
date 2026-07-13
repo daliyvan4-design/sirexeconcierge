@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SirexeLogo } from "@/components/brand/sirexe-logo";
+import { AikoLogo } from "@/components/brand/aiko-logo";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex flex-col items-center mb-10">
-          <SirexeLogo dark height={48} />
+          <AikoLogo dark height={48} />
           <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50 mt-3">Panel administration</p>
         </div>
 

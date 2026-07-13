@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useLocale } from "next-intl";
 import { LangSwitcher } from "./lang-switcher";
-import { SirexeLogo } from "@/components/brand/sirexe-logo";
+import { AikoLogo } from "@/components/brand/aiko-logo";
 
 export function Header() {
   const locale = useLocale();
@@ -12,7 +12,7 @@ export function Header() {
     <header className="bg-ink text-cream sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-5 lg:px-10 h-[68px] flex items-center justify-between">
         <Link href={`/${locale}`}>
-          <SirexeLogo dark height={38} />
+          <AikoLogo dark height={38} />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-[12px] tracking-wide text-cream/55">

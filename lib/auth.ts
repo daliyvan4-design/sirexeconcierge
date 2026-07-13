@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET || "sirexe-dev-secret-change-in-prod",
+  secret: process.env.NEXTAUTH_SECRET || "aiko-dev-secret-change-in-prod",
 };
 
 export default NextAuth(authOptions);

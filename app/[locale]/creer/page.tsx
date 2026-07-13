@@ -340,7 +340,7 @@ export default function CreerPage() {
               <input
                 value={form.organisateur}
                 onChange={(e) => update({ organisateur: e.target.value })}
-                placeholder="ex: SIREXE Group"
+                placeholder="ex: AIKO Group"
                 className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]"
               />
             </div>

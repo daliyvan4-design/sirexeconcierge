@@ -295,26 +295,26 @@ async function main() {
 
   // ── Admin users (4 roles) ──────────────────────────────────────
 
-  const hash = await bcrypt.hash("sirexe2026", 10);
+  const hash = await bcrypt.hash("aiko2026", 10);
 
   const ultraAdmin = await prisma.adminUser.create({
-    data: { email: "admin@sirexe.com", passwordHash: hash, nom: "Aïssa Koné", role: "ULTRA_ADMIN" },
+    data: { email: "admin@aiko.com", passwordHash: hash, nom: "Aïssa Koné", role: "ULTRA_ADMIN" },
   });
 
   const superAdmin = await prisma.adminUser.create({
-    data: { email: "manager@sirexe.com", passwordHash: hash, nom: "Mamadou Traoré", role: "SUPER_ADMIN" },
+    data: { email: "manager@aiko.com", passwordHash: hash, nom: "Mamadou Traoré", role: "SUPER_ADMIN" },
   });
 
   const concierge1 = await prisma.adminUser.create({
-    data: { email: "concierge1@sirexe.com", passwordHash: hash, nom: "Fatou Diallo", role: "CONCIERGE" },
+    data: { email: "concierge1@aiko.com", passwordHash: hash, nom: "Fatou Diallo", role: "CONCIERGE" },
   });
 
   const concierge2 = await prisma.adminUser.create({
-    data: { email: "concierge2@sirexe.com", passwordHash: hash, nom: "Koné Ibrahim", role: "CONCIERGE" },
+    data: { email: "concierge2@aiko.com", passwordHash: hash, nom: "Koné Ibrahim", role: "CONCIERGE" },
   });
 
   await prisma.adminUser.create({
-    data: { email: "institutionnel@sirexe.com", passwordHash: hash, nom: "Ministre Coulibaly", role: "AGENT_INSTITUTIONNEL" },
+    data: { email: "institutionnel@aiko.com", passwordHash: hash, nom: "Ministre Coulibaly", role: "AGENT_INSTITUTIONNEL" },
   });
 
   // ── Demo chauffeurs ──────────────────────────────────────────

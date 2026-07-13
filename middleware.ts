@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (ADMIN_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
-    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET || "sirexe-dev-secret-change-in-prod" });
+    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET || "aiko-dev-secret-change-in-prod" });
     if (!token) {
       return NextResponse.redirect(new URL("/login", request.url));
     }

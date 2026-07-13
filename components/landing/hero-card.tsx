@@ -29,8 +29,8 @@ function useCountdown(target: Date) {
 export function HeroCard() {
   const t = useTranslations();
   const locale = useLocale();
-  const sirexeDate = new Date("2026-03-11T08:00:00");
-  const { days, hours, mins } = useCountdown(sirexeDate);
+  const eventDate = new Date("2026-03-11T08:00:00");
+  const { days, hours, mins } = useCountdown(eventDate);
 
   return (
     <div className="rounded-[4px] overflow-hidden bg-ink">

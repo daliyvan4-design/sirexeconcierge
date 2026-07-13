@@ -5,7 +5,7 @@ interface ArrivalsChartProps {
 }
 
 export function ArrivalsChart({ data }: ArrivalsChartProps) {
-  const days: { date: string; label: string; count: number; isSirexe: boolean }[] = [];
+  const days: { date: string; label: string; count: number; isHighlight: boolean }[] = [];
   const baseDate = new Date("2026-03-11");
 
   for (let i = 0; i < 14; i++) {
@@ -13,8 +13,8 @@ export function ArrivalsChart({ data }: ArrivalsChartProps) {
     d.setDate(d.getDate() + i);
     const key = d.toISOString().split("T")[0];
     const dayNum = d.getDate();
-    const isSirexe = dayNum >= 15 && dayNum <= 17;
-    days.push({ date: key, label: String(dayNum), count: data[key] || 0, isSirexe });
+    const isHighlight = dayNum >= 15 && dayNum <= 17;
+    days.push({ date: key, label: String(dayNum), count: data[key] || 0, isHighlight });
   }
 
   const maxCount = Math.max(...days.map((d) => d.count), 1);
@@ -34,7 +34,7 @@ export function ArrivalsChart({ data }: ArrivalsChartProps) {
               width="22"
               height={Math.max(h, 4)}
               rx="3"
-              fill={d.isSirexe ? "#C8A951" : "#0A0A0A"}
+              fill={d.isHighlight ? "#C8A951" : "#0A0A0A"}
             />
             <text
               x={x + 11}
@@ -42,8 +42,8 @@ export function ArrivalsChart({ data }: ArrivalsChartProps) {
               textAnchor="middle"
               fontSize="10"
               fontFamily="Inter"
-              fill={d.isSirexe ? "#C8A951" : "#888888"}
-              fontWeight={d.isSirexe ? "600" : "400"}
+              fill={d.isHighlight ? "#C8A951" : "#888888"}
+              fontWeight={d.isHighlight ? "600" : "400"}
             >
               {d.label}
             </text>
