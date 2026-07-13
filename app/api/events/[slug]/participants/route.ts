@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendConfirmationEmail } from "@/lib/email";
 import { rateLimit } from "@/lib/rate-limit";
+import { requireAnyAdmin } from "@/lib/admin-auth";
 
 function genRef() {
   return `AIKO-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
@@ -80,9 +81,12 @@ export async function POST(
 }
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: { slug: string } },
 ) {
+  const { error } = await requireAnyAdmin();
+  if (error) return error;
+
   try {
     const event = await prisma.event.findUnique({
       where: { slug: params.slug },

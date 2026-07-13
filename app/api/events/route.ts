@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { rateLimit } from "@/lib/rate-limit";
 
 function slugify(text: string) {
   return text
@@ -13,7 +14,14 @@ function slugify(text: string) {
 
 export async function POST(req: NextRequest) {
   try {
+    const blocked = await rateLimit(req, "events-create", 3, "60 s");
+    if (blocked) return blocked;
+
     const body = await req.json();
+
+    if (!body.nom || !body.organisateur || !body.lieu || !body.ville || !body.dateDebut || !body.dateFin || !body.contactEmail) {
+      return NextResponse.json({ error: "Champs obligatoires manquants" }, { status: 400 });
+    }
 
     const base = slugify(body.nom);
     const slug = `${base}-${Date.now().toString(36)}`;
