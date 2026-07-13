@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireRole } from "@/lib/admin-auth";
 
 export async function GET() {
   try {
@@ -20,6 +21,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  if (error) return error;
+
   try {
     const body = await req.json();
 

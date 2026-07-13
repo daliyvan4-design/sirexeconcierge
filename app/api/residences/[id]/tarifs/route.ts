@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireRole } from "@/lib/admin-auth";
 
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  if (error) return error;
+
   try {
     const { id } = await params;
     const body = await req.json();
@@ -28,6 +32,9 @@ export async function POST(
 }
 
 export async function PUT(req: NextRequest) {
+  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  if (error) return error;
+
   try {
     const body = await req.json();
 
@@ -50,6 +57,9 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  if (error) return error;
+
   try {
     const { searchParams } = new URL(req.url);
     const tarifId = searchParams.get("tarifId");

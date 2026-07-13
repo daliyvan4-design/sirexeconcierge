@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireRole } from "@/lib/admin-auth";
 
 export async function GET(
   _req: NextRequest,
@@ -30,6 +31,9 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  if (error) return error;
+
   try {
     const { id } = await params;
     const body = await req.json();
@@ -65,6 +69,9 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { error } = await requireRole("ULTRA_ADMIN");
+  if (error) return error;
+
   try {
     const { id } = await params;
     await prisma.residence.update({

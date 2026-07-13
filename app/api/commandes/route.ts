@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { commandeSchema } from "@/lib/validation";
+import { rateLimit } from "@/lib/rate-limit";
 
 function generateReference(): string {
   const hex = Math.random().toString(16).substring(2, 6).toUpperCase();
@@ -8,6 +9,9 @@ function generateReference(): string {
 }
 
 export async function POST(request: NextRequest) {
+  const blocked = await rateLimit(request, "commandes", 5, "60 s");
+  if (blocked) return blocked;
+
   const body = await request.json();
 
   const parsed = commandeSchema.safeParse(body);
