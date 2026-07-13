@@ -15,6 +15,7 @@ import {
   LogOut,
   ClipboardCheck,
   Building,
+  CalendarDays,
   LucideIcon,
 } from "lucide-react";
 
@@ -30,6 +31,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Tableau de bord", roles: ["ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE", "AGENT_INSTITUTIONNEL"] },
   { href: "/briefing", icon: ClipboardCheck, label: "Briefing", roles: ["CONCIERGE"] },
   { href: "/commandes", icon: ClipboardList, label: "Commandes", badge: true, roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
+  { href: "/events", icon: CalendarDays, label: "Evenements", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
   { href: "/residences", icon: Building, label: "Residences", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
   { href: "/tarifs", icon: Banknote, label: "Tarifs", roles: ["ULTRA_ADMIN"] },
   { href: "/voyageurs", icon: Users, label: "Voyageurs", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },

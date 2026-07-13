@@ -5,7 +5,7 @@ import { getToken } from "next-auth/jwt";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
-const ADMIN_PATHS = ["/dashboard", "/commandes", "/tarifs", "/voyageurs", "/chauffeurs", "/rapports", "/parametres", "/briefing", "/residences"];
+const ADMIN_PATHS = ["/dashboard", "/commandes", "/tarifs", "/voyageurs", "/chauffeurs", "/rapports", "/parametres", "/briefing", "/residences", "/events"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

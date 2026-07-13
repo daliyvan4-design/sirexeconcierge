@@ -3,54 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLocale } from "next-intl";
-import { Calendar, Users, Ticket, QrCode, Plus, ArrowRight, Sparkles, Music, Briefcase, GraduationCap } from "lucide-react";
-
-const DEMO_EVENTS = [
-  {
-    id: "salon-tech-2026",
-    name: "Salon Tech Abidjan 2026",
-    type: "Conférence",
-    icon: Briefcase,
-    date: "11 — 17 mars 2026",
-    lieu: "Sofitel Hôtel Ivoire · Abidjan",
-    participants: 850,
-    badgePrice: 0,
-    color: "bg-gold/10 text-gold",
-  },
-  {
-    id: "afro-music-festival",
-    name: "Afro Music Festival",
-    type: "Concert",
-    icon: Music,
-    date: "22 — 24 avril 2026",
-    lieu: "Palais de la Culture · Abidjan",
-    participants: 3200,
-    badgePrice: 15000,
-    color: "bg-ink/5 text-ink",
-  },
-  {
-    id: "summit-mines-energie",
-    name: "Summit Mines & Énergie",
-    type: "Conférence",
-    icon: Sparkles,
-    date: "5 — 7 mai 2026",
-    lieu: "Radisson Blu · Abidjan",
-    participants: 420,
-    badgePrice: 0,
-    color: "bg-ok/10 text-ok",
-  },
-  {
-    id: "hackathon-ci",
-    name: "Hackathon CI 2026",
-    type: "Tech",
-    icon: GraduationCap,
-    date: "15 — 16 juin 2026",
-    lieu: "Ivoirienne de Tech · Cocody",
-    participants: 200,
-    badgePrice: 5000,
-    color: "bg-gold/10 text-gold2",
-  },
-];
+import { Calendar, Users, Ticket, QrCode, Plus, ArrowRight, Loader2 } from "lucide-react";
 
 const PRICING = [
   { label: "Création d&apos;événement", price: "50 €", sub: "Accès organisateur complet" },
@@ -58,7 +11,7 @@ const PRICING = [
   { label: "Tickets concert", price: "10%", sub: "Commission sur chaque vente" },
 ];
 
-interface DbEvent {
+interface EventItem {
   slug: string;
   nom: string;
   type: string;
@@ -71,18 +24,85 @@ interface DbEvent {
   _count: { participants: number };
 }
 
+function formatRange(start: string, end: string) {
+  const s = new Date(start);
+  const e = new Date(end);
+  return `${s.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })} — ${e.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
+}
+
+function EventCard({ evt, locale, variant }: { evt: EventItem; locale: string; variant: "dark" | "light" }) {
+  const price = evt.prixTicket || evt.prixBadge;
+  const typeLabel = evt.type === "concert" ? "Concert" : evt.type === "hackathon" ? "Tech" : "Conférence";
+
+  if (variant === "dark") {
+    return (
+      <Link
+        href={`/${locale}/evenement/${evt.slug}`}
+        className="bg-cream/[0.04] border border-cream/[0.08] rounded-2xl p-5 hover:bg-cream/[0.08] hover:border-cream/[0.15] transition-all group"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <span className="w-9 h-9 rounded-xl flex items-center justify-center bg-gold/10 text-gold">
+            <Calendar size={18} />
+          </span>
+          <span className="text-[10px] uppercase tracking-wider text-cream/30">{typeLabel}</span>
+        </div>
+        <h3 className="font-serif text-[17px] text-cream leading-tight mb-2 group-hover:text-gold transition-colors">
+          {evt.nom}
+        </h3>
+        <p className="text-[12px] text-cream/40">{formatRange(evt.dateDebut, evt.dateFin)}</p>
+        <p className="text-[11px] text-cream/30 mt-1">{evt.lieu} · {evt.ville}</p>
+        <div className="mt-4 pt-3 border-t border-cream/[0.06] flex items-center justify-between">
+          <span className="text-[11px] text-cream/40 mono">{evt._count.participants} inscrits</span>
+          <span className="text-[11px] text-gold font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+            S&apos;inscrire <ArrowRight size={12} />
+          </span>
+        </div>
+      </Link>
+    );
+  }
+
+  return (
+    <Link
+      href={`/${locale}/evenement/${evt.slug}`}
+      className="bg-white border border-line rounded-2xl p-6 hover:shadow-float transition-all group"
+    >
+      <div className="flex items-center gap-3 mb-4">
+        <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-gold/10 text-gold">
+          <Calendar size={20} />
+        </span>
+        <span className="text-[10px] uppercase tracking-wider text-mute bg-cream2 px-2 py-1 rounded-full">
+          {typeLabel}
+        </span>
+      </div>
+      <h3 className="font-serif text-[18px] text-ink leading-tight mb-2 group-hover:text-gold transition-colors">
+        {evt.nom}
+      </h3>
+      <p className="text-[13px] text-mute">{formatRange(evt.dateDebut, evt.dateFin)}</p>
+      <p className="text-[12px] text-mute/60 mt-1">{evt.lieu} · {evt.ville}</p>
+      <div className="mt-5 pt-4 border-t border-line flex items-center justify-between">
+        <span className="text-[12px] text-mute mono">{evt._count.participants} participants</span>
+        <span className="text-[12px] text-gold font-medium">
+          {price === 0 ? "Gratuit" : `${new Intl.NumberFormat("fr-FR").format(price)} XOF`}
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 export default function LandingPage() {
   const locale = useLocale();
   const [tab, setTab] = useState<"participer" | "creer">("participer");
-  const [dbEvents, setDbEvents] = useState<DbEvent[]>([]);
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/events")
       .then((r) => r.json())
       .then((d) => {
-        if (d.success) setDbEvents(d.data);
+        if (d.success && d.data.length > 0) setEvents(d.data);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -137,35 +157,19 @@ export default function LandingPage() {
                 <p className="text-cream/50 text-[14px] mb-6">
                   Choisissez votre événement ci-dessous pour vous inscrire et obtenir votre badge ou ticket.
                 </p>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {DEMO_EVENTS.map((evt) => (
-                    <Link
-                      key={evt.id}
-                      href={`/${locale}/evenement/${evt.id}`}
-                      className="bg-cream/[0.04] border border-cream/[0.08] rounded-2xl p-5 hover:bg-cream/[0.08] hover:border-cream/[0.15] transition-all group"
-                    >
-                      <div className="flex items-center justify-between mb-4">
-                        <span className={`w-9 h-9 rounded-xl flex items-center justify-center ${evt.color}`}>
-                          <evt.icon size={18} />
-                        </span>
-                        <span className="text-[10px] uppercase tracking-wider text-cream/30">
-                          {evt.type}
-                        </span>
-                      </div>
-                      <h3 className="font-serif text-[17px] text-cream leading-tight mb-2 group-hover:text-gold transition-colors">
-                        {evt.name}
-                      </h3>
-                      <p className="text-[12px] text-cream/40">{evt.date}</p>
-                      <p className="text-[11px] text-cream/30 mt-1">{evt.lieu}</p>
-                      <div className="mt-4 pt-3 border-t border-cream/[0.06] flex items-center justify-between">
-                        <span className="text-[11px] text-cream/40 mono">{evt.participants} inscrits</span>
-                        <span className="text-[11px] text-gold font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                          S&apos;inscrire <ArrowRight size={12} />
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
+                {loading ? (
+                  <div className="flex justify-center py-12">
+                    <Loader2 className="w-6 h-6 text-gold animate-spin" />
+                  </div>
+                ) : events.length > 0 ? (
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {events.map((evt) => (
+                      <EventCard key={evt.slug} evt={evt} locale={locale} variant="dark" />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-cream/30 text-[14px] py-8 text-center">Aucun événement pour le moment</p>
+                )}
               </div>
             )}
 
@@ -212,64 +216,19 @@ export default function LandingPage() {
           <span>Événements en cours</span>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {DEMO_EVENTS.map((evt) => (
-            <Link
-              key={evt.id}
-              href={`/${locale}/evenement/${evt.id}`}
-              className="bg-white border border-line rounded-2xl p-6 hover:shadow-float transition-all group"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className={`w-10 h-10 rounded-xl flex items-center justify-center ${evt.color}`}>
-                  <evt.icon size={20} />
-                </span>
-                <span className="text-[10px] uppercase tracking-wider text-mute bg-cream2 px-2 py-1 rounded-full">
-                  {evt.type}
-                </span>
-              </div>
-              <h3 className="font-serif text-[18px] text-ink leading-tight mb-2 group-hover:text-gold transition-colors">
-                {evt.name}
-              </h3>
-              <p className="text-[13px] text-mute">{evt.date}</p>
-              <p className="text-[12px] text-mute/60 mt-1">{evt.lieu}</p>
-              <div className="mt-5 pt-4 border-t border-line flex items-center justify-between">
-                <span className="text-[12px] text-mute mono">{evt.participants} participants</span>
-                <span className="text-[12px] text-gold font-medium">
-                  {evt.badgePrice === 0 ? "Gratuit" : `${new Intl.NumberFormat("fr-FR").format(evt.badgePrice)} XOF`}
-                </span>
-              </div>
-            </Link>
-          ))}
-          {dbEvents.map((evt) => (
-            <Link
-              key={evt.slug}
-              href={`/${locale}/evenement/${evt.slug}`}
-              className="bg-white border border-line rounded-2xl p-6 hover:shadow-float transition-all group"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-gold/10 text-gold">
-                  <Calendar size={20} />
-                </span>
-                <span className="text-[10px] uppercase tracking-wider text-mute bg-cream2 px-2 py-1 rounded-full">
-                  {evt.type === "concert" ? "Concert" : evt.type === "hackathon" ? "Tech" : "Conference"}
-                </span>
-              </div>
-              <h3 className="font-serif text-[18px] text-ink leading-tight mb-2 group-hover:text-gold transition-colors">
-                {evt.nom}
-              </h3>
-              <p className="text-[13px] text-mute">
-                {new Date(evt.dateDebut).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })} — {new Date(evt.dateFin).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
-              </p>
-              <p className="text-[12px] text-mute/60 mt-1">{evt.lieu} · {evt.ville}</p>
-              <div className="mt-5 pt-4 border-t border-line flex items-center justify-between">
-                <span className="text-[12px] text-mute mono">{evt._count.participants} participants</span>
-                <span className="text-[12px] text-gold font-medium">
-                  {evt.prixBadge === 0 && evt.prixTicket === 0 ? "Gratuit" : `${new Intl.NumberFormat("fr-FR").format(evt.prixTicket || evt.prixBadge)} XOF`}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <Loader2 className="w-6 h-6 text-mute animate-spin" />
+          </div>
+        ) : events.length > 0 ? (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {events.map((evt) => (
+              <EventCard key={evt.slug} evt={evt} locale={locale} variant="light" />
+            ))}
+          </div>
+        ) : (
+          <p className="text-mute text-[14px] py-8 text-center">Aucun événement publié pour le moment.</p>
+        )}
       </div>
 
       {/* Pricing */}
@@ -295,23 +254,10 @@ export default function LandingPage() {
           </div>
 
           <p className="text-[13px] text-cream/30 mt-8">
-            Badges gratuits = aucun frais. Tickets concerts = 10% prélevé automatiquement. Domaine : www.aïkoevent.com
+            Badges gratuits = aucun frais. Tickets concerts = 10% prélevé automatiquement.
           </p>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="border-t border-line">
-        <div className="max-w-7xl mx-auto px-5 lg:px-10 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[12px] text-mute">
-            AÏKO Event & Tech · www.aïkoevent.com · 2026
-          </p>
-          <div className="flex items-center gap-6 text-[12px] text-mute">
-            <Link href={`/${locale}/creer`} className="hover:text-ink transition-colors">Créer un événement</Link>
-            <Link href="/login" className="hover:text-ink transition-colors">Admin</Link>
-          </div>
-        </div>
-      </footer>
     </section>
   );
 }

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /login
+Disallow: /dashboard
+Disallow: /commandes
+Disallow: /parametres
+Disallow: /rapports
+
+Sitemap: https://aiko-concierge.vercel.app/sitemap.xml
