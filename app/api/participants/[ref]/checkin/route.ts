@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: { ref: string } },
 ) {
   try {
+    const blocked = await rateLimit(req, "checkin", 20, "60 s");
+    if (blocked) return blocked;
     const participant = await prisma.participant.findUnique({
       where: { reference: params.ref },
       include: {

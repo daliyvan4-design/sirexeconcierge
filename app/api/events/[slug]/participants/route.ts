@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendConfirmationEmail } from "@/lib/email";
+import { rateLimit } from "@/lib/rate-limit";
 
 function genRef() {
   return `AIKO-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
@@ -16,6 +17,9 @@ export async function POST(
   { params }: { params: { slug: string } },
 ) {
   try {
+    const blocked = await rateLimit(req, "participants", 5, "60 s");
+    if (blocked) return blocked;
+
     const event = await prisma.event.findUnique({
       where: { slug: params.slug },
       include: { _count: { select: { participants: true } } },

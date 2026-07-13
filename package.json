@@ -12,9 +12,12 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.19.3",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
     "@vercel/blob": "^2.6.1",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
+    "cloudinary": "^2.10.0",
     "clsx": "^2.1.1",
     "html5-qrcode": "^2.3.8",
     "jspdf": "^4.2.1",

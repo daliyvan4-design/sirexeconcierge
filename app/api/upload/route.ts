@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { uploadImage } from "@/lib/cloudinary";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
+    const blocked = await rateLimit(req, "upload", 10, "60 s");
+    if (blocked) return blocked;
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
     const folder = (formData.get("folder") as string) ?? "events";
@@ -20,18 +23,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Format non supporte (JPG, PNG, WebP)" }, { status: 400 });
     }
 
-    const ext = file.name.split(".").pop() ?? "jpg";
-    const filename = `${folder}/${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const { url } = await uploadImage(buffer, folder);
 
-    const blob = await put(filename, file, {
-      access: "public",
-      addRandomSuffix: false,
-    });
-
-    return NextResponse.json({
-      success: true,
-      url: blob.url,
-    });
+    return NextResponse.json({ success: true, url });
   } catch (err) {
     console.error("[upload] error:", err);
     return NextResponse.json(

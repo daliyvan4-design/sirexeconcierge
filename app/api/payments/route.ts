@@ -5,6 +5,7 @@ import {
   isGeniusPayConfigured,
   type CreatePaymentInput,
 } from "@/lib/geniuspay";
+import { rateLimit } from "@/lib/rate-limit";
 
 function genPayRef() {
   return `PAY-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
@@ -19,6 +20,9 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const blocked = await rateLimit(req, "payments", 3, "60 s");
+    if (blocked) return blocked;
+
     const body = (await req.json()) as {
       amount: number;
       currency?: string;

@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/admin-auth";
+import { getCached } from "@/lib/cache";
 
 export async function GET() {
   const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
   if (error) return error;
 
+  const data = await getCached("admin:stats:dashboard", 60, fetchDashboardStats);
+  return NextResponse.json(data);
+}
+
+async function fetchDashboardStats() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const yesterday = new Date(today);
@@ -26,7 +32,7 @@ export async function GET() {
   const caToday = todayCA._sum.montantTotal || 0;
   const caYesterday = yesterdayCA._sum.montantTotal || 0;
 
-  return NextResponse.json({
+  return {
     ordersToday: todayOrders,
     ordersYesterday: yesterdayOrders,
     caToday,
@@ -34,5 +40,5 @@ export async function GET() {
     pending,
     monthTotal,
     monthConfirmed,
-  });
+  };
 }

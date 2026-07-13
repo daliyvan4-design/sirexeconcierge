@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/admin-auth";
+import { getCached } from "@/lib/cache";
 
 export async function GET() {
   const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
   if (error) return error;
 
+  const data = await getCached("admin:stats:events", 120, fetchEventStats);
+  return NextResponse.json({ success: true, data });
+}
+
+async function fetchEventStats() {
   const events = await prisma.event.findMany({
     where: { statut: "actif" },
     include: {
@@ -39,14 +45,11 @@ export async function GET() {
     };
   });
 
-  return NextResponse.json({
-    success: true,
-    data: {
-      totalEvents: events.length,
-      totalParticipants,
-      totalRevenue,
-      totalCheckins,
-      events: eventList,
-    },
-  });
+  return {
+    totalEvents: events.length,
+    totalParticipants,
+    totalRevenue,
+    totalCheckins,
+    events: eventList,
+  };
 }
