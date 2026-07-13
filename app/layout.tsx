@@ -5,6 +5,17 @@ export const metadata: Metadata = {
   title: "AÏKO — Event & Tech · Créez, participez, badgez",
   description:
     "AÏKO Event & Tech — Plateforme de création et gestion d'événements. Badges, tickets et accréditations avec QR code. www.aïkoevent.com",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/icon.svg",
+  },
+  metadataBase: new URL("https://aiko-concierge.vercel.app"),
+  openGraph: {
+    title: "AÏKO — Event & Tech",
+    description: "Créez, participez, badgez — la plateforme événementielle tout-en-un",
+    siteName: "AÏKO Event & Tech",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

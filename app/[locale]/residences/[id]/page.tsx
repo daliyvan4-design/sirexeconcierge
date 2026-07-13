@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowLeft,
   MapPin,
@@ -104,12 +105,15 @@ export default function ResidenceDetailPage() {
 
         {images.length > 0 && (
           <div className="relative rounded-2xl overflow-hidden mb-8 group">
-            <img
-              src={images[imgIdx].url}
-              alt={images[imgIdx].legende ?? residence.nom}
-              className="w-full aspect-[16/9] object-cover cursor-pointer"
-              onClick={() => setShowFullscreen(true)}
-            />
+            <div className="relative w-full aspect-[16/9] cursor-pointer" onClick={() => setShowFullscreen(true)}>
+              <Image
+                src={images[imgIdx].url}
+                alt={images[imgIdx].legende ?? residence.nom}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 960px"
+              />
+            </div>
             {images.length > 1 && (
               <>
                 <button
@@ -147,11 +151,11 @@ export default function ResidenceDetailPage() {
               <button
                 key={img.id}
                 onClick={() => setImgIdx(i)}
-                className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${
+                className={`relative flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${
                   i === imgIdx ? "border-gold" : "border-transparent opacity-70 hover:opacity-100"
                 }`}
               >
-                <img src={img.url} alt="" className="w-full h-full object-cover" />
+                <Image src={img.url} alt="" fill className="object-cover" sizes="80px" />
               </button>
             ))}
           </div>

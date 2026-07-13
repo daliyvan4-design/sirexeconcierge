@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowLeft,
   MapPin,
@@ -61,10 +62,12 @@ function ImageCarousel({ images }: { images: ResidenceImage[] }) {
 
   return (
     <div className="relative w-full aspect-[4/3] bg-ink rounded-t-2xl overflow-hidden group">
-      <img
+      <Image
         src={images[idx].url}
         alt={images[idx].legende ?? ""}
-        className="w-full h-full object-cover"
+        fill
+        className="object-cover"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
       {images.length > 1 && (
         <>

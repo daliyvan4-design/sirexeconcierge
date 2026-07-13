@@ -1,0 +1,21 @@
+{
+  "name": "AÏKO Event & Tech",
+  "short_name": "AÏKO",
+  "description": "Plateforme de création et gestion d'événements — Badges, tickets, QR check-in",
+  "start_url": "/fr",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0A0A0A",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

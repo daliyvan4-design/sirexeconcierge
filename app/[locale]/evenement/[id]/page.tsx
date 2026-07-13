@@ -15,9 +15,12 @@ import {
   Loader2,
   Bed,
   Star,
+  Car,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
 import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/payment-method-picker";
 import { PaymentButton } from "@/components/payment/payment-button";
 import { generateTicketPDF } from "@/lib/generate-ticket-pdf";
@@ -65,6 +68,8 @@ interface EventData {
   logoUrl?: string;
   coverUrl?: string;
   offreLogement?: boolean;
+  offreVehicule?: boolean;
+  offreExtras?: boolean;
   residence?: ResidenceData | null;
   _count: { participants: number };
 }
@@ -158,6 +163,8 @@ function formatDateRange(start: string, end: string) {
 export default function EventPage() {
   const params = useParams();
   const locale = useLocale();
+  const t = useTranslations("event.page");
+  const ts = useTranslations("event.success");
   const eventId = params.id as string;
 
   const [event, setEvent] = useState<EventData | null>(DEMO_EVENTS[eventId] ?? null);
@@ -202,9 +209,9 @@ export default function EventPage() {
   if (!event) {
     return (
       <div className="max-w-3xl mx-auto px-5 py-24 text-center">
-        <p className="text-mute text-[16px]">Evenement introuvable</p>
+        <p className="text-mute text-[16px]">{t("not_found")}</p>
         <Link href={`/${locale}`} className="text-gold mt-4 inline-block">
-          Retour
+          {t("return")}
         </Link>
       </div>
     );
@@ -284,10 +291,10 @@ export default function EventPage() {
           <div className="text-center mb-12">
             <CheckCircle2 className="w-16 h-16 text-ok mx-auto mb-5" />
             <h2 className="font-serif text-[36px] sm:text-[44px] text-ink">
-              {isConcert ? "Ticket confirme" : "Accreditation confirmee"}
+              {isConcert ? ts("confirmed_ticket") : ts("confirmed_badge")}
             </h2>
             <p className="text-mute mt-3 text-[16px] max-w-lg mx-auto">
-              {form.prenom}, votre {isConcert ? "ticket" : "badge"} pour <strong>{event.nom}</strong> est pret.
+              {form.prenom}, votre {isConcert ? t("ticket") : t("badge")} pour <strong>{event.nom}</strong> {ts("ready")}
             </p>
           </div>
 
@@ -298,7 +305,7 @@ export default function EventPage() {
                   AIKO
                 </span>
                 <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", color: "#0A0A0A", fontWeight: 600 }}>
-                  {isConcert ? "Ticket" : "Badge"}
+                  {isConcert ? t("ticket") : t("badge")}
                 </span>
               </div>
 
@@ -324,12 +331,12 @@ export default function EventPage() {
 
               <div className="px-6 py-3 flex items-center justify-between">
                 <div>
-                  <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>Reference</p>
+                  <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>{t("ref")}</p>
                   <p style={{ fontSize: 14, color: "#C8A951", fontWeight: 600, marginTop: 2, fontFamily: "monospace" }}>{displayRef}</p>
                 </div>
                 {isConcert && ticketNum > 0 && (
                   <div className="text-right">
-                    <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>Ticket N°</p>
+                    <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>{t("ticket_no")}</p>
                     <p style={{ fontSize: 18, color: "#fff", fontWeight: 700, marginTop: 2, fontFamily: "monospace" }}>
                       {String(ticketNum).padStart(4, "0")}
                     </p>
@@ -337,7 +344,7 @@ export default function EventPage() {
                 )}
                 {!isConcert && (
                   <div className="text-right">
-                    <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>N°</p>
+                    <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.2em", color: "rgba(255,255,255,0.4)" }}>{t("no")}</p>
                     <p style={{ fontSize: 14, color: "#fff", fontWeight: 500, marginTop: 2 }}>{String(ticketNum || 1).padStart(4, "0")}</p>
                   </div>
                 )}
@@ -348,7 +355,7 @@ export default function EventPage() {
                   <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "0 24px" }} />
                   <div className="px-6 py-2">
                     <div className="flex items-center justify-between">
-                      <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>Montant</p>
+                      <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{t("amount")}</p>
                       <p style={{ fontSize: 14, color: "#fff", fontWeight: 500 }}>{new Intl.NumberFormat("fr-FR").format(price)} XOF</p>
                     </div>
                   </div>
@@ -374,7 +381,7 @@ export default function EventPage() {
 
               <div className="px-6 pb-4 text-center">
                 <p style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.3em", color: "rgba(255,255,255,0.3)" }}>
-                  Scannez avec AIKO · {isConcert ? "Ticket numerique" : "Accreditation"}
+                  {isConcert ? t("scan_ticket") : t("scan_badge")}
                 </p>
               </div>
             </div>
@@ -392,7 +399,7 @@ export default function EventPage() {
                 className="btn-press inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-6 py-3 text-[14px] font-semibold"
               >
                 <Printer className="w-4 h-4" />
-                Imprimer
+                {ts("print")}
               </button>
               <button
                 onClick={() => {
@@ -404,7 +411,7 @@ export default function EventPage() {
                   const ctx = canvas.getContext("2d");
                   if (!ctx) return;
                   const svgData = new XMLSerializer().serializeToString(svgEl);
-                  const img = new Image();
+                  const img = new window.Image();
                   img.onload = () => {
                     ctx.fillStyle = "#0A0A0A";
                     ctx.fillRect(0, 0, 300, 300);
@@ -448,23 +455,23 @@ export default function EventPage() {
       <div className="max-w-5xl mx-auto px-5 lg:px-8 pt-10 pb-24">
         <Link href={`/${locale}`} className="text-[13px] text-mute hover:text-ink flex items-center gap-1.5 mb-8">
           <ArrowLeft className="w-4 h-4" />
-          Retour aux evenements
+          {t("back")}
         </Link>
 
         <div className="bg-ink text-cream rounded-2xl overflow-hidden mb-8">
           {event.coverUrl && (
             <div className="relative h-48 sm:h-64">
-              <img src={event.coverUrl} alt="" className="w-full h-full object-cover" />
+              <Image src={event.coverUrl} alt="" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
             </div>
           )}
           <div className={event.coverUrl ? "px-8 sm:px-10 pb-8 sm:pb-10 -mt-16 relative" : "p-8 sm:p-10"}>
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-wider text-cream/40 mb-4">
             {event.logoUrl && (
-              <img src={event.logoUrl} alt="" className="w-8 h-8 rounded-lg object-cover" />
+              <Image src={event.logoUrl} alt="" width={32} height={32} className="rounded-lg object-cover" />
             )}
             <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-            <span>{isConcert ? "Concert" : "Conference"}</span>
+            <span>{isConcert ? t("concert") : t("conference")}</span>
           </div>
           <h1 className="font-serif text-[32px] sm:text-[44px] text-cream leading-tight">
             {event.nom}
@@ -474,22 +481,22 @@ export default function EventPage() {
             <div className="flex items-center gap-3">
               <Calendar className="w-5 h-5 text-gold" />
               <div>
-                <p className="text-[12px] text-cream/40">Date</p>
+                <p className="text-[12px] text-cream/40">{t("date")}</p>
                 <p className="text-[14px] text-cream font-medium">{formatDateRange(event.dateDebut, event.dateFin)}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="w-5 h-5 text-gold" />
               <div>
-                <p className="text-[12px] text-cream/40">Lieu</p>
+                <p className="text-[12px] text-cream/40">{t("venue")}</p>
                 <p className="text-[14px] text-cream font-medium">{event.lieu} · {event.ville}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Users className="w-5 h-5 text-gold" />
               <div>
-                <p className="text-[12px] text-cream/40">Participants</p>
-                <p className="text-[14px] text-cream font-medium">{event._count.participants} inscrits</p>
+                <p className="text-[12px] text-cream/40">{t("participants")}</p>
+                <p className="text-[14px] text-cream font-medium">{event._count.participants} {t("registered")}</p>
               </div>
             </div>
           </div>
@@ -507,6 +514,29 @@ export default function EventPage() {
           </div>
         )}
 
+        {(event.offreLogement || event.offreVehicule || event.offreExtras) && (
+          <div className="flex flex-wrap gap-3 mb-8">
+            {event.offreLogement && (
+              <div className="inline-flex items-center gap-2 bg-gold/10 text-ink border border-gold/20 rounded-full px-4 py-2 text-[13px] font-medium">
+                <Bed className="w-4 h-4 text-gold" />
+                Logement inclus
+              </div>
+            )}
+            {event.offreVehicule && (
+              <div className="inline-flex items-center gap-2 bg-gold/10 text-ink border border-gold/20 rounded-full px-4 py-2 text-[13px] font-medium">
+                <Car className="w-4 h-4 text-gold" />
+                Transport disponible
+              </div>
+            )}
+            {event.offreExtras && (
+              <div className="inline-flex items-center gap-2 bg-gold/10 text-ink border border-gold/20 rounded-full px-4 py-2 text-[13px] font-medium">
+                <Sparkles className="w-4 h-4 text-gold" />
+                Extras & services
+              </div>
+            )}
+          </div>
+        )}
+
         {step === "info" && (
           <div className="text-center py-8">
             <button
@@ -516,12 +546,12 @@ export default function EventPage() {
               {isConcert ? (
                 <>
                   <Ticket className="w-5 h-5" />
-                  {isFree ? "Obtenir mon ticket" : `Acheter mon ticket — ${new Intl.NumberFormat("fr-FR").format(price)} XOF`}
+                  {isFree ? t("get_ticket") : `${t("buy_ticket")} — ${new Intl.NumberFormat("fr-FR").format(price)} XOF`}
                 </>
               ) : (
                 <>
                   <Users className="w-5 h-5" />
-                  {isFree ? "S&apos;inscrire gratuitement" : `S&apos;inscrire — ${new Intl.NumberFormat("fr-FR").format(price)} XOF`}
+                  {isFree ? t("register_free") : `${t("register_paid")} — ${new Intl.NumberFormat("fr-FR").format(price)} XOF`}
                 </>
               )}
             </button>
@@ -531,39 +561,39 @@ export default function EventPage() {
         {step === "form" && (
           <div className="bg-white rounded-3xl border border-line shadow-card p-6 sm:p-10 animate-fade-up">
             <h2 className="font-serif text-[26px] text-ink mb-2">
-              {isConcert ? "Acheter votre ticket" : "Inscription"}
+              {isConcert ? t("form_title_ticket") : t("form_title_badge")}
             </h2>
             <p className="text-mute text-[14px] mb-8">
-              Remplissez vos informations pour obtenir votre {isConcert ? "ticket numerique" : "badge"}.
+              {t("form_lead")} {isConcert ? t("ticket") : t("badge")}.
             </p>
 
             <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-x-8 gap-y-6">
               <div>
-                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Prenom</label>
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">{t("first_name")}</label>
                 <input required value={form.prenom} onChange={(e) => setForm({ ...form, prenom: e.target.value })} placeholder="Amadou" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
               </div>
               <div>
-                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Nom</label>
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">{t("last_name")}</label>
                 <input required value={form.nom} onChange={(e) => setForm({ ...form, nom: e.target.value })} placeholder="Diallo" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
               </div>
               <div>
-                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Email</label>
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">{t("email")}</label>
                 <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="amadou@exemple.com" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
               </div>
               <div>
-                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Telephone</label>
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">{t("phone")}</label>
                 <input required value={form.telephone} onChange={(e) => setForm({ ...form, telephone: e.target.value })} placeholder="+225 07 12 34 56 78" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px] mono" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">Organisation / Entreprise</label>
-                <input value={form.organisation} onChange={(e) => setForm({ ...form, organisation: e.target.value })} placeholder="Optionnel" className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
+                <label className="block text-[12px] font-medium text-ink mb-2 uppercase tracking-wider">{t("organization")}</label>
+                <input value={form.organisation} onChange={(e) => setForm({ ...form, organisation: e.target.value })} placeholder={t("optional")} className="w-full bg-cream2 border border-line rounded-xl px-4 py-3.5 text-[15px]" />
               </div>
 
               {hasLogement && (
                 <div className="md:col-span-2 border-t border-line pt-6">
                   <div className="flex items-center gap-2 mb-4">
                     <Bed className="w-5 h-5 text-gold" />
-                    <h3 className="text-[16px] font-serif text-ink">Hebergement disponible</h3>
+                    <h3 className="text-[16px] font-serif text-ink">{t("lodging_title")}</h3>
                   </div>
                   <p className="text-[13px] text-mute mb-4">
                     {event!.residence!.nom} — {event!.residence!.adresse}, {event!.residence!.ville}
@@ -572,7 +602,7 @@ export default function EventPage() {
                   {event!.residence!.images.length > 0 && (
                     <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
                       {event!.residence!.images.map((img, i) => (
-                        <img key={i} src={img.url} alt={img.legende || ""} className="w-28 h-20 rounded-lg object-cover flex-shrink-0" />
+                        <Image key={i} src={img.url} alt={img.legende || ""} width={112} height={80} className="rounded-lg object-cover flex-shrink-0" />
                       ))}
                     </div>
                   )}
@@ -591,8 +621,8 @@ export default function EventPage() {
                         !selectedTarifId ? "border-gold bg-gold/5 ring-1 ring-gold" : "border-line hover:border-mute"
                       }`}
                     >
-                      <p className="text-[14px] text-ink font-medium">Sans hebergement</p>
-                      <p className="text-[12px] text-mute mt-1">Je m&apos;occupe de mon logement</p>
+                      <p className="text-[14px] text-ink font-medium">{t("no_lodging")}</p>
+                      <p className="text-[12px] text-mute mt-1">{t("no_lodging_desc")}</p>
                     </button>
                     {event!.residence!.tarifs.map((tarif) => (
                       <button
@@ -607,9 +637,9 @@ export default function EventPage() {
                           <p className="text-[14px] text-ink font-medium">{tarif.label}</p>
                           <Star className="w-4 h-4 text-gold" />
                         </div>
-                        <p className="text-[12px] text-mute mt-1">{tarif.typeChambre} · {tarif.capacite} pers. max</p>
+                        <p className="text-[12px] text-mute mt-1">{tarif.typeChambre} · {tarif.capacite} {t("max_persons")}</p>
                         <p className="text-[15px] text-gold font-semibold mt-2">
-                          {new Intl.NumberFormat("fr-FR").format(tarif.prixParNuit)} {tarif.devise}<span className="text-[11px] text-mute font-normal"> /nuit</span>
+                          {new Intl.NumberFormat("fr-FR").format(tarif.prixParNuit)} {tarif.devise}<span className="text-[11px] text-mute font-normal"> {t("per_night")}</span>
                         </p>
                       </button>
                     ))}
@@ -617,7 +647,7 @@ export default function EventPage() {
                   {selectedTarif && (
                     <div className="mt-3 bg-gold/10 border border-gold/20 rounded-xl px-4 py-3 text-[13px] text-ink">
                       <Bed className="w-4 h-4 text-gold inline mr-1.5" />
-                      Chambre reservee : <strong>{selectedTarif.label}</strong> — {new Intl.NumberFormat("fr-FR").format(selectedTarif.prixParNuit)} {selectedTarif.devise}/nuit
+                      {t("room_booked")} : <strong>{selectedTarif.label}</strong> — {new Intl.NumberFormat("fr-FR").format(selectedTarif.prixParNuit)} {selectedTarif.devise}{t("per_night")}
                     </div>
                   )}
                 </div>
@@ -628,10 +658,10 @@ export default function EventPage() {
                   <input type="checkbox" checked={form.useForBadge} onChange={(e) => setForm({ ...form, useForBadge: e.target.checked })} className="accent-gold w-5 h-5 mt-0.5" />
                   <div>
                     <p className="text-[14px] text-ink font-medium">
-                      Utiliser ces donnees pour mon {isConcert ? "ticket" : "accreditation"}
+                      {t("use_for_badge")} {isConcert ? t("ticket") : t("badge")}
                     </p>
                     <p className="text-[12px] text-mute mt-1">
-                      Vos informations seront imprimees sur votre {isConcert ? "ticket numerique" : "badge"} avec un QR code verifiable.
+                      {t("badge_info")} {isConcert ? t("ticket") : t("badge")} {t("with_qr")}
                     </p>
                   </div>
                 </label>
@@ -642,10 +672,10 @@ export default function EventPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-[14px] text-ink font-medium">
-                        {isConcert ? "Ticket" : "Badge"} — {event.nom}
+                        {isConcert ? t("ticket") : t("badge")} — {event.nom}
                       </p>
                       <p className="text-[12px] text-mute mt-1">
-                        {isConcert ? "Commission AIKO 10% incluse" : "Frais AIKO 10 EUR inclus"}
+                        {isConcert ? t("commission") : t("fee")}
                       </p>
                     </div>
                     <p className="font-serif text-[28px] text-ink">{new Intl.NumberFormat("fr-FR").format(price)} <span className="text-[14px] text-mute">XOF</span></p>
@@ -668,13 +698,13 @@ export default function EventPage() {
               <div className="md:col-span-2 flex justify-end pt-2">
                 {isFree ? (
                   <button type="submit" className="btn-press inline-flex items-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-8 py-4 text-[15px] font-semibold">
-                    Obtenir mon {isConcert ? "ticket" : "badge"}
+                    {t("free_btn")} {isConcert ? t("ticket") : t("badge")}
                   </button>
                 ) : (
                   <PaymentButton
                     amount={price}
                     method={payMethod}
-                    description={`${isConcert ? "Ticket" : "Badge"} — ${event.nom}`}
+                    description={`${isConcert ? t("ticket") : t("badge")} — ${event.nom}`}
                     customerName={`${form.prenom} ${form.nom}`}
                     customerEmail={form.email}
                     customerPhone={form.telephone}
