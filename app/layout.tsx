@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
   },
-  metadataBase: new URL("https://aiko-concierge.vercel.app"),
+  metadataBase: new URL("https://aikoboard.com"),
   openGraph: {
     title: "AIKO Board",
     description: "Créez, participez, badgez — la plateforme événementielle tout-en-un",

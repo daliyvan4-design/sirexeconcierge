@@ -7,4 +7,4 @@ Disallow: /commandes
 Disallow: /parametres
 Disallow: /rapports
 
-Sitemap: https://aiko-concierge.vercel.app/sitemap.xml
+Sitemap: https://aikoboard.com/sitemap.xml

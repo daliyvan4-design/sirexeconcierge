@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-const BASE = "https://aiko-concierge.vercel.app";
+const BASE = "https://aikoboard.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const events = await prisma.event.findMany({
