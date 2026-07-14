@@ -3,10 +3,13 @@ import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/admin-auth";
 
 export async function GET() {
-  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { session, error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN", "AGENT_INSTITUTIONNEL");
   if (error) return error;
 
+  const isInstitutionnel = session!.user.role === "AGENT_INSTITUTIONNEL";
+
   const events = await prisma.event.findMany({
+    where: isInstitutionnel ? { institutionnel: true } : undefined,
     orderBy: { createdAt: "desc" },
     include: { _count: { select: { participants: true } } },
   });

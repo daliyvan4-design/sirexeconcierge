@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
         offreLogement: body.offreLogement ?? false,
         offreVehicule: body.offreVehicule ?? false,
         offreExtras: body.offreExtras ?? false,
+        institutionnel: body.institutionnel ?? false,
         residenceId: body.residenceId ?? null,
         contactEmail: body.contactEmail,
         contactTel: body.contactTel,

@@ -19,6 +19,7 @@ import {
   Car,
   Ticket,
   Sparkles,
+  Landmark,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { PaymentButton } from "@/components/payment/payment-button";
@@ -42,6 +43,7 @@ interface EventForm {
   offreLogement: boolean;
   offreVehicule: boolean;
   offreExtras: boolean;
+  institutionnel: boolean;
   residenceId: string;
   contactEmail: string;
   contactTel: string;
@@ -84,6 +86,7 @@ export default function CreerPage() {
     offreLogement: false,
     offreVehicule: false,
     offreExtras: false,
+    institutionnel: false,
     residenceId: "",
     contactEmail: "",
     contactTel: "",
@@ -127,6 +130,7 @@ export default function CreerPage() {
           offreLogement: form.offreLogement,
           offreVehicule: form.offreVehicule,
           offreExtras: form.offreExtras,
+          institutionnel: form.institutionnel,
           residenceId: form.residenceId || undefined,
           contactEmail: form.contactEmail,
           contactTel: form.contactTel,
@@ -527,6 +531,22 @@ export default function CreerPage() {
                     <div>
                       <p className="text-[13px] text-ink font-medium">Services suppl{"é"}mentaires</p>
                       <p className="text-[11px] text-mute mt-0.5">Restauration, excursions, extras</p>
+                    </div>
+                  </div>
+                </label>
+
+                <label className={`flex items-start gap-3 cursor-pointer bg-cream2 border rounded-2xl p-4 transition-all ${form.institutionnel ? "border-gold bg-gold/5" : "border-line"}`}>
+                  <input
+                    type="checkbox"
+                    checked={form.institutionnel}
+                    onChange={(e) => update({ institutionnel: e.target.checked })}
+                    className="accent-gold w-5 h-5 mt-0.5"
+                  />
+                  <div className="flex items-start gap-2">
+                    <Landmark className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-[13px] text-ink font-medium">Institutionnel</p>
+                      <p className="text-[11px] text-mute mt-0.5">D{"é"}l{"é"}gations VIP, protocole</p>
                     </div>
                   </div>
                 </label>

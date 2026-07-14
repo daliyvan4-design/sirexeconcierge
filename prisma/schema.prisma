@@ -187,6 +187,7 @@ model Event {
   offreLogement   Boolean       @default(false)
   offreVehicule   Boolean       @default(false)
   offreExtras     Boolean       @default(false)
+  institutionnel  Boolean       @default(false)
   residenceId     String?
   residence       Residence?    @relation(fields: [residenceId], references: [id])
   contactEmail    String

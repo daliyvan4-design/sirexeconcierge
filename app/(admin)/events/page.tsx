@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { Topbar } from "@/components/admin/topbar";
 import { fmt } from "@/lib/utils";
 import Link from "next/link";
@@ -36,6 +37,8 @@ function formatDate(d: string) {
 }
 
 export default function AdminEventsPage() {
+  const { data: session } = useSession();
+  const isReadOnly = session?.user?.role === "AGENT_INSTITUTIONNEL";
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -113,22 +116,6 @@ export default function AdminEventsPage() {
 
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <Link
-                    href={`/fr/organisateur/${evt.slug}`}
-                    target="_blank"
-                    className="w-9 h-9 rounded-xl bg-cream2 border border-line flex items-center justify-center text-mute hover:text-ink transition-colors"
-                    title="Dashboard organisateur"
-                  >
-                    <Eye className="w-4 h-4" />
-                  </Link>
-                  <Link
-                    href={`/fr/scan/${evt.slug}`}
-                    target="_blank"
-                    className="w-9 h-9 rounded-xl bg-cream2 border border-line flex items-center justify-center text-mute hover:text-ink transition-colors"
-                    title="Scanner QR"
-                  >
-                    <QrCode className="w-4 h-4" />
-                  </Link>
-                  <Link
                     href={`/fr/evenement/${evt.slug}`}
                     target="_blank"
                     className="w-9 h-9 rounded-xl bg-cream2 border border-line flex items-center justify-center text-mute hover:text-ink transition-colors"
@@ -136,17 +123,37 @@ export default function AdminEventsPage() {
                   >
                     <ExternalLink className="w-4 h-4" />
                   </Link>
-                  <button
-                    onClick={() => toggleStatut(evt.id, evt.statut)}
-                    className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-colors ${
-                      evt.statut === "actif"
-                        ? "bg-err/5 border-err/20 text-err hover:bg-err/10"
-                        : "bg-ok/5 border-ok/20 text-ok hover:bg-ok/10"
-                    }`}
-                    title={evt.statut === "actif" ? "Desactiver" : "Reactiver"}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  {!isReadOnly && (
+                    <>
+                      <Link
+                        href={`/fr/organisateur/${evt.slug}`}
+                        target="_blank"
+                        className="w-9 h-9 rounded-xl bg-cream2 border border-line flex items-center justify-center text-mute hover:text-ink transition-colors"
+                        title="Dashboard organisateur"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </Link>
+                      <Link
+                        href={`/fr/scan/${evt.slug}`}
+                        target="_blank"
+                        className="w-9 h-9 rounded-xl bg-cream2 border border-line flex items-center justify-center text-mute hover:text-ink transition-colors"
+                        title="Scanner QR"
+                      >
+                        <QrCode className="w-4 h-4" />
+                      </Link>
+                      <button
+                        onClick={() => toggleStatut(evt.id, evt.statut)}
+                        className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-colors ${
+                          evt.statut === "actif"
+                            ? "bg-err/5 border-err/20 text-err hover:bg-err/10"
+                            : "bg-ok/5 border-ok/20 text-ok hover:bg-ok/10"
+                        }`}
+                        title={evt.statut === "actif" ? "Desactiver" : "Reactiver"}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             ))}

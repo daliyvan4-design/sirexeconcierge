@@ -8,7 +8,7 @@ function getResend(): Resend | null {
   return _resend;
 }
 
-const FROM = process.env.EMAIL_FROM ?? "AIKO Board <onboarding@resend.dev>";
+const FROM = process.env.EMAIL_FROM ?? "AIKO Board <contact@aikoboard.com>";
 
 interface SendConfirmationInput {
   to: string;
