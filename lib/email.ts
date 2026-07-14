@@ -8,7 +8,7 @@ function getResend(): Resend | null {
   return _resend;
 }
 
-const FROM = process.env.EMAIL_FROM ?? "AIKO Event <onboarding@resend.dev>";
+const FROM = process.env.EMAIL_FROM ?? "AIKO Board <onboarding@resend.dev>";
 
 interface SendConfirmationInput {
   to: string;
@@ -97,7 +97,7 @@ export async function sendConfirmationEmail(input: SendConfirmationInput) {
     <!-- Footer -->
     <div style="background:#0A0A0A;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center">
       <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.3);margin:0">
-        AIKO Event & Tech · aikoevent.com
+        AIKO Board · aikoboard.com
       </p>
     </div>
   </div>
@@ -183,7 +183,7 @@ export async function sendReminderEmail(input: SendReminderInput) {
 
     <div style="background:#0A0A0A;border-radius:0 0 16px 16px;padding:20px 32px;text-align:center">
       <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.3);margin:0">
-        AIKO Event & Tech · aikoevent.com
+        AIKO Board · aikoboard.com
       </p>
     </div>
   </div>

@@ -7,10 +7,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     select: { nom: true, description: true, ville: true, lieu: true, coverUrl: true },
   });
 
-  if (!event) return { title: "AÏKO Event" };
+  if (!event) return { title: "AIKO Board" };
 
   return {
-    title: `${event.nom} — AÏKO Event`,
+    title: `${event.nom} — AIKO Board`,
     description: event.description || `${event.nom} — ${event.lieu}, ${event.ville}`,
     openGraph: {
       title: event.nom,

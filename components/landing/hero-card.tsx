@@ -7,7 +7,7 @@ import { Hotel, Car, UtensilsCrossed, Star } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 const SERVICES: { icon: LucideIcon; label: string; tag: string; highlight: boolean }[] = [
-  { icon: Hotel, label: "Appart-hôtels & meublés", tag: "AÏKO direct", highlight: true },
+  { icon: Hotel, label: "Appart-hôtels & meublés", tag: "AIKO Board", highlight: true },
   { icon: Car, label: "Transport VIP", tag: "Chauffeur privé", highlight: false },
   { icon: UtensilsCrossed, label: "Restauration", tag: "Tables réservées", highlight: false },
   { icon: Star, label: "Services premium", tag: "Sur-mesure", highlight: false },

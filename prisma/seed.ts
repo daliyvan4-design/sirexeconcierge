@@ -253,9 +253,9 @@ async function main() {
 
   await prisma.service.create({
     data: {
-      nom: "Boxed lunch AÏKO",
-      nomEn: "AÏKO boxed lunch",
-      nomAr: "غداء معلب AÏKO",
+      nom: "Boxed lunch AIKO Board",
+      nomEn: "AIKO Board boxed lunch",
+      nomAr: "غداء معلب AIKO Board",
       description: "Panier repas premium à emporter, idéal pour les sessions",
       descEn: "Premium packed lunch, ideal for sessions",
       descAr: "وجبة غداء معلبة فاخرة، مثالية للجلسات",
@@ -264,7 +264,7 @@ async function main() {
       unite: "pax",
       icon: "sandwich",
       ordre: 5,
-      tarifs: { create: { label: "Boxed lunch AÏKO", prix: 10000 } },
+      tarifs: { create: { label: "Boxed lunch AIKO Board", prix: 10000 } },
     },
   });
 

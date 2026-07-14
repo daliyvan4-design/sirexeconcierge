@@ -1,6 +1,6 @@
 {
-  "name": "AÏKO Event & Tech",
-  "short_name": "AÏKO",
+  "name": "AIKO Board",
+  "short_name": "AIKO Board",
   "description": "Plateforme de création et gestion d'événements — Badges, tickets, QR check-in",
   "start_url": "/fr",
   "display": "standalone",

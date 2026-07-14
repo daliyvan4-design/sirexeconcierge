@@ -39,7 +39,7 @@ export function DashboardUltra() {
 
   return (
     <>
-      <Topbar title="Tableau de bord" subtitle="AÏKO · 2026" />
+      <Topbar title="Tableau de bord" subtitle="AIKO Board · 2026" />
       <div className="p-6 lg:p-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <KpiCard

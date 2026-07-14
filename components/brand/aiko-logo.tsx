@@ -15,13 +15,13 @@ export function AikoLogo({
         className={`font-serif font-bold tracking-[0.08em] ${dark ? "text-gold" : "text-ink"}`}
         style={{ fontSize: height * 0.7, lineHeight: 1 }}
       >
-        AÏKO
+        AIKO
       </span>
       <span
         className={`uppercase tracking-[0.3em] font-medium ${dark ? "text-cream/50" : "text-mute"}`}
         style={{ fontSize: height * 0.16 }}
       >
-        conciergerie
+        board
       </span>
     </div>
   );

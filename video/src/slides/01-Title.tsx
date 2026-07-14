@@ -49,7 +49,7 @@ export const TitleSlide: React.FC = () => {
               marginBottom: -4,
             }}
           >
-            aïko by
+            aiko board by
           </div>
           <Img
             src={staticFile("logo-sirexe.webp")}

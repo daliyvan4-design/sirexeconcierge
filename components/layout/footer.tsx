@@ -49,8 +49,8 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-[13px] text-cream/50">
               <li>
-                <a href="mailto:contact@aikoevent.com" className="hover:text-cream transition-colors">
-                  contact@aikoevent.com
+                <a href="mailto:contact@aikoboard.com" className="hover:text-cream transition-colors">
+                  contact@aikoboard.com
                 </a>
               </li>
               <li>
@@ -64,7 +64,7 @@ export function Footer() {
 
         <div className="mt-10 pt-6 border-t border-cream/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[11px] text-cream/30">
-            &copy; {year} AÏKO Event &amp; Tech. {t("rights")}
+            &copy; {year} AIKO Board. {t("rights")}
           </p>
           <p className="text-[11px] text-cream/30">
             {t("made_in")}

@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
       amount: body.amount,
       currency: (body.currency as "XOF" | "EUR" | "USD") ?? "XOF",
       payment_method: body.payment_method as CreatePaymentInput["payment_method"],
-      description: body.description ?? "Paiement AIKO Event & Tech",
+      description: body.description ?? "Paiement AIKO Board",
       customer: {
         name: body.customer_name,
         email: body.customer_email,
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
         ...(body.participant_ref && { participant_ref: body.participant_ref }),
         ...(body.event_slug && { event_slug: body.event_slug }),
         ...(body.type && { type: body.type }),
-        platform: "aiko-event",
+        platform: "aiko-board",
       },
     };
 

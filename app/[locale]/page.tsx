@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
+import Image from "next/image";
 import { Calendar, Users, Ticket, QrCode, Plus, ArrowRight, Loader2 } from "lucide-react";
 
 interface EventItem {
@@ -15,6 +16,8 @@ interface EventItem {
   dateFin: string;
   prixBadge: number;
   prixTicket: number;
+  coverUrl?: string;
+  logoUrl?: string;
   _count: { participants: number };
 }
 
@@ -33,24 +36,38 @@ function EventCard({ evt, locale, variant, t }: { evt: EventItem; locale: string
     return (
       <Link
         href={`/${locale}/evenement/${evt.slug}`}
-        className="bg-cream/[0.04] border border-cream/[0.08] rounded-2xl p-5 hover:bg-cream/[0.08] hover:border-cream/[0.15] transition-all group"
+        className="bg-cream/[0.04] border border-cream/[0.08] rounded-2xl overflow-hidden hover:bg-cream/[0.08] hover:border-cream/[0.15] transition-all group"
       >
-        <div className="flex items-center justify-between mb-4">
-          <span className="w-9 h-9 rounded-xl flex items-center justify-center bg-gold/10 text-gold">
-            <Calendar size={18} />
-          </span>
-          <span className="text-[10px] uppercase tracking-wider text-cream/30">{typeLabel}</span>
+        <div className="relative h-40 bg-cream/[0.06]">
+          {evt.coverUrl ? (
+            <Image src={evt.coverUrl} alt={evt.nom} fill className="object-cover" />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Calendar size={40} className="text-cream/10" />
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent" />
+          <div className="absolute top-3 right-3">
+            <span className="text-[10px] uppercase tracking-wider text-cream/80 bg-ink/60 backdrop-blur-sm px-2.5 py-1 rounded-full">{typeLabel}</span>
+          </div>
+          {evt.logoUrl && (
+            <div className="absolute bottom-3 left-3">
+              <Image src={evt.logoUrl} alt="" width={36} height={36} className="rounded-lg object-cover border border-cream/20" />
+            </div>
+          )}
         </div>
-        <h3 className="font-serif text-[17px] text-cream leading-tight mb-2 group-hover:text-gold transition-colors">
-          {evt.nom}
-        </h3>
-        <p className="text-[12px] text-cream/40">{formatRange(evt.dateDebut, evt.dateFin, locale)}</p>
-        <p className="text-[11px] text-cream/30 mt-1">{evt.lieu} · {evt.ville}</p>
-        <div className="mt-4 pt-3 border-t border-cream/[0.06] flex items-center justify-between">
-          <span className="text-[11px] text-cream/40 mono">{evt._count.participants} {t("registered")}</span>
-          <span className="text-[11px] text-gold font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-            {t("register")} <ArrowRight size={12} />
-          </span>
+        <div className="p-5">
+          <h3 className="font-serif text-[17px] text-cream leading-tight mb-2 group-hover:text-gold transition-colors">
+            {evt.nom}
+          </h3>
+          <p className="text-[12px] text-cream/40">{formatRange(evt.dateDebut, evt.dateFin, locale)}</p>
+          <p className="text-[11px] text-cream/30 mt-1">{evt.lieu} · {evt.ville}</p>
+          <div className="mt-4 pt-3 border-t border-cream/[0.06] flex items-center justify-between">
+            <span className="text-[11px] text-cream/40 mono">{evt._count.participants} {t("registered")}</span>
+            <span className="text-[11px] text-gold font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+              {t("register")} <ArrowRight size={12} />
+            </span>
+          </div>
         </div>
       </Link>
     );
@@ -59,26 +76,40 @@ function EventCard({ evt, locale, variant, t }: { evt: EventItem; locale: string
   return (
     <Link
       href={`/${locale}/evenement/${evt.slug}`}
-      className="bg-white border border-line rounded-2xl p-6 hover:shadow-float transition-all group"
+      className="bg-white border border-line rounded-2xl overflow-hidden hover:shadow-float transition-all group"
     >
-      <div className="flex items-center gap-3 mb-4">
-        <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-gold/10 text-gold">
-          <Calendar size={20} />
-        </span>
-        <span className="text-[10px] uppercase tracking-wider text-mute bg-cream2 px-2 py-1 rounded-full">
-          {typeLabel}
-        </span>
+      <div className="relative h-44 bg-cream2">
+        {evt.coverUrl ? (
+          <Image src={evt.coverUrl} alt={evt.nom} fill className="object-cover" />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Calendar size={44} className="text-mute/20" />
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-white/60 to-transparent" />
+        <div className="absolute top-3 right-3">
+          <span className="text-[10px] uppercase tracking-wider text-ink bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-full font-medium">
+            {typeLabel}
+          </span>
+        </div>
+        {evt.logoUrl && (
+          <div className="absolute bottom-3 left-3">
+            <Image src={evt.logoUrl} alt="" width={40} height={40} className="rounded-lg object-cover border-2 border-white shadow-sm" />
+          </div>
+        )}
       </div>
-      <h3 className="font-serif text-[18px] text-ink leading-tight mb-2 group-hover:text-gold transition-colors">
-        {evt.nom}
-      </h3>
-      <p className="text-[13px] text-mute">{formatRange(evt.dateDebut, evt.dateFin, locale)}</p>
-      <p className="text-[12px] text-mute/60 mt-1">{evt.lieu} · {evt.ville}</p>
-      <div className="mt-5 pt-4 border-t border-line flex items-center justify-between">
-        <span className="text-[12px] text-mute mono">{evt._count.participants} {t("participants")}</span>
-        <span className="text-[12px] text-gold font-medium">
-          {price === 0 ? t("free") : `${new Intl.NumberFormat("fr-FR").format(price)} XOF`}
-        </span>
+      <div className="p-6">
+        <h3 className="font-serif text-[18px] text-ink leading-tight mb-2 group-hover:text-gold transition-colors">
+          {evt.nom}
+        </h3>
+        <p className="text-[13px] text-mute">{formatRange(evt.dateDebut, evt.dateFin, locale)}</p>
+        <p className="text-[12px] text-mute/60 mt-1">{evt.lieu} · {evt.ville}</p>
+        <div className="mt-5 pt-4 border-t border-line flex items-center justify-between">
+          <span className="text-[12px] text-mute mono">{evt._count.participants} {t("participants")}</span>
+          <span className="text-[12px] text-gold font-medium">
+            {price === 0 ? t("free") : `${new Intl.NumberFormat("fr-FR").format(price)} XOF`}
+          </span>
+        </div>
       </div>
     </Link>
   );
@@ -163,7 +194,7 @@ export default function LandingPage() {
                     <Loader2 className="w-6 h-6 text-gold animate-spin" />
                   </div>
                 ) : events.length > 0 ? (
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     {events.map((evt) => (
                       <EventCard key={evt.slug} evt={evt} locale={locale} variant="dark" t={t} />
                     ))}
@@ -221,7 +252,7 @@ export default function LandingPage() {
             <Loader2 className="w-6 h-6 text-mute animate-spin" />
           </div>
         ) : events.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {events.map((evt) => (
               <EventCard key={evt.slug} evt={evt} locale={locale} variant="light" t={t} />
             ))}

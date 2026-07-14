@@ -8,10 +8,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
   });
 
-  if (!residence) return { title: "AÏKO Résidence" };
+  if (!residence) return { title: "AIKO Board" };
 
   return {
-    title: `${residence.nom} — AÏKO Résidences`,
+    title: `${residence.nom} — AIKO Board`,
     description: residence.description || `${residence.nom} — ${residence.adresse}, ${residence.ville}`,
     openGraph: {
       title: residence.nom,

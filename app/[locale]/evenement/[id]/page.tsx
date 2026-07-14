@@ -80,7 +80,7 @@ const DEMO_EVENTS: Record<string, EventData> = {
     nom: "Salon Tech Abidjan 2026",
     type: "conference",
     description: "Le rendez-vous annuel de la tech et de l'innovation en Afrique de l'Ouest. Conferences, B2B, networking.",
-    organisateur: "AIKO Events",
+    organisateur: "AIKO Board",
     lieu: "Sofitel Hotel Ivoire",
     ville: "Abidjan",
     dateDebut: "2026-03-11",

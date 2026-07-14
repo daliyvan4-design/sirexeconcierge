@@ -80,7 +80,7 @@ export default function ScanPage() {
       setResult({
         status: "error",
         title: "QR invalide",
-        subtitle: "Ce code ne contient pas de reference AIKO.",
+        subtitle: "Ce code ne contient pas de reference AIKO Board.",
       });
       processingRef.current = false;
       return;

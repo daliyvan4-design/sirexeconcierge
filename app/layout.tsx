@@ -2,18 +2,18 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AÏKO — Event & Tech · Créez, participez, badgez",
+  title: "AIKO Board · Créez, participez, badgez",
   description:
-    "AÏKO Event & Tech — Plateforme de création et gestion d'événements. Badges, tickets et accréditations avec QR code. www.aïkoevent.com",
+    "AIKO Board — Plateforme de création et gestion d'événements. Badges, tickets et accréditations avec QR code.",
   manifest: "/manifest.json",
   icons: {
     icon: "/icon.svg",
   },
   metadataBase: new URL("https://aiko-concierge.vercel.app"),
   openGraph: {
-    title: "AÏKO — Event & Tech",
+    title: "AIKO Board",
     description: "Créez, participez, badgez — la plateforme événementielle tout-en-un",
-    siteName: "AÏKO Event & Tech",
+    siteName: "AIKO Board",
     type: "website",
   },
 };

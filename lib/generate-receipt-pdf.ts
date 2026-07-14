@@ -31,7 +31,7 @@ export function generateReceiptPDF(data: ReceiptData): jsPDF {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(8);
   doc.setFont("helvetica", "normal");
-  doc.text("Event & Tech", margin, 32);
+  doc.text("Board", margin, 32);
 
   doc.setTextColor(200, 169, 81);
   doc.setFontSize(18);
@@ -126,8 +126,8 @@ export function generateReceiptPDF(data: ReceiptData): jsPDF {
   doc.roundedRect(margin, y, cw, 20, 3, 3, "F");
   doc.setTextColor(100, 100, 100);
   doc.setFontSize(7);
-  doc.text("Ce recu confirme le paiement recu par AIKO Event & Tech.", margin + 6, y + 8);
-  doc.text("Pour toute question : contact@aiko-ci.com | +225 07 88 00 11 22", margin + 6, y + 14);
+  doc.text("Ce recu confirme le paiement recu par AIKO Board.", margin + 6, y + 8);
+  doc.text("Pour toute question : contact@aikoboard.com | +225 07 88 00 11 22", margin + 6, y + 14);
 
   const footerY = 280;
   doc.setDrawColor(200, 169, 81);
@@ -135,8 +135,8 @@ export function generateReceiptPDF(data: ReceiptData): jsPDF {
   doc.line(margin, footerY, w - margin, footerY);
   doc.setTextColor(160, 160, 160);
   doc.setFontSize(6);
-  doc.text("AIKO Event & Tech — Abidjan, Cote d'Ivoire", w / 2, footerY + 5, { align: "center" });
-  doc.text("aiko-concierge.vercel.app", w / 2, footerY + 9, { align: "center" });
+  doc.text("AIKO Board — Abidjan, Cote d'Ivoire", w / 2, footerY + 5, { align: "center" });
+  doc.text("aikoboard.com", w / 2, footerY + 9, { align: "center" });
 
   return doc;
 }

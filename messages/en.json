@@ -50,7 +50,7 @@
       "coord": "05°19′ N",
       "arrivals": "Upcoming arrivals · 24 h",
       "realtime": "Live",
-      "event": "AÏKO · 2026",
+      "event": "AIKO Board · 2026",
       "dates": "11 → 17 March"
     },
     "trust": {
@@ -124,7 +124,7 @@
       "biz": "Business — short stay",
       "tour": "Tourism",
       "dip": "Diplomatic",
-      "evisa": "Côte d'Ivoire e-Visa",
+      "evisa": "Côte d''Ivoire e-Visa",
       "exempt": "Visa-exempt"
     },
     "visa": {
@@ -148,7 +148,7 @@
       "extras": "Extras"
     },
     "sec": {
-      "transport": "Transport · AÏKO negotiated rates",
+      "transport": "Transport · AIKO Board negotiated rates",
       "hotel": "Accommodation · 4★ – 5★ selection",
       "meals": "Dining · Partner restaurants",
       "extras": "Extras · Exclusive services"
@@ -209,7 +209,7 @@
       "desc": "Across all services"
     },
     "m5": {
-      "name": "AÏKO boxed lunch",
+      "name": "AIKO Board boxed lunch",
       "desc": "Served at the pavilion · 12 — 2 pm"
     },
     "x1": "4G SIM + 20 GB data",
@@ -319,7 +319,7 @@
     },
     "t3": {
       "h": "Dining",
-      "d": "Halal menus available across all services. Abidjan's gourmet tables booked for you, boxed lunches delivered to the pavilion.",
+      "d": "Halal menus available across all services. Abidjan''s gourmet tables booked for you, boxed lunches delivered to the pavilion.",
       "price": "14,000 — 55,000 XOF / pax"
     },
     "t4": {
@@ -334,7 +334,7 @@
   },
   "sa": {
     "eye": "1st edition · under the patronage of the Ministry of Mines, Petroleum and Energy",
-    "tag": "International Exhibition of Extractive and Energy Resources in Côte d'Ivoire.",
+    "tag": "International Exhibition of Extractive and Energy Resources in Côte d''Ivoire.",
     "f": {
       "dates": "Dates",
       "dates_v": "11 — 17 March",
@@ -374,7 +374,7 @@
       "date_s": "Mar",
       "lbl": "D–3",
       "h": "Official welcome & opening cocktail",
-      "d": "Reception of delegations, Minister's address, protocol dinner."
+      "d": "Reception of delegations, Minister''s address, protocol dinner."
     },
     "day2": {
       "date": "12 — 14",
@@ -388,7 +388,7 @@
       "date_s": "Mar",
       "lbl": "Evening",
       "h": "Gala & awards ceremony",
-      "d": "Recognition of the year's mining, energy and oil projects."
+      "d": "Recognition of the year''s mining, energy and oil projects."
     },
     "day4": {
       "date": "16 — 17",
@@ -400,11 +400,11 @@
     "pat": {
       "lbl": "Under the high patronage of",
       "org": "Ministry of Mines,\nPetroleum and Energy",
-      "country": "Republic of Côte d'Ivoire"
+      "country": "Republic of Côte d''Ivoire"
     },
     "conc": {
       "lbl": "Official concierge",
-      "h": "AÏKO supports international delegations from 11 to 17 March 2026.",
+      "h": "AIKO Board supports international delegations from 11 to 17 March 2026.",
       "cta": "Book my arrival"
     }
   },
@@ -441,7 +441,7 @@
       "k": "Emergency line",
       "h": "For any unexpected need during your stay in Abidjan.",
       "d": "Lost documents, flight delay, medical need, change of itinerary — a senior concierge is reachable in under 90 seconds.",
-      "num": "+225 07 SOS AÏKO",
+      "num": "+225 07 SOS AIKO Board",
       "sub": "Dedicated line · delegations",
       "sub2": "07 767 747 393 · 24/7"
     },
@@ -456,12 +456,12 @@
     "a2": "All services can be modified up to 72 hours before your arrival. Beyond that, contact support — we do our best at no extra charge.",
     "q3": "Is Mobile Money payment secure for a foreigner?",
     "a3": "Yes — we operate via GeniusPay, approved by BCEAO. Transactions are processed in real time, with SMS confirmation and full traceability exportable to PDF.",
-    "q4": "Do you invoice in my company's name?",
+    "q4": "Do you invoice in my company''s name?",
     "a4": "Of course — provide your company name, tax address and VAT number at payment. Invoice issued within 24 h in French and English.",
     "q5": "What is your cancellation policy?",
     "a5": "Full refund up to 7 days before arrival, 50% between 7 days and 72 h, fees retained beyond. Cancellation insurance (+18,000 XOF) removes any penalty.",
     "q6": "Do you help with visa applications?",
-    "a6": "Our Visa Express service issues an invitation letter and supports the Côte d'Ivoire e-Visa procedure within 48 hours (45,000 XOF). Select \"Assistance requested\" at the passport step.",
+    "a6": "Our Visa Express service issues an invitation letter and supports the Côte d''Ivoire e-Visa procedure within 48 hours (45,000 XOF). Select \"Assistance requested\" at the passport step.",
     "office": {
       "lbl": "Abidjan office",
       "addr": "Le Mans Building, 8th floor\nAvenue Botreau-Roussel\nPlateau · Abidjan"
@@ -481,7 +481,7 @@
     "eyebrow": "Event platform",
     "h1_pre": "Create, attend,",
     "h1_highlight": "badge",
-    "lead": "AÏKO Event & Tech lets organizers create their event in minutes and participants get their badge or ticket with QR code — scannable with our app.",
+    "lead": "AIKO Board lets organizers create their event in minutes and participants get their badge or ticket with QR code — scannable with our app.",
     "tab_participate": "Attend an event",
     "tab_create": "Create your event",
     "participate_lead": "Choose your event below to register and get your badge or ticket.",

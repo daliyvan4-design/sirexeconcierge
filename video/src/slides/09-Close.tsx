@@ -32,7 +32,7 @@ export const CloseSlide: React.FC = () => {
               marginBottom: -2,
             }}
           >
-            aïko by
+            aiko board by
           </div>
           <Img
             src={staticFile("logo-sirexe.webp")}
@@ -73,9 +73,9 @@ export const CloseSlide: React.FC = () => {
 
         <AnimatedText delay={60} style={{ textAlign: "center", marginTop: 50 }}>
           <div style={{ fontSize: 16, color: COLORS.mute, lineHeight: 2 }}>
-            contact@aiko-concierge.com
+            contact@aikoboard.com
             <br />
-            aiko-concierge.com
+            aikoboard.com
           </div>
         </AnimatedText>
 

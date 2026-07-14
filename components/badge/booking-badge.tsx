@@ -55,7 +55,7 @@ export function BookingBadge({
       <!DOCTYPE html>
       <html>
       <head>
-        <title>Badge AÏKO — ${reference}</title>
+        <title>Badge AIKO Board — ${reference}</title>
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -87,7 +87,7 @@ export function BookingBadge({
           <span
             style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 700, color: "#0A0A0A", letterSpacing: "0.04em" }}
           >
-            AÏKO
+            AIKO
           </span>
           <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.2em", color: "#0A0A0A", fontWeight: 600 }}>
             {typeReservation === "INSTITUTIONNELLE" ? "VIP" : "Badge"}
