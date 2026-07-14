@@ -1,4 +1,4 @@
-const BASE_URL = "https://pay.genius.ci/api/v1/merchant";
+const BASE_URL = "http://pay.genius.ci/api/v1/merchant";
 
 const headers = () => ({
   "Content-Type": "application/json",
