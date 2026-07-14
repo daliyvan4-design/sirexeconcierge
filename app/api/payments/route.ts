@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
     const body = (await req.json()) as {
       amount: number;
       currency?: string;
-      payment_method?: string;
       description?: string;
       customer_name?: string;
       customer_email?: string;
@@ -67,7 +66,6 @@ export async function POST(req: NextRequest) {
         montant: body.amount,
         devise: body.currency ?? "XOF",
         statut: "pending",
-        methode: body.payment_method,
         customerName: body.customer_name,
         customerEmail: body.customer_email,
         eventId,
@@ -82,7 +80,6 @@ export async function POST(req: NextRequest) {
     const input: CreatePaymentInput = {
       amount: body.amount,
       currency: (body.currency as "XOF" | "EUR" | "USD") ?? "XOF",
-      payment_method: body.payment_method as CreatePaymentInput["payment_method"],
       description: body.description ?? "Paiement AIKO Board",
       customer: {
         name: body.customer_name,

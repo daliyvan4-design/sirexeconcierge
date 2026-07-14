@@ -21,7 +21,6 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/payment-method-picker";
 import { PaymentButton } from "@/components/payment/payment-button";
 import { generateTicketPDF } from "@/lib/generate-ticket-pdf";
 import { EventMap } from "@/components/ui/event-map";
@@ -181,7 +180,6 @@ export default function EventPage() {
   });
   const [ref, setRef] = useState("");
   const [ticketNum, setTicketNum] = useState(0);
-  const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
   const [payError, setPayError] = useState("");
   const [selectedTarifId, setSelectedTarifId] = useState<string | null>(null);
 
@@ -683,12 +681,6 @@ export default function EventPage() {
                 </div>
               )}
 
-              {!isFree && (
-                <div className="md:col-span-2">
-                  <PaymentMethodPicker value={payMethod} onChange={setPayMethod} />
-                </div>
-              )}
-
               {payError && (
                 <div className="md:col-span-2 bg-err/10 border border-err/20 text-err rounded-xl px-4 py-3 text-[13px]">
                   {payError}
@@ -703,7 +695,6 @@ export default function EventPage() {
                 ) : (
                   <PaymentButton
                     amount={price}
-                    method={payMethod}
                     description={`${isConcert ? t("ticket") : t("badge")} — ${event.nom}`}
                     customerName={`${form.prenom} ${form.nom}`}
                     customerEmail={form.email}

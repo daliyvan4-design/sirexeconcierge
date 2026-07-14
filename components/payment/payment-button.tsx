@@ -2,12 +2,10 @@
 
 import { useState } from "react";
 import { Loader2, ShieldCheck } from "lucide-react";
-import type { MethodChoice } from "./payment-method-picker";
 
 interface Props {
   amount: number;
   currency?: string;
-  method: MethodChoice | null;
   description?: string;
   customerName?: string;
   customerEmail?: string;
@@ -24,7 +22,6 @@ interface Props {
 export function PaymentButton({
   amount,
   currency = "XOF",
-  method,
   description,
   customerName,
   customerEmail,
@@ -40,11 +37,6 @@ export function PaymentButton({
   const [loading, setLoading] = useState(false);
 
   const handlePay = async () => {
-    if (!method) {
-      onError?.("Veuillez choisir un mode de paiement");
-      return;
-    }
-
     setLoading(true);
 
     try {
@@ -63,7 +55,6 @@ export function PaymentButton({
         body: JSON.stringify({
           amount,
           currency,
-          payment_method: method,
           description,
           customer_name: customerName,
           customer_email: customerEmail,
@@ -102,7 +93,7 @@ export function PaymentButton({
       <button
         type="button"
         onClick={handlePay}
-        disabled={disabled || loading || !method}
+        disabled={disabled || loading}
         className="btn-press w-full flex items-center justify-center gap-2 bg-gold hover:bg-gold2 text-ink rounded-full px-8 py-4 text-[15px] font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
       >
         {loading ? (

@@ -21,7 +21,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { PaymentMethodPicker, type MethodChoice } from "@/components/payment/payment-method-picker";
 import { PaymentButton } from "@/components/payment/payment-button";
 import { ImageUpload } from "@/components/ui/image-upload";
 
@@ -93,7 +92,6 @@ export default function CreerPage() {
     coverUrl: "",
   });
   const [eventSlug, setEventSlug] = useState("");
-  const [payMethod, setPayMethod] = useState<MethodChoice | null>(null);
   const [payError, setPayError] = useState("");
   const [residences, setResidences] = useState<ResidenceOption[]>([]);
 
@@ -620,8 +618,6 @@ export default function CreerPage() {
               </p>
             </div>
 
-            <PaymentMethodPicker value={payMethod} onChange={setPayMethod} />
-
             {payError && (
               <div className="bg-err/10 border border-err/20 text-err rounded-xl px-4 py-3 text-[13px]">
                 {payError}
@@ -639,7 +635,6 @@ export default function CreerPage() {
               <PaymentButton
                 amount={32500}
                 currency="XOF"
-                method={payMethod}
                 description={`Creation evenement AIKO — ${form.name}`}
                 customerName={form.organisateur}
                 customerEmail={form.contactEmail}
