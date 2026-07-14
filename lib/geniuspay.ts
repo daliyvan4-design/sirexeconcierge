@@ -128,13 +128,27 @@ async function request<T>(
     );
   }
 
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const url = `${BASE_URL}${path}`;
+  const res = await fetch(url, {
     method,
     headers: headers(),
     body: body ? JSON.stringify(body) : undefined,
+    redirect: "follow",
   });
 
-  const json = (await res.json()) as GeniusResponse<T>;
+  const text = await res.text();
+
+  let json: GeniusResponse<T>;
+  try {
+    json = JSON.parse(text) as GeniusResponse<T>;
+  } catch {
+    console.error(`[geniuspay] Non-JSON response from ${url} (${res.status}):`, text.substring(0, 500));
+    throw new GeniusPayError(
+      "INVALID_RESPONSE",
+      `GeniusPay returned non-JSON (HTTP ${res.status})`,
+      res.status,
+    );
+  }
 
   if (!json.success || json.error) {
     throw new GeniusPayError(
