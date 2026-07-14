@@ -19,7 +19,7 @@
     "contact": "Contact",
     "admin_space": "Espace admin",
     "rights": "Tous droits réservés.",
-    "made_in": "Conçu en Afrique de l''Ouest"
+    "made_in": "Conçu en Afrique de l’Ouest"
   },
   "fab": {
     "title": "Navigation prototype",
@@ -36,7 +36,7 @@
   "tagline": "Votre séjour, orchestré avec soin",
   "eyebrow": "Conciergerie intelligente · 2026",
   "h1": "Planifiez votre <highlight>prise en charge</highlight> à Abidjan.",
-  "lead": "Transport privé, hébergement sélectionné, repas et services exclusifs — coordonnés par une équipe locale dédiée, de l''aéroport au pavillon d''exposition.",
+  "lead": "Transport privé, hébergement sélectionné, repas et services exclusifs — coordonnés par une équipe locale dédiée, de l’aéroport au pavillon d’exposition.",
   "cta_start": "Commencer ma réservation",
   "cta_concierge": "Parler à un concierge",
   "s1": {
@@ -73,7 +73,7 @@
     "lead": "Quelques détails pour que notre équipe vous accueille personnellement à votre arrivée.",
     "sec": {
       "identity": "Identité du voyageur",
-      "flight": "Vol d''arrivée",
+      "flight": "Vol d’arrivée",
       "visa": "Passeport & visa",
       "notes": "Demandes particulières",
       "notes_opt": "— optionnel"
@@ -89,8 +89,8 @@
       "dates": "Dates de séjour",
       "airline": "Compagnie aérienne",
       "flightNo": "N° de vol",
-      "flightAt": "Date & heure d''arrivée",
-      "airport": "Aéroport d''arrivée",
+      "flightAt": "Date & heure d’arrivée",
+      "airport": "Aéroport d’arrivée",
       "passport": "N° de passeport",
       "visaType": "Type de visa",
       "visaState": "Statut du visa"
@@ -124,14 +124,14 @@
       "biz": "Affaires — court séjour",
       "tour": "Tourisme",
       "dip": "Diplomatique",
-      "evisa": "e-Visa Côte d''Ivoire",
+      "evisa": "e-Visa Côte d’Ivoire",
       "exempt": "Exempté de visa"
     },
     "visa": {
       "ok": "Déjà obtenu",
       "pending": "En cours",
       "need": "Assistance demandée",
-      "info": "Si vous avez besoin d''assistance, notre service <bold>Visa Express · 48h</bold> sera proposé à l''étape suivante."
+      "info": "Si vous avez besoin d’assistance, notre service <bold>Visa Express · 48h</bold> sera proposé à l’étape suivante."
     },
     "gdpr": "Vos données restent confidentielles — RGPD & loi 2013-450",
     "submit": "Continuer"
@@ -197,7 +197,7 @@
       "desc": "Service hôtelier · 6h30 — 10h30"
     },
     "m2": {
-      "name": "Déjeuner d''affaires",
+      "name": "Déjeuner d’affaires",
       "desc": "Restaurant partenaire · 2 services"
     },
     "m3": {
@@ -206,7 +206,7 @@
     },
     "m4": {
       "name": "Menu halal certifié",
-      "desc": "Sur l''ensemble des prestations"
+      "desc": "Sur l’ensemble des prestations"
     },
     "m5": {
       "name": "Boxed lunch AIKO Board",
@@ -214,7 +214,7 @@
     },
     "x1": "SIM 4G + data 20 Go",
     "x2": "Service blanchisserie",
-    "x3": "Bouquet d''accueil",
+    "x3": "Bouquet d’accueil",
     "x4": "Interprète FR↔AR · 4h",
     "x5": "Photographe événementiel",
     "x6": "Excursion Grand-Bassam",
@@ -268,7 +268,7 @@
       "confirm": "Confirmer le paiement",
       "powered": "Propulsé par <bold>GeniusPay</bold> · Confirmation par SMS"
     },
-    "cgv": "J''accepte les <link>conditions générales de vente</link> et la <link>politique de confidentialité</link>.",
+    "cgv": "J’accepte les <link>conditions générales de vente</link> et la <link>politique de confidentialité</link>.",
     "secure": "Paiement 100% sécurisé",
     "secure3d": "3-D Secure 2",
     "empty": "Aucun service sélectionné.",
@@ -292,17 +292,17 @@
       "d": "Sous 24h, pour confirmer vos préférences."
     },
     "n3": {
-      "t": "Accueil à l''aéroport FHB",
+      "t": "Accueil à l’aéroport FHB",
       "d": "Pancarte à votre nom, fast-track douanes."
     },
     "dl": "Télécharger la confirmation PDF",
     "wa": "WhatsApp concierge · +225 07 88 00 11 22",
-    "modify": "Besoin de modifier votre réservation ? Notre équipe est joignable <strong>24h/24</strong> jusqu''à votre arrivée."
+    "modify": "Besoin de modifier votre réservation ? Notre équipe est joignable <strong>24h/24</strong> jusqu’à votre arrivée."
   },
   "sv": {
     "eye": "Prestations · Édition 2026",
     "k": "Catalogue",
-    "h": "L''art de l''accueil, <highlight>à la lettre</highlight>.",
+    "h": "L’art de l’accueil, <highlight>à la lettre</highlight>.",
     "lead": "Quatre catégories de prestations sur-mesure, négociées par notre équipe locale auprès de partenaires sélectionnés. Tarifs fermes pendant toute la durée du salon.",
     "count": "22 prestations actives",
     "updated": "Mis à jour il y a 2 h",
@@ -319,12 +319,12 @@
     },
     "t3": {
       "h": "Table",
-      "d": "Menus halal disponibles sur l''ensemble des prestations. Tables gastronomiques d''Abidjan réservées par nos soins, boxed-lunches livrés au pavillon.",
+      "d": "Menus halal disponibles sur l’ensemble des prestations. Tables gastronomiques d’Abidjan réservées par nos soins, boxed-lunches livrés au pavillon.",
       "price": "14 000 — 55 000 XOF / pax"
     },
     "t4": {
       "h": "Expériences & extras",
-      "d": "Tout ce qui rend un déplacement professionnel mémorable — d''une excursion à Grand-Bassam à l''interprétariat arabe ↔ français pour vos rendez-vous d''affaires.",
+      "d": "Tout ce qui rend un déplacement professionnel mémorable — d’une excursion à Grand-Bassam à l’interprétariat arabe ↔ français pour vos rendez-vous d’affaires.",
       "price": "15 000 — 120 000 XOF"
     },
     "cta": {
@@ -333,8 +333,8 @@
     }
   },
   "sa": {
-    "eye": "1ʳᵉ édition · sous le patronage du Ministère des Mines, du Pétrole et de l''Énergie",
-    "tag": "Salon International des Ressources Extractives et Énergétiques en Côte d''Ivoire.",
+    "eye": "1ʳᵉ édition · sous le patronage du Ministère des Mines, du Pétrole et de l’Énergie",
+    "tag": "Salon International des Ressources Extractives et Énergétiques en Côte d’Ivoire.",
     "f": {
       "dates": "Dates",
       "dates_v": "11 — 17 mars",
@@ -353,7 +353,7 @@
     "p1": {
       "lbl": "Pilier 01",
       "h": "Mines & ressources extractives",
-      "d": "Or, manganèse, nickel, lithium, bauxite. Tables rondes, B2B, présentation des permis d''exploration et financements miniers.",
+      "d": "Or, manganèse, nickel, lithium, bauxite. Tables rondes, B2B, présentation des permis d’exploration et financements miniers.",
       "s": "38 EXPOSANTS · 4 CONFÉRENCES"
     },
     "p2": {
@@ -365,7 +365,7 @@
     "p3": {
       "lbl": "Pilier 03",
       "h": "Énergie",
-      "d": "Solaire, hydroélectrique, biomasse, hydrogène vert. Stratégies nationales, mix énergétique africain, accès universel à l''électricité.",
+      "d": "Solaire, hydroélectrique, biomasse, hydrogène vert. Stratégies nationales, mix énergétique africain, accès universel à l’électricité.",
       "s": "40 EXPOSANTS · 6 CONFÉRENCES"
     },
     "prog": "Programme prévisionnel",
@@ -373,7 +373,7 @@
       "date": "11",
       "date_s": "mar",
       "lbl": "J–3",
-      "h": "Accueil officiel & cocktail d''ouverture",
+      "h": "Accueil officiel & cocktail d’ouverture",
       "d": "Réception des délégations, allocution du Ministre, dîner protocolaire."
     },
     "day2": {
@@ -381,14 +381,14 @@
       "date_s": "mar",
       "lbl": "Jours pleins",
       "h": "Conférences, panels & B2B",
-      "d": "15 conférences plénières, 80+ rendez-vous d''affaires programmés."
+      "d": "15 conférences plénières, 80+ rendez-vous d’affaires programmés."
     },
     "day3": {
       "date": "15",
       "date_s": "mar",
       "lbl": "Soirée",
       "h": "Gala & remise des prix",
-      "d": "Distinction des projets miniers, énergétiques et pétroliers de l''année."
+      "d": "Distinction des projets miniers, énergétiques et pétroliers de l’année."
     },
     "day4": {
       "date": "16 — 17",
@@ -399,8 +399,8 @@
     },
     "pat": {
       "lbl": "Sous le haut patronage de",
-      "org": "Ministère des Mines,\ndu Pétrole et de l''Énergie",
-      "country": "République de Côte d''Ivoire"
+      "org": "Ministère des Mines,\ndu Pétrole et de l’Énergie",
+      "country": "République de Côte d’Ivoire"
     },
     "conc": {
       "lbl": "Conciergerie officielle",
@@ -411,7 +411,7 @@
   "as": {
     "eye": "En ligne · Concierge disponible",
     "k": "Assistance",
-    "h": "Une équipe locale, <highlight>24h/24</highlight>,\njusqu''à votre départ.",
+    "h": "Une équipe locale, <highlight>24h/24</highlight>,\njusqu’à votre départ.",
     "lead": "Concierges francophones, anglophones et arabophones. Temps de réponse moyen <strong>4 minutes</strong>, garanti par contrat de service.",
     "online": "● en ligne",
     "h247": "24h / 24",
@@ -438,9 +438,9 @@
       "cta": "Écrire un message"
     },
     "emer": {
-      "k": "Ligne d''urgence",
-      "h": "En cas d''imprévu pendant votre séjour à Abidjan.",
-      "d": "Perte de papiers, retard de vol, besoin médical, changement d''itinéraire — un concierge senior est joignable en moins de 90 secondes.",
+      "k": "Ligne d’urgence",
+      "h": "En cas d’imprévu pendant votre séjour à Abidjan.",
+      "d": "Perte de papiers, retard de vol, besoin médical, changement d’itinéraire — un concierge senior est joignable en moins de 90 secondes.",
       "num": "+225 07 SOS AIKO Board",
       "sub": "Ligne dédiée · délégations",
       "sub2": "07 767 747 393 · 24 H / 24"
@@ -448,20 +448,20 @@
     "faq": {
       "k": "FAQ",
       "h": "Les questions fréquentes des délégations.",
-      "lead": "Une question qui n''apparaît pas ici ? Notre équipe WhatsApp y répond en quelques minutes."
+      "lead": "Une question qui n’apparaît pas ici ? Notre équipe WhatsApp y répond en quelques minutes."
     },
     "q1": "Le service est-il proposé en arabe ?",
-    "a1": "Oui — nos concierges senior sont francophones et anglophones, et nous mobilisons à la demande un interprète arabophone certifié pour les rendez-vous d''affaires et les appels.",
+    "a1": "Oui — nos concierges senior sont francophones et anglophones, et nous mobilisons à la demande un interprète arabophone certifié pour les rendez-vous d’affaires et les appels.",
     "q2": "Puis-je modifier ma réservation après paiement ?",
-    "a2": "Toutes les prestations sont modifiables jusqu''à 72 heures avant votre arrivée. Au-delà, contactez l''assistance — nous faisons notre maximum sans frais additionnels.",
+    "a2": "Toutes les prestations sont modifiables jusqu’à 72 heures avant votre arrivée. Au-delà, contactez l’assistance — nous faisons notre maximum sans frais additionnels.",
     "q3": "Le paiement Mobile Money est-il sécurisé pour un étranger ?",
     "a3": "Oui — nous opérons via GeniusPay, agréé par la BCEAO. Les ordres sont traités en temps réel, confirmation SMS, traçabilité complète exportable en PDF.",
     "q4": "Proposez-vous une facturation au nom de mon entreprise ?",
-    "a4": "Bien sûr — précisez la raison sociale, l''adresse fiscale et le numéro de TVA au moment du paiement. Facture émise sous 24 h en français et en anglais.",
-    "q5": "Quelle est votre politique d''annulation ?",
-    "a5": "Remboursement intégral jusqu''à 7 jours avant l''arrivée, 50 % entre 7 et 72 h, frais retenus au-delà. L''assurance annulation (+18 000 XOF) supprime toute pénalité.",
+    "a4": "Bien sûr — précisez la raison sociale, l’adresse fiscale et le numéro de TVA au moment du paiement. Facture émise sous 24 h en français et en anglais.",
+    "q5": "Quelle est votre politique d’annulation ?",
+    "a5": "Remboursement intégral jusqu’à 7 jours avant l’arrivée, 50 % entre 7 et 72 h, frais retenus au-delà. L’assurance annulation (+18 000 XOF) supprime toute pénalité.",
     "q6": "Aidez-vous à obtenir un visa ?",
-    "a6": "Notre service Visa Express délivre une lettre d''invitation et accompagne la procédure e-Visa Côte d''Ivoire en 48 heures (45 000 XOF). Précisez « Assistance demandée » à l''étape passeport.",
+    "a6": "Notre service Visa Express délivre une lettre d’invitation et accompagne la procédure e-Visa Côte d’Ivoire en 48 heures (45 000 XOF). Précisez « Assistance demandée » à l’étape passeport.",
     "office": {
       "lbl": "Bureau Abidjan",
       "addr": "Immeuble Le Mans, 8ᵉ étage\nAvenue Botreau-Roussel\nPlateau · Abidjan"
@@ -481,15 +481,15 @@
     "eyebrow": "Plateforme événementielle",
     "h1_pre": "Créez, participez,",
     "h1_highlight": "badgez",
-    "lead": "AIKO Board permet aux organisateurs de créer leur événement en quelques minutes et aux participants d''obtenir leur badge ou ticket avec QR code — lisible avec notre application.",
+    "lead": "AIKO Board permet aux organisateurs de créer leur événement en quelques minutes et aux participants d’obtenir leur badge ou ticket avec QR code — lisible avec notre application.",
     "tab_participate": "Participer à un événement",
     "tab_create": "Créer votre événement",
     "participate_lead": "Choisissez votre événement ci-dessous pour vous inscrire et obtenir votre badge ou ticket.",
     "no_events": "Aucun événement pour le moment",
     "registered": "inscrits",
-    "register": "S''inscrire",
+    "register": "S’inscrire",
     "create_lead": "Créez votre événement en quelques minutes. Conférence, salon, concert, hackathon — nous générons les badges et tickets pour vos participants.",
-    "step1_title": "Créez l''événement",
+    "step1_title": "Créez l’événement",
     "step1_sub": "Nom, dates, logo, lieu",
     "step2_title": "Badges & tickets",
     "step2_sub": "QR code pour chaque participant",
@@ -503,11 +503,11 @@
     "pricing_h2_pre": "Un modèle",
     "pricing_h2_highlight": "simple",
     "pricing_note": "Badges gratuits = aucun frais. Tickets concerts = 10% prélevé automatiquement.",
-    "price1_label": "Création d''événement",
+    "price1_label": "Création d’événement",
     "price1_value": "32 800 FCFA",
     "price1_equiv": "≈ 50 € / 55 $",
     "price1_sub": "Accès organisateur complet",
-    "price2_label": "Frais d''identification",
+    "price2_label": "Frais d’identification",
     "price2_value": "6 560 FCFA",
     "price2_equiv": "≈ 10 € / 11 $",
     "price2_sub": "Par badge payant délivré",
@@ -541,11 +541,11 @@
       "step1": "Informations générales",
       "step2": "Lieu & dates",
       "step3": "Services & tarification",
-      "name": "Nom de l''événement",
-      "type": "Type d''événement",
+      "name": "Nom de l’événement",
+      "type": "Type d’événement",
       "organizer": "Organisateur / Entreprise",
       "description": "Description",
-      "logo": "Logo de l''événement",
+      "logo": "Logo de l’événement",
       "cover": "Image de couverture",
       "dateStart": "Date de début",
       "dateEnd": "Date de fin",
@@ -556,7 +556,7 @@
       "phone": "Téléphone",
       "next": "Suivant",
       "previous": "Précédent",
-      "services_title": "Services proposés par l''événement",
+      "services_title": "Services proposés par l’événement",
       "lodging": "Logement",
       "lodging_desc": "Hébergement pour les participants",
       "ticket": "Badge / Ticket payant",
@@ -573,7 +573,7 @@
       "pay_create": "Payer et créer",
       "created": "Événement créé !",
       "share_link": "Partagez le lien avec vos participants.",
-      "participant_link": "Lien d''inscription participants",
+      "participant_link": "Lien d’inscription participants",
       "dashboard_btn": "Mon dashboard organisateur",
       "public_btn": "Page publique"
     },
@@ -581,8 +581,8 @@
       "back": "Retour aux événements",
       "get_ticket": "Obtenir mon ticket",
       "buy_ticket": "Acheter mon ticket",
-      "register_free": "S''inscrire gratuitement",
-      "register_paid": "S''inscrire",
+      "register_free": "S’inscrire gratuitement",
+      "register_paid": "S’inscrire",
       "form_title_ticket": "Acheter votre ticket",
       "form_title_badge": "Inscription",
       "form_lead": "Remplissez vos informations pour obtenir votre",
@@ -611,7 +611,7 @@
       "fee": "Frais AIKO 10 EUR inclus",
       "lodging_title": "Hébergement disponible",
       "no_lodging": "Sans hébergement",
-      "no_lodging_desc": "Je m''occupe de mon logement",
+      "no_lodging_desc": "Je m’occupe de mon logement",
       "room_booked": "Chambre réservée",
       "per_night": "/nuit",
       "max_persons": "pers. max",
@@ -671,7 +671,7 @@
     "from": "À partir de",
     "available": "chambres disponibles",
     "contact": "Contacter",
-    "directions": "Voir l''itinéraire",
+    "directions": "Voir l’itinéraire",
     "persons": "personne(s)",
     "night": "nuit"
   }
