@@ -2,6 +2,8 @@ const BASE_URL = "https://pay.genius.ci/api/v1/merchant";
 
 const headers = () => ({
   "Content-Type": "application/json",
+  "Accept": "application/json",
+  "User-Agent": "AIKOBoard/1.0",
   "X-API-Key": process.env.GENIUSPAY_PUBLIC_KEY ?? "",
   "X-API-Secret": process.env.GENIUSPAY_SECRET_KEY ?? "",
 });
