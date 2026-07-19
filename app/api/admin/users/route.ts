@@ -15,7 +15,7 @@ export async function GET() {
   });
 
   if (session!.user.role === "SUPER_ADMIN") {
-    return NextResponse.json(users.filter((u) => u.role === "CONCIERGE"));
+    return NextResponse.json(users.filter((u) => u.role === "CONCIERGE" || u.role === "AGENT_INSTITUTIONNEL"));
   }
 
   return NextResponse.json(users);

@@ -118,9 +118,11 @@ export default function ParametresPage() {
     fetchUsers();
   }
 
+  const isSuper = session?.user?.role === "SUPER_ADMIN";
   const availableRoles = ROLE_OPTIONS.filter((r) => {
     if (isUltra) return true;
-    return r.value === "CONCIERGE";
+    if (isSuper) return r.value === "CONCIERGE" || r.value === "AGENT_INSTITUTIONNEL";
+    return false;
   });
 
   return (
