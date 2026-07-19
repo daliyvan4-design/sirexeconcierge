@@ -28,7 +28,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Tableau de bord", roles: ["ADMIN", "SUPERVISEUR", "CONCIERGE", "AGENT_INSTITUTIONNEL"] },
+  { href: "/dashboard", icon: LayoutDashboard, label: "Tableau de bord", roles: ["ADMIN", "SUPERVISEUR", "CONCIERGE", "AGENT_INSTITUTIONNEL", "SCANNER"] },
   { href: "/briefing", icon: ClipboardCheck, label: "Briefing", roles: ["CONCIERGE"] },
   { href: "/commandes", icon: ClipboardList, label: "Commandes", badge: true, roles: ["ADMIN", "SUPERVISEUR"] },
   { href: "/events", icon: CalendarDays, label: "Evenements", roles: ["ADMIN", "SUPERVISEUR", "AGENT_INSTITUTIONNEL"] },
