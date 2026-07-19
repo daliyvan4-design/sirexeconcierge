@@ -38,7 +38,7 @@ function formatDate(d: string) {
 
 export default function AdminEventsPage() {
   const { data: session } = useSession();
-  const isReadOnly = session?.user?.role === "AGENT_INSTITUTIONNEL";
+  const isReadOnly = session?.user?.role === "AGENT_INSTITUTIONNEL" || session?.user?.role === "SUPERVISEUR";
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
 

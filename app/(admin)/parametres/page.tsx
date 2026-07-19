@@ -7,10 +7,11 @@ import { useSession } from "next-auth/react";
 import { Trash2, Plus, Shield, ShieldCheck, User, UserCog, ToggleLeft, ToggleRight } from "lucide-react";
 
 const ROLE_OPTIONS = [
+  { value: "SCANNER", label: "Scanner", icon: User, color: "bg-green-100 text-green-700" },
   { value: "CONCIERGE", label: "Concierge", icon: User, color: "bg-blue-100 text-blue-700" },
   { value: "AGENT_INSTITUTIONNEL", label: "Agent Institutionnel", icon: UserCog, color: "bg-purple-100 text-purple-700" },
-  { value: "SUPER_ADMIN", label: "Super Admin", icon: Shield, color: "bg-amber-100 text-amber-700" },
-  { value: "ULTRA_ADMIN", label: "Ultra Admin", icon: ShieldCheck, color: "bg-red-100 text-red-700" },
+  { value: "SUPERVISEUR", label: "Superviseur", icon: Shield, color: "bg-amber-100 text-amber-700" },
+  { value: "ADMIN", label: "Admin", icon: ShieldCheck, color: "bg-red-100 text-red-700" },
 ];
 
 function RoleBadge({ role }: { role: string }) {
@@ -26,7 +27,7 @@ function RoleBadge({ role }: { role: string }) {
 export default function ParametresPage() {
   const { data: session } = useSession();
   const { show } = useToast();
-  const isUltra = session?.user?.role === "ULTRA_ADMIN";
+  const isAdmin = session?.user?.role === "ADMIN";
 
   const [nom, setNom] = useState("");
   const [email, setEmail] = useState("");
@@ -118,10 +119,10 @@ export default function ParametresPage() {
     fetchUsers();
   }
 
-  const isSuper = session?.user?.role === "SUPER_ADMIN";
+  const isSuperviseur = session?.user?.role === "SUPERVISEUR";
   const availableRoles = ROLE_OPTIONS.filter((r) => {
-    if (isUltra) return true;
-    if (isSuper) return r.value === "CONCIERGE" || r.value === "AGENT_INSTITUTIONNEL";
+    if (isAdmin) return true;
+    if (isSuperviseur) return r.value === "CONCIERGE" || r.value === "AGENT_INSTITUTIONNEL" || r.value === "SCANNER";
     return false;
   });
 

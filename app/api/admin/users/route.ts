@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { Role } from "@prisma/client";
 
 export async function GET() {
-  const { session, error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { session, error } = await requireRole("ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   const users = await prisma.adminUser.findMany({
@@ -14,15 +14,15 @@ export async function GET() {
     orderBy: { createdAt: "asc" },
   });
 
-  if (session!.user.role === "SUPER_ADMIN") {
-    return NextResponse.json(users.filter((u) => u.role === "CONCIERGE" || u.role === "AGENT_INSTITUTIONNEL"));
+  if (session!.user.role === "SUPERVISEUR") {
+    return NextResponse.json(users.filter((u) => u.role === "CONCIERGE" || u.role === "AGENT_INSTITUTIONNEL" || u.role === "SCANNER"));
   }
 
   return NextResponse.json(users);
 }
 
 export async function POST(request: NextRequest) {
-  const { session, error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { session, error } = await requireRole("ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   const { email, nom, password, role } = await request.json();

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/admin-auth";
 
 export async function GET() {
-  const { session, error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN", "AGENT_INSTITUTIONNEL");
+  const { session, error } = await requireRole("ADMIN", "SUPERVISEUR", "AGENT_INSTITUTIONNEL");
   if (error) return error;
 
   const isInstitutionnel = session!.user.role === "AGENT_INSTITUTIONNEL";

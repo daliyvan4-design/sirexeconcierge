@@ -4,7 +4,7 @@ import { requireRole } from "@/lib/admin-auth";
 import { getCached } from "@/lib/cache";
 
 export async function GET() {
-  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { error } = await requireRole("ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   const data = await getCached("admin:stats:events", 120, fetchEventStats);

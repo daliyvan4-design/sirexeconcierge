@@ -4,7 +4,7 @@ import { requireRole } from "@/lib/admin-auth";
 import bcrypt from "bcryptjs";
 
 export async function PATCH(request: NextRequest) {
-  const { session, error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE");
+  const { session, error } = await requireRole("ADMIN", "SUPERVISEUR", "CONCIERGE");
   if (error) return error;
 
   const { currentPassword, newPassword } = await request.json();

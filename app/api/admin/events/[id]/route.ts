@@ -6,7 +6,7 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { error } = await requireRole("ADMIN");
   if (error) return error;
 
   const body = await req.json();
@@ -23,7 +23,7 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const { error } = await requireRole("ULTRA_ADMIN");
+  const { error } = await requireRole("ADMIN");
   if (error) return error;
 
   await prisma.event.update({

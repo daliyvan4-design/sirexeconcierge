@@ -3,54 +3,63 @@ import { ROLE_LABELS, ROLE_HIERARCHY, canManageRole } from "@/lib/roles";
 
 describe("ROLE_LABELS", () => {
   it("has labels for all roles", () => {
-    expect(ROLE_LABELS.ULTRA_ADMIN).toBe("Ultra Admin");
-    expect(ROLE_LABELS.SUPER_ADMIN).toBe("Super Admin");
+    expect(ROLE_LABELS.ADMIN).toBe("Admin");
+    expect(ROLE_LABELS.SUPERVISEUR).toBe("Superviseur");
     expect(ROLE_LABELS.CONCIERGE).toBe("Concierge");
     expect(ROLE_LABELS.AGENT_INSTITUTIONNEL).toBe("Agent Institutionnel");
+    expect(ROLE_LABELS.SCANNER).toBe("Scanner");
   });
 });
 
 describe("ROLE_HIERARCHY", () => {
-  it("ULTRA_ADMIN has highest level", () => {
-    expect(ROLE_HIERARCHY.ULTRA_ADMIN).toBeGreaterThan(ROLE_HIERARCHY.SUPER_ADMIN);
+  it("ADMIN has highest level", () => {
+    expect(ROLE_HIERARCHY.ADMIN).toBeGreaterThan(ROLE_HIERARCHY.SUPERVISEUR);
   });
 
-  it("SUPER_ADMIN outranks CONCIERGE", () => {
-    expect(ROLE_HIERARCHY.SUPER_ADMIN).toBeGreaterThan(ROLE_HIERARCHY.CONCIERGE);
+  it("SUPERVISEUR outranks CONCIERGE", () => {
+    expect(ROLE_HIERARCHY.SUPERVISEUR).toBeGreaterThan(ROLE_HIERARCHY.CONCIERGE);
   });
 
   it("CONCIERGE and AGENT_INSTITUTIONNEL are same level", () => {
     expect(ROLE_HIERARCHY.CONCIERGE).toBe(ROLE_HIERARCHY.AGENT_INSTITUTIONNEL);
   });
+
+  it("SCANNER is lowest", () => {
+    expect(ROLE_HIERARCHY.SCANNER).toBeLessThan(ROLE_HIERARCHY.CONCIERGE);
+  });
 });
 
 describe("canManageRole", () => {
-  it("ULTRA_ADMIN can manage SUPER_ADMIN", () => {
-    expect(canManageRole("ULTRA_ADMIN", "SUPER_ADMIN")).toBe(true);
+  it("ADMIN can manage SUPERVISEUR", () => {
+    expect(canManageRole("ADMIN", "SUPERVISEUR")).toBe(true);
   });
 
-  it("ULTRA_ADMIN can manage CONCIERGE", () => {
-    expect(canManageRole("ULTRA_ADMIN", "CONCIERGE")).toBe(true);
+  it("ADMIN can manage CONCIERGE", () => {
+    expect(canManageRole("ADMIN", "CONCIERGE")).toBe(true);
   });
 
-  it("SUPER_ADMIN can manage CONCIERGE", () => {
-    expect(canManageRole("SUPER_ADMIN", "CONCIERGE")).toBe(true);
+  it("SUPERVISEUR can manage CONCIERGE", () => {
+    expect(canManageRole("SUPERVISEUR", "CONCIERGE")).toBe(true);
   });
 
-  it("SUPER_ADMIN cannot manage ULTRA_ADMIN", () => {
-    expect(canManageRole("SUPER_ADMIN", "ULTRA_ADMIN")).toBe(false);
+  it("SUPERVISEUR can manage SCANNER", () => {
+    expect(canManageRole("SUPERVISEUR", "SCANNER")).toBe(true);
   });
 
-  it("CONCIERGE cannot manage SUPER_ADMIN", () => {
-    expect(canManageRole("CONCIERGE", "SUPER_ADMIN")).toBe(false);
+  it("SUPERVISEUR cannot manage ADMIN", () => {
+    expect(canManageRole("SUPERVISEUR", "ADMIN")).toBe(false);
   });
 
-  it("CONCIERGE cannot manage another CONCIERGE", () => {
-    expect(canManageRole("CONCIERGE", "CONCIERGE")).toBe(false);
+  it("CONCIERGE cannot manage SUPERVISEUR", () => {
+    expect(canManageRole("CONCIERGE", "SUPERVISEUR")).toBe(false);
   });
 
-  it("ULTRA_ADMIN cannot manage another ULTRA_ADMIN", () => {
-    expect(canManageRole("ULTRA_ADMIN", "ULTRA_ADMIN")).toBe(false);
+  it("same role cannot manage itself", () => {
+    expect(canManageRole("ADMIN", "ADMIN")).toBe(false);
+  });
+
+  it("SCANNER cannot manage anyone", () => {
+    expect(canManageRole("SCANNER", "CONCIERGE")).toBe(false);
   });
 
   it("AGENT_INSTITUTIONNEL cannot manage CONCIERGE (same level)", () => {

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
-  const { session, error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE");
+  const { session, error } = await requireRole("ADMIN", "SUPERVISEUR", "CONCIERGE");
   if (error) return error;
 
   const { searchParams } = new URL(request.url);
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const { session, error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE");
+  const { session, error } = await requireRole("ADMIN", "SUPERVISEUR", "CONCIERGE");
   if (error) return error;
 
   const { commandeId, jour, heure, type, titre, details, serviceId } = await request.json();

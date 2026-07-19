@@ -6,7 +6,7 @@ export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { error } = await requireRole("ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   try {
@@ -32,7 +32,7 @@ export async function POST(
 }
 
 export async function PUT(req: NextRequest) {
-  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { error } = await requireRole("ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   try {
@@ -57,7 +57,7 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { error } = await requireRole("ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   try {

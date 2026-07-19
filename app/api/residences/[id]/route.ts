@@ -31,7 +31,7 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { error } = await requireRole("ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   try {
@@ -69,7 +69,7 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { error } = await requireRole("ULTRA_ADMIN");
+  const { error } = await requireRole("ADMIN");
   if (error) return error;
 
   try {

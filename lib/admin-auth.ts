@@ -3,7 +3,7 @@ import { authOptions } from "./auth";
 import { NextResponse } from "next/server";
 import { Role } from "@prisma/client";
 
-const ALL_ROLES: Role[] = ["ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE", "AGENT_INSTITUTIONNEL"];
+const ALL_ROLES: Role[] = ["ADMIN", "SUPERVISEUR", "CONCIERGE", "AGENT_INSTITUTIONNEL", "SCANNER"];
 
 export async function requireRole(...roles: Role[]) {
   const session = await getServerSession(authOptions);

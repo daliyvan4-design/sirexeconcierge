@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/admin-auth";
 
 export async function GET() {
-  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { error } = await requireRole("ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   const chauffeurs = await prisma.chauffeur.findMany({ orderBy: { nom: "asc" } });
@@ -11,7 +11,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const { error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN");
+  const { error } = await requireRole("ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   const body = await request.json();

@@ -17,6 +17,6 @@ export default async function DashboardPage() {
 
   if (role === "AGENT_INSTITUTIONNEL") return <DashboardInstitutionnel />;
   if (role === "CONCIERGE") return <DashboardConcierge />;
-  if (role === "SUPER_ADMIN") return <DashboardSuper />;
+  if (role === "SUPERVISEUR") return <DashboardSuper />;
   return <DashboardUltra />;
 }

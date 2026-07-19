@@ -28,16 +28,24 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Tableau de bord", roles: ["ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE", "AGENT_INSTITUTIONNEL"] },
+  { href: "/dashboard", icon: LayoutDashboard, label: "Tableau de bord", roles: ["ADMIN", "SUPERVISEUR", "CONCIERGE", "AGENT_INSTITUTIONNEL"] },
   { href: "/briefing", icon: ClipboardCheck, label: "Briefing", roles: ["CONCIERGE"] },
-  { href: "/commandes", icon: ClipboardList, label: "Commandes", badge: true, roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
-  { href: "/events", icon: CalendarDays, label: "Evenements", roles: ["ULTRA_ADMIN", "SUPER_ADMIN", "AGENT_INSTITUTIONNEL"] },
-  { href: "/residences", icon: Building, label: "Residences", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
-  { href: "/tarifs", icon: Banknote, label: "Tarifs", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
-  { href: "/voyageurs", icon: Users, label: "Voyageurs", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
-  { href: "/chauffeurs", icon: CarFront, label: "Chauffeurs", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
-  { href: "/rapports", icon: BarChart3, label: "Rapports", roles: ["ULTRA_ADMIN", "SUPER_ADMIN"] },
+  { href: "/commandes", icon: ClipboardList, label: "Commandes", badge: true, roles: ["ADMIN", "SUPERVISEUR"] },
+  { href: "/events", icon: CalendarDays, label: "Evenements", roles: ["ADMIN", "SUPERVISEUR", "AGENT_INSTITUTIONNEL"] },
+  { href: "/residences", icon: Building, label: "Residences", roles: ["ADMIN", "SUPERVISEUR"] },
+  { href: "/tarifs", icon: Banknote, label: "Tarifs", roles: ["ADMIN"] },
+  { href: "/voyageurs", icon: Users, label: "Voyageurs", roles: ["ADMIN", "SUPERVISEUR"] },
+  { href: "/chauffeurs", icon: CarFront, label: "Chauffeurs", roles: ["ADMIN", "SUPERVISEUR"] },
+  { href: "/rapports", icon: BarChart3, label: "Rapports", roles: ["ADMIN", "SUPERVISEUR"] },
 ];
+
+const ROLE_DISPLAY: Record<Role, string> = {
+  ADMIN: "Admin",
+  SUPERVISEUR: "Superviseur",
+  CONCIERGE: "Concierge",
+  AGENT_INSTITUTIONNEL: "Institutionnel",
+  SCANNER: "Scanner",
+};
 
 interface SidebarProps {
   adminName: string;
@@ -77,7 +85,7 @@ export function Sidebar({ adminName, adminRole, userRole, pendingCount, open, on
           <div>
             <p className="font-serif text-gold text-[20px] leading-tight tracking-[0.08em] font-bold">AIKO</p>
             <p className="text-[10px] uppercase tracking-[0.18em] text-cream/50">
-              {userRole === "ULTRA_ADMIN" ? "Ultra Admin" : userRole === "SUPER_ADMIN" ? "Super Admin" : userRole === "AGENT_INSTITUTIONNEL" ? "Institutionnel" : "Concierge"}
+              {ROLE_DISPLAY[userRole] ?? userRole}
             </p>
           </div>
         </div>

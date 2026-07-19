@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/admin-auth";
 
 export async function POST(request: NextRequest) {
-  const { error } = await requireRole("ULTRA_ADMIN");
+  const { error } = await requireRole("ADMIN");
   if (error) return error;
 
   const { serviceId, label, prix } = await request.json();

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/admin-auth";
 
 export async function GET() {
-  const { error } = await requireRole("AGENT_INSTITUTIONNEL", "ULTRA_ADMIN", "SUPER_ADMIN");
+  const { error } = await requireRole("AGENT_INSTITUTIONNEL", "ADMIN", "SUPERVISEUR");
   if (error) return error;
 
   const events = await prisma.event.findMany({

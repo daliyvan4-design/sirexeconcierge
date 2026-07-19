@@ -8,10 +8,11 @@ generator client {
 }
 
 enum Role {
-  ULTRA_ADMIN
-  SUPER_ADMIN
+  ADMIN
+  SUPERVISEUR
   CONCIERGE
   AGENT_INSTITUTIONNEL
+  SCANNER
 }
 
 model Service {

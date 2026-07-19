@@ -298,11 +298,11 @@ async function main() {
   const hash = await bcrypt.hash("aiko2026", 10);
 
   const ultraAdmin = await prisma.adminUser.create({
-    data: { email: "admin@aiko.com", passwordHash: hash, nom: "Aïssa Koné", role: "ULTRA_ADMIN" },
+    data: { email: "admin@aiko.com", passwordHash: hash, nom: "Aïssa Koné", role: "ADMIN" },
   });
 
   const superAdmin = await prisma.adminUser.create({
-    data: { email: "manager@aiko.com", passwordHash: hash, nom: "Mamadou Traoré", role: "SUPER_ADMIN" },
+    data: { email: "manager@aiko.com", passwordHash: hash, nom: "Mamadou Traoré", role: "SUPERVISEUR" },
   });
 
   const concierge1 = await prisma.adminUser.create({

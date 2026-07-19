@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/admin-auth";
 
 export async function PATCH(request: NextRequest) {
-  const { session, error } = await requireRole("ULTRA_ADMIN", "SUPER_ADMIN", "CONCIERGE");
+  const { session, error } = await requireRole("ADMIN", "SUPERVISEUR", "CONCIERGE");
   if (error) return error;
 
   const body = await request.json();
