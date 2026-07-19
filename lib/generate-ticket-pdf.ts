@@ -10,6 +10,9 @@ interface TicketData {
   ticketNumber: number;
   price: number;
   qrDataUrl: string;
+  capacite?: number;
+  totalSold?: number;
+  logoDataUrl?: string;
 }
 
 export function generateTicketPDF(data: TicketData): jsPDF {
@@ -117,11 +120,33 @@ export function generateTicketPDF(data: TicketData): jsPDF {
   const qrX = (w - qrSize) / 2;
   doc.addImage(data.qrDataUrl, "PNG", qrX, yQr, qrSize, qrSize);
 
+  // Places remaining (for concerts)
+  if (data.capacite && data.capacite > 0) {
+    const yPlaces = yQr + qrSize + 6;
+    const remaining = data.totalSold != null ? data.capacite - data.totalSold : data.capacite;
+    doc.setTextColor(...[200, 169, 81] as const);
+    doc.setFontSize(6);
+    doc.setFont("helvetica", "bold");
+    doc.text("PLACES", w / 2, yPlaces, { align: "center" });
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(9);
+    doc.text(`${remaining} / ${data.capacite}`, w / 2, yPlaces + 5, { align: "center" });
+  }
+
+  // Logo
+  if (data.logoDataUrl) {
+    const logoY = data.capacite ? yQr + qrSize + 16 : yQr + qrSize + 6;
+    try {
+      doc.addImage(data.logoDataUrl, "PNG", w / 2 - 5, logoY, 10, 10);
+    } catch {}
+  }
+
   // Footer
+  const footerY = data.capacite ? yQr + qrSize + 28 : (data.logoDataUrl ? yQr + qrSize + 18 : yQr + qrSize + 6);
   doc.setTextColor(100, 100, 100);
   doc.setFontSize(5);
   doc.setFont("helvetica", "normal");
-  doc.text("Scannez avec AIKO · Ticket numerique", w / 2, yQr + qrSize + 6, { align: "center" });
+  doc.text("Scannez avec AIKO · Ticket numerique", w / 2, footerY, { align: "center" });
 
   return doc;
 }

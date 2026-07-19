@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Upload, Loader2, X } from "lucide-react";
+import { Upload, Loader2, X, Link2 } from "lucide-react";
 
 interface Props {
   value: string;
@@ -22,6 +22,8 @@ export function ImageUpload({
 }: Props) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [showUrlInput, setShowUrlInput] = useState(false);
+  const [urlValue, setUrlValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (file: File) => {
@@ -92,6 +94,21 @@ export function ImageUpload({
     );
   }
 
+  const handleUrlSubmit = () => {
+    const trimmed = urlValue.trim();
+    if (!trimmed) return;
+    try {
+      new URL(trimmed);
+    } catch {
+      setError("URL invalide");
+      return;
+    }
+    onChange(trimmed);
+    setUrlValue("");
+    setShowUrlInput(false);
+    setError("");
+  };
+
   return (
     <div>
       {label && (
@@ -99,24 +116,70 @@ export function ImageUpload({
           {label}
         </p>
       )}
-      <div
-        onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
-        onClick={() => inputRef.current?.click()}
-        className={`border-2 border-dashed border-line rounded-2xl text-center hover:border-gold/30 transition-colors cursor-pointer ${
-          aspect === "cover" ? "p-6" : "p-8"
-        }`}
-      >
-        {uploading ? (
-          <Loader2 className="w-8 h-8 text-gold mx-auto animate-spin" />
-        ) : (
-          <>
-            <Upload className="w-8 h-8 text-mute mx-auto mb-3" />
-            <p className="text-[13px] text-mute">{placeholder}</p>
-            <p className="text-[11px] text-mute/60 mt-1">JPG, PNG, WebP — max 5 Mo</p>
-          </>
-        )}
-      </div>
+
+      {showUrlInput ? (
+        <div className="border-2 border-dashed border-gold/30 rounded-2xl p-4 space-y-2">
+          <div className="flex items-center gap-2">
+            <Link2 className="w-4 h-4 text-gold flex-shrink-0" />
+            <input
+              type="url"
+              value={urlValue}
+              onChange={(e) => setUrlValue(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleUrlSubmit()}
+              placeholder="https://..."
+              autoFocus
+              className="flex-1 bg-white border border-line rounded-lg px-3 py-2 text-[12px] outline-none focus:border-gold/50"
+            />
+          </div>
+          <div className="flex items-center gap-2 justify-end">
+            <button
+              type="button"
+              onClick={() => { setShowUrlInput(false); setUrlValue(""); setError(""); }}
+              className="text-[11px] text-mute hover:text-ink px-2 py-1"
+            >
+              Annuler
+            </button>
+            <button
+              type="button"
+              onClick={handleUrlSubmit}
+              className="text-[11px] bg-gold hover:bg-gold2 text-ink rounded-lg px-3 py-1 font-medium"
+            >
+              Ajouter
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+          onClick={() => inputRef.current?.click()}
+          className={`border-2 border-dashed border-line rounded-2xl text-center hover:border-gold/30 transition-colors cursor-pointer ${
+            aspect === "cover" ? "p-6" : "p-8"
+          }`}
+        >
+          {uploading ? (
+            <Loader2 className="w-8 h-8 text-gold mx-auto animate-spin" />
+          ) : (
+            <>
+              <Upload className="w-8 h-8 text-mute mx-auto mb-3" />
+              <p className="text-[13px] text-mute">{placeholder}</p>
+              <p className="text-[11px] text-mute/60 mt-1">JPG, PNG, WebP — max 5 Mo</p>
+            </>
+          )}
+        </div>
+      )}
+
+      {!showUrlInput && !uploading && (
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); setShowUrlInput(true); setError(""); }}
+          className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-mute hover:text-gold transition-colors"
+        >
+          <Link2 className="w-3 h-3" />
+          Coller un lien
+        </button>
+      )}
+
       {error && (
         <p className="text-[12px] text-err mt-2">{error}</p>
       )}
