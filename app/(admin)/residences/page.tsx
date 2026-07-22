@@ -65,8 +65,7 @@ interface ResidenceForm {
   adresse: string;
   ville: string;
   quartier: string;
-  latitude: string;
-  longitude: string;
+  mapsLink: string;
   capacite: string;
   equipements: string;
   contactNom: string;
@@ -81,8 +80,7 @@ const EMPTY_FORM: ResidenceForm = {
   adresse: "",
   ville: "",
   quartier: "",
-  latitude: "",
-  longitude: "",
+  mapsLink: "",
   capacite: "",
   equipements: "",
   contactNom: "",
@@ -97,6 +95,41 @@ const TYPES = [
   { value: "residence", label: "Residence" },
   { value: "auberge", label: "Auberge" },
 ];
+
+const EQUIPEMENTS = [
+  "WiFi",
+  "Climatisation",
+  "Piscine",
+  "Parking",
+  "Restaurant",
+  "Bar",
+  "Salle de sport",
+  "Spa",
+  "Room service",
+  "Laverie",
+  "Coffre-fort",
+  "Terrasse",
+  "Jardin",
+  "Transfert aeroport",
+  "Petit-dejeuner inclus",
+  "Television",
+  "Cuisine equipee",
+  "Groupe electrogene",
+];
+
+function extractCoordsFromMapsLink(url: string): { lat: number; lng: number } | null {
+  if (!url) return null;
+  // @lat,lng or @lat,lng,zoom
+  const atMatch = url.match(/@(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+  if (atMatch) return { lat: parseFloat(atMatch[1]), lng: parseFloat(atMatch[2]) };
+  // ?q=lat,lng
+  const qMatch = url.match(/[?&]q=(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+  if (qMatch) return { lat: parseFloat(qMatch[1]), lng: parseFloat(qMatch[2]) };
+  // ll=lat,lng
+  const llMatch = url.match(/ll=(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+  if (llMatch) return { lat: parseFloat(llMatch[1]), lng: parseFloat(llMatch[2]) };
+  return null;
+}
 
 function formatPrice(n: number) {
   return n.toLocaleString("fr-FR");
@@ -145,8 +178,7 @@ export default function ResidencesPage() {
       adresse: r.adresse,
       ville: r.ville,
       quartier: r.quartier ?? "",
-      latitude: r.latitude?.toString() ?? "",
-      longitude: r.longitude?.toString() ?? "",
+      mapsLink: r.latitude && r.longitude ? `https://www.google.com/maps?q=${r.latitude},${r.longitude}` : "",
       capacite: r.capacite.toString(),
       equipements: r.equipements ?? "",
       contactNom: r.contactNom ?? "",
@@ -161,10 +193,17 @@ export default function ResidencesPage() {
     try {
       const url = editId ? `/api/residences/${editId}` : "/api/residences";
       const method = editId ? "PUT" : "POST";
+      const coords = extractCoordsFromMapsLink(form.mapsLink);
+      const payload = {
+        ...form,
+        latitude: coords?.lat?.toString() ?? "",
+        longitude: coords?.lng?.toString() ?? "",
+        mapsLink: undefined,
+      };
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (data.success) {
@@ -312,24 +351,25 @@ export default function ResidencesPage() {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] font-medium text-ink mb-1.5 uppercase tracking-wider">Latitude</label>
+              <label className="block text-[11px] font-medium text-ink mb-1.5 uppercase tracking-wider">Lien Google Maps</label>
               <input
-                value={form.latitude}
-                onChange={(e) => update({ latitude: e.target.value })}
-                placeholder="5.3364"
-                className="w-full bg-white border border-line rounded-xl px-4 py-3 text-[14px] mono"
+                value={form.mapsLink}
+                onChange={(e) => update({ mapsLink: e.target.value })}
+                placeholder="https://maps.google.com/..."
+                className="w-full bg-white border border-line rounded-xl px-4 py-3 text-[14px]"
               />
-            </div>
-            <div>
-              <label className="block text-[11px] font-medium text-ink mb-1.5 uppercase tracking-wider">Longitude</label>
-              <input
-                value={form.longitude}
-                onChange={(e) => update({ longitude: e.target.value })}
-                placeholder="-4.0083"
-                className="w-full bg-white border border-line rounded-xl px-4 py-3 text-[14px] mono"
-              />
+              {form.mapsLink && extractCoordsFromMapsLink(form.mapsLink) && (
+                <p className="text-[11px] text-ok mt-1">
+                  Coordonnees detectees
+                </p>
+              )}
+              {form.mapsLink && !extractCoordsFromMapsLink(form.mapsLink) && (
+                <p className="text-[11px] text-err mt-1">
+                  Lien invalide — copiez l&apos;URL depuis Google Maps
+                </p>
+              )}
             </div>
             <div>
               <label className="block text-[11px] font-medium text-ink mb-1.5 uppercase tracking-wider">Capacite (chambres)</label>
@@ -344,15 +384,30 @@ export default function ResidencesPage() {
           </div>
 
           <div>
-            <label className="block text-[11px] font-medium text-ink mb-1.5 uppercase tracking-wider">
-              Equipements (separes par des virgules)
-            </label>
-            <input
-              value={form.equipements}
-              onChange={(e) => update({ equipements: e.target.value })}
-              placeholder="WiFi, Piscine, Parking, Restaurant, Climatisation"
-              className="w-full bg-white border border-line rounded-xl px-4 py-3 text-[14px]"
-            />
+            <label className="block text-[11px] font-medium text-ink mb-1.5 uppercase tracking-wider">Equipements</label>
+            <div className="flex flex-wrap gap-2">
+              {EQUIPEMENTS.map((eq) => {
+                const selected = form.equipements.split(",").map((s) => s.trim()).filter(Boolean).includes(eq);
+                return (
+                  <button
+                    key={eq}
+                    type="button"
+                    onClick={() => {
+                      const current = form.equipements.split(",").map((s) => s.trim()).filter(Boolean);
+                      const next = selected ? current.filter((e) => e !== eq) : [...current, eq];
+                      update({ equipements: next.join(", ") });
+                    }}
+                    className={`text-[12px] rounded-full px-4 py-2 border transition-colors ${
+                      selected
+                        ? "bg-gold/15 border-gold text-gold font-medium"
+                        : "bg-white border-line text-mute hover:border-gold/40"
+                    }`}
+                  >
+                    {eq}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-4">
